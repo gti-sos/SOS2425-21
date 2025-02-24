@@ -1,0 +1,25 @@
+year,month,province,total_event,avg_ticket_price,total_attendance,local_attendance,foreign_attendance,event_type,avg_event_duration
+2024,febrero,alicante,50,20,"10,000","7,000","3,000","Conciertos, Teatro, Exposiciones",2
+2024,febrero,las palmas,45,18,"9,000","5,500","3,500","Conciertos, Festivales, Teatro",2.5
+2024,febrero,madrid,120,25,"30,000","20,000","10,000","Conciertos, Teatro, Danza",2.5
+2024,febrero,malaga,60,22,"12,000","8,000","4,000","Conciertos, Exposiciones, Teatro",2
+2024,julio,alicante,70,22,"15,000","90,000","6,000","Festivales, Conciertos, Teatro",3
+2024,julio,las palmas,65,20,"14,000","7,500","6,500","Festivales, Conciertos, Danza",3
+2024,julio,madrid,130,26,"32,000","21,000","11,000","Conciertos, Teatro, Danza",2.5
+2024,julio,malaga,80,24,"18,000","10,000","8,000","Festivales, Conciertos, Teatro",3
+2019,febrero,alicante,45,19,"9,500","6,500","3,000","Conciertos, Teatro, Exposiciones",2
+2019,febrero,las palmas,40,17,"8,500","5,000","3,500","Conciertos, Festivales, Teatro",2.5
+2019,febrero,madrid,110,23,"28,000","18,000","10,000","Conciertos, Teatro, Danza",2.5
+2019,febrero,malaga,55,21,"11,000","7,000","4,000","Conciertos, Exposiciones, Teatro",2
+2019,julio,alicante,65,21,"14,000","8,500","5,500","Festivales, Conciertos, Teatro",3
+2019,julio,las palmas,60,19,"13,000","7,000","6,000","Festivales, Conciertos, Danza",3
+2019,julio,madrid,115,24,"29,000","19,000","10,000","Conciertos, Teatro, Danza",2.5
+2019,julio,malaga,75,23,"17,000","9,500","7,500","Festivales, Conciertos, Teatro",3
+2015,febrero,alicante,40,18,"8,500","6,000","2,500","Conciertos, Teatro, Exposiciones",2
+2015,febrero,las palmas,35,16,"7,500","4,500","3,000","Conciertos, Festivales, Teatro",2.5
+2015,febrero,madrid,100,22,"25,000","16,000","9,000","Conciertos, Teatro, Danza",2.5
+2015,febrero,malaga,50,20,"10,000","6,500","3,500","Conciertos, Exposiciones, Teatro",2
+2015,julio,alicante,60,20,"13,000","8,000","5,000","Festivales, Conciertos, Teatro",3
+2015,julio,las palmas,55,18,"12,000","6,500","5,500","Festivales, Conciertos, Danza",3
+2015,julio,madrid,105,23,"27,000","17,000","10,000","Conciertos, Teatro, Danza",2.5
+2015,julio,malaga,70,22,"16,000","9,000","7,000","Festivales, Conciertos, Teatro",3
