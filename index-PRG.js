@@ -9,6 +9,7 @@ fs.createReadStream("SOS2425-21-Propuesta - Laura.csv")
     results.push(row);
   })
   .on("end", () => {
+     console.log("Primera fila del CSV:", results[0]);
     // Provincia y campo a calcular
     const targetProvince = "Madrid"; // Cambia según la provincia deseada
     const field = "total_attendance"; // Campo a calcular la media
