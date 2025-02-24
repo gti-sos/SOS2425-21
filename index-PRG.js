@@ -21,8 +21,9 @@ fs.createReadStream("SOS2425-21-Propuesta - Laura.csv")
 
     // Convierte valores a números y excluye valores no numéricos
     const numericValues = filteredRows
-      .map(row => parseInt(row[field], 10))
-      .filter(value => !isNaN(value));
+  .map(row => parseFloat(row[field]))
+  .filter(value => !isNaN(value));
+
 
     // Calcula la media
     const sum = numericValues.reduce((acc, val) => acc + val, 0);
