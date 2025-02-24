@@ -15,7 +15,9 @@ fs.createReadStream("SOS2425-21-Propuesta - Laura.csv")
     const field = "total_attendance"; // Campo a calcular la media
 
     // Filtra por provincia
-    const filteredRows = results.filter(row => row.province.toLowerCase() === targetProvince.toLowerCase());
+    const filteredRows = results.filter(
+  row => row.province.trim().toLowerCase() === targetProvince.toLowerCase()
+);
 
     // Convierte valores a números y excluye valores no numéricos
     const numericValues = filteredRows
