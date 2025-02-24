@@ -3,23 +3,23 @@ const csv = require("csv-parser");
 
 const results = [];
 
-fs.createReadStream("SOS2425-21-Propuesta - Paula.csv") 
+fs.createReadStream("SOS2425-21-Propuesta - Laura.csv") 
   .pipe(csv())
   .on("data", (row) => {
     results.push(row);
   })
   .on("end", () => {
-    // Selecciona la provincia y el campo a calcular
-    const targetProvince = "madrid"; // Cambia esto según la provincia deseada
-    const field = "total_event"; // Nombre del campo a promediar
+    // Provincia y campo a calcular
+    const targetProvince = "madrid"; // Cambia según la provincia deseada
+    const field = "total_event"; // Campo a calcular la media
 
-    // Filtra las filas que corresponden a la provincia seleccionada
-    const filteredRows = results.filter(row => row.province === targetProvince);
+    // Filtra por provincia
+    const filteredRows = results.filter(row => row.province.toLowerCase() === targetProvince.toLowerCase());
 
-    // Convierte los valores a número (reemplaza comas por puntos si es necesario)
+    // Convierte valores a números y excluye valores no numéricos
     const numericValues = filteredRows
-      .map(row => parseFloat(row[field].replace(/\./g, "").replace(",", "."))) // Convierte a número
-      .filter(value => !isNaN(value)); // Excluye valores no numéricos
+      .map(row => parseInt(row[field], 10))
+      .filter(value => !isNaN(value));
 
     // Calcula la media
     const sum = numericValues.reduce((acc, val) => acc + val, 0);
