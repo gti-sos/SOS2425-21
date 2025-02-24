@@ -1,3 +1,10 @@
+Service Oriented Systems (Sistemas Orientados a Servicios) 2024/2025 at the [University of Sevilla](https://www.us.es)
+====================
+
+Lecturer:
+--
+ - [Pablo Fernandez](https://github.com/pafmon)
+ - 
 # SOS2425-21
 
 - **Team 21**
