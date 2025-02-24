@@ -10,8 +10,8 @@ fs.createReadStream("SOS2425-21-Propuesta - Laura.csv")
   })
   .on("end", () => {
     // Provincia y campo a calcular
-    const targetProvince = "madrid"; // Cambia según la provincia deseada
-    const field = "total_event"; // Campo a calcular la media
+    const targetProvince = "Madrid"; // Cambia según la provincia deseada
+    const field = "total_attendance"; // Campo a calcular la media
 
     // Filtra por provincia
     const filteredRows = results.filter(row => row.province.toLowerCase() === targetProvince.toLowerCase());
