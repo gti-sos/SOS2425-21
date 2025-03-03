@@ -18,7 +18,7 @@ app.get('/cool', (req, res) => {
 });
 
 app.get("/about", (req, res) => {
-    res.send(express.static(__dirname + "/public/about.html"));
+    res.send(express.static(__dirname + "/about.html"));
 });
 
 app.get("/samples/LEL", (req, res) => {

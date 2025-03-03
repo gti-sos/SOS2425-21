@@ -3,7 +3,6 @@ const csv = require("csv-parser");
 
 const results = [];
 
-module.exports = dataLEL;
 
 fs.createReadStream("SOS2425-21-Propuesta - Laura.csv") 
   .pipe(csv())
