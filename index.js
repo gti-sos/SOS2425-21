@@ -11,7 +11,7 @@ app.use("/about", express.static(__dirname + "/public"));
 
 app.get('/', (req, res) => {
     res.send(`
-        <h1>Bienvenido al servidor del Grupo XX</h1>
+        <h1>Bienvenido al servidor del Grupo 21</h1>
         <p><a href="/about">Información del grupo</a></p>
         <p><a href="/cool">Cool</a></p>
     `);
