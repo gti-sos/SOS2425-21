@@ -18,10 +18,8 @@ app.get('/', (request, response) =>{
 
 
 app.get('/cool', (req, res) => {
-    res.send(`
-        <pre>${cool()}</pre>
-        <br><a href="/">Volver</a>
-    `);
+    let caritas = cool();
+    reponse.send(`${caritas}<br><a href="/">Volver</a>`);
 });
 
 
