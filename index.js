@@ -8,14 +8,14 @@ const PORT = process.env.PORT || 16078;
 
 app.use("/about", express.static(__dirname + "/public"));
 
+app.get('/', (request, response) =>{
+    response.send(`Este es el servidor del <a href="/about">grupo 21</a><br>
+        <a href="/cool">Cool</a><br>
+        <a href="/samples/EBT">Algoritmo EBT</a>`);
+}
+);
 
-app.get('/', (req, res) => {
-    res.send(`
-        <h1>Bienvenido al servidor del Grupo 21</h1>
-        <p><a href="/about">Información del grupo</a></p>
-        <p><a href="/cool">Cool</a></p>
-    `);
-});
+
 
 app.get('/cool', (req, res) => {
     res.send(`
