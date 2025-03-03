@@ -1,12 +1,9 @@
 
 const express = require('express');
 const cool = require('cool-ascii-faces');
-
+const dataLEL = require('./index-LEL.js');
 const app = express();
 const PORT = process.env.PORT || 16078;
-
-
-app.use("/about", express.static(__dirname + "/public/about.html"));
 
 app.get('/', (request, response) =>{
     response.send(`Este es el servidor del <a href="/about">grupo 21</a><br>
@@ -15,12 +12,20 @@ app.get('/', (request, response) =>{
 }
 );
 
-
-
 app.get('/cool', (req, res) => {
     let caritas = cool();
-    reponse.send(`${caritas}<br><a href="/">Volver</a>`);
+    res.send(`${caritas}<br><a href="/">Volver</a>`);
 });
+
+app.get("/about", (req, res) => {
+    res.send(express.static(__dirname + "/public/about.html"));
+});
+
+app.get("/samples/LEL", (req, res) => {
+    console.log("Accediendo a /samples/LEL");
+    const result = dataLEL();
+    res.json(result);
+})
 
 
 app.listen(PORT, () => {
