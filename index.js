@@ -43,7 +43,7 @@ app.get("/samples/AGB", async (request, response) => {
             </head>
             <body>
                 <h1>INDEX-AGB</h1>
-                <p id="res">Media de transaction_total en ${prov}: ${media.toFixed(2)}</p><br>
+                <p id="res">Media de total_trips en ${prov}: ${media.toFixed(2)}</p><br>
                 <a href="/">Volver</a>   
             </body>
             </html>`);
