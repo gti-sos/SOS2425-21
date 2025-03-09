@@ -19,7 +19,7 @@ app.get('/cool', (req, res) => {
 });
 
 app.get("/about", (req, res) => {
-    res.send(express.static(__dirname + "/about.html"));
+    res.sendFile(__dirname + "/about.html");
 });
 
 app.get("/samples/LEL", (req, res) => {
@@ -39,10 +39,10 @@ app.get("/samples/AGB", async (request, response) => {
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>INDEX-ABD</title>
+                <title>INDEX-AGB</title>
             </head>
             <body>
-                <h1>INDEX-ABD</h1>
+                <h1>INDEX-AGB</h1>
                 <p id="res">La media de los total_trips en la provincia de ${prov} es de: ${media.toFixed(2)}€</p><br>
                 <a href="/">Volver</a>   
             </body>
