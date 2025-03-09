@@ -5,7 +5,7 @@ function calcularMedia(provincia) {
   return new Promise((resolve, reject) => {
     const results = [];
     
-    fs.createReadStream("SOS2425-21-Propuesta - Andrea.csv") 
+    fs.createReadStream("samples/AGB/SOS2425-21-Propuesta - Andrea.csv") 
       .pipe(csv())
       .on("data", (row) => {
         results.push(row);
