@@ -32,8 +32,8 @@ app.get("/samples/LEL", (req, res) => {
 const calcularMedia = require("./samples/AGB/index-AGB.js");
 app.get("/samples/AGB", async (request, response) => {
     const prov = "Madrid";
+    try {
         const media = await calcularMedia(prov);
-
         response.send(`<!DOCTYPE html>
             <html lang="en">
             <head>
@@ -43,11 +43,35 @@ app.get("/samples/AGB", async (request, response) => {
             </head>
             <body>
                 <h1>INDEX-AGB</h1>
-                <p id="res">La media de los total_trips en la provincia de ${prov} es de: ${media.toFixed(2)}€</p><br>
+                <p id="res">Media de transaction_total en ${prov}: ${media.toFixed(2)}</p><br>
                 <a href="/">Volver</a>   
             </body>
             </html>`);
-
+    } catch (error) {
+        console.error("Error al calcular la media:", error);
+        response.status(500).send("Error interno del servidor.");
+    }
+});app.get("/samples/AGB", async (request, response) => {
+    const prov = "Madrid";
+    try {
+        const media = await calcularMedia(prov);
+        response.send(`<!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>INDEX-AGB</title>
+            </head>
+            <body>
+                <h1>INDEX-AGB</h1>
+                <p id="res">Media de transaction_total en ${prov}: ${media.toFixed(2)}</p><br>
+                <a href="/">Volver</a>   
+            </body>
+            </html>`);
+    } catch (error) {
+        console.error("Error al calcular la media:", error);
+        response.status(500).send("Error interno del servidor.");
+    }
 });
 
 app.listen(PORT, () => {
