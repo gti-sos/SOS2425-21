@@ -8,7 +8,8 @@ const PORT = process.env.PORT || 16078;
 app.get('/', (request, response) =>{
     response.send(`Este es el servidor del <a href="/about">grupo 21</a><br>
         <a href="/cool">Cool</a><br>
-        <a href="/samples/LEL">Algoritmo LEL</a>`);
+        <a href="/samples/LEL">Algoritmo LEL</a><br>
+        <a href="/samples/AGB">Algoritmo AGB</a>`);
 }
 );
 
@@ -29,10 +30,8 @@ app.get("/samples/LEL", (req, res) => {
 
 //AGB
 const calcularMedia = require("./samples/AGB/index-AGB.js");
-app.get("/samples/GBD", async (request, response) => {
+app.get("/samples/AGB", async (request, response) => {
     const prov = "Madrid";
-
-    try {
         const media = await calcularMedia(prov);
 
         response.send(`<!DOCTYPE html>
@@ -44,12 +43,11 @@ app.get("/samples/GBD", async (request, response) => {
             </head>
             <body>
                 <h1>INDEX-ABD</h1>
-                <p id="res">La media de los total_trips en la provincia de ${prov} es de: ${media.toFixed(2)}€</p>    
+                <p id="res">La media de los total_trips en la provincia de ${prov} es de: ${media.toFixed(2)}€</p><br>
+                <a href="/">Volver</a>   
             </body>
             </html>`);
-    } catch (error) {
-        response.status(500).send("Error al calcular la media.");
-    }
+
 });
 
 app.listen(PORT, () => {
