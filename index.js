@@ -80,7 +80,7 @@ app.listen(PORT, () => {
 });
 
 // PRG - NUEVO CÓDIGO AGREGADO
-const fs = require("fs");
+cconst fs = require("fs");
 const csv = require("csv-parser");
 
 app.get("/samples/PRG", (req, res) => {
@@ -92,14 +92,14 @@ app.get("/samples/PRG", (req, res) => {
         })
         .on("end", () => {
             const targetProvince = "alicante";
-            const field = "transaction_total";
+            const field = "total_event";  // ✅ Usa un campo existente del CSV
 
             const filteredRows = results.filter(
                 row => row.province.trim().toLowerCase() === targetProvince.toLowerCase()
             );
 
             const numericValues = filteredRows
-                .map(row => parseFloat(row[field]))
+                .map(row => parseFloat(row[field].replace(/,/g, "")))  // ✅ Limpia las comas en los números
                 .filter(value => !isNaN(value));
 
             const sum = numericValues.reduce((acc, val) => acc + val, 0);
@@ -114,7 +114,7 @@ app.get("/samples/PRG", (req, res) => {
                 </head>
                 <body>
                     <h1>INDEX-PRG</h1>
-                    <p id="res">Media de transaction_total en ${targetProvince}: ${mean.toFixed(2)}</p><br>
+                    <p id="res">Media de ${field} en ${targetProvince}: ${mean.toFixed(2)}</p><br>
                     <a href="/">Volver</a>   
                 </body>
                 </html>`);
