@@ -12,12 +12,13 @@ function calcularMedia(provincia) {
       })
       .on("end", () => {
         const field = "total_trips"; 
+        const filteredRows = results.filter(row => row.province === provincia);
         const numericValues = filteredRows
-      .map(row => {
-        // Eliminar cualquier carácter que no sea número, punto o coma
-        const cleanValue = row[field].replace(/[^\d,]/g, "").replace(",", ".");
-        const num = parseFloat(cleanValue);
-        return isNaN(num) ? null : num;
+            .map(row => {
+              // Eliminar cualquier carácter que no sea número, punto o coma
+              const cleanValue = row[field].replace(/[^\d,]/g, "").replace(",", ".");
+              const num = parseFloat(cleanValue);
+          return isNaN(num) ? null : num;
       })
       .filter(value => value !== null);
 
