@@ -127,3 +127,53 @@ app.get("/samples/PRG", (req, res) => {
 app.listen(PORT, () => {
     console.log(`Servidor funcionando en http://localhost:${PORT}`);
 });
+
+// 🟢 PRG - NUEVO CÓDIGO AGREGADO
+const fs = require("fs");
+const csv = require("csv-parser");
+
+app.get("/samples/PRG", (req, res) => {
+    const results = [];
+    fs.createReadStream("samples/PRG/SOS2425-21-Propuesta - Laura.csv")
+        .pipe(csv())
+        .on("data", (row) => {
+            results.push(row);
+        })
+        .on("end", () => {
+            const targetProvince = "alicante";
+            const field = "transaction_total";
+
+            const filteredRows = results.filter(
+                row => row.province.trim().toLowerCase() === targetProvince.toLowerCase()
+            );
+
+            const numericValues = filteredRows
+                .map(row => parseFloat(row[field]))
+                .filter(value => !isNaN(value));
+
+            const sum = numericValues.reduce((acc, val) => acc + val, 0);
+            const mean = numericValues.length > 0 ? sum / numericValues.length : 0;
+
+            res.send(`<!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>INDEX-PRG</title>
+                </head>
+                <body>
+                    <h1>INDEX-PRG</h1>
+                    <p id="res">Media de transaction_total en ${targetProvince}: ${mean.toFixed(2)}</p><br>
+                    <a href="/">Volver</a>   
+                </body>
+                </html>`);
+        })
+        .on("error", (err) => {
+            console.error("Error al procesar el CSV:", err);
+            res.status(500).send("Error al procesar el archivo CSV.");
+        });
+});
+
+app.listen(PORT, () => {
+    console.log(`Servidor funcionando en http://localhost:${PORT}`);
+});
