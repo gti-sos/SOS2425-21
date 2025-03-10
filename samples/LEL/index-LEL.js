@@ -14,18 +14,12 @@ function calcularMediaLEL(provincia){
     .on("end", () => {
       // Provincia y campo a calcular
       const field = "transaction_total"; // Campo a calcular la media
-      const filteredRows = results.filter(row => row.province === provincia);
+      const filteredRows = results.filter(row => row.province.toLowerCase() === provincia.toLowerCase());
 
       // Convierte valores a números y excluye valores no numéricos
       const numericValues = filteredRows
-    .map(row => {
-      const value = row[field]?.trim(); // Eliminar espacios en blanco extra
-      if (!value) return null; // Si está vacío, ignorarlo
-
-      const num = parseFloat(value.replace(",", "").replace(/\s/g, "")); // Asegurar que sea un número
-      return isNaN(num) ? null : num;
-    })
-    .filter(value => value !== null);
+      .map(row => parseInt(row[field], 10))
+      .filter(value => !isNaN(value));
 
       // Calcula la media
       const sum = numericValues.reduce((acc, val) => acc + val, 0);

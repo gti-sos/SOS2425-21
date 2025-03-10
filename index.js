@@ -142,25 +142,4 @@ app.get("/samples/LEL", async (request, response) => {
         console.error("Error al calcular la media:", error);
         response.status(500).send("Error interno del servidor.");
     }
-});app.get("/samples/LEL", async (request, response) => {
-    const prov = "Madrid";
-    try {
-        const media = await calcularMediaLEL(prov);
-        response.send(`<!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>INDEX-LEL</title>
-            </head>
-            <body>
-                <h1>INDEX-AGB</h1>
-                <p id="res">Media de transacciones en ${prov}: ${parseFloat(media).toFixed(2)}</p>
-                <a href="/">Volver</a>   
-            </body>
-            </html>`);
-    } catch (error) {
-        console.error("Error al calcular la media:", error);
-        response.status(500).send("Error interno del servidor.");
-    }
 });
