@@ -18,13 +18,14 @@ function calcularMediaLEL(provincia){
 
       // Convierte valores a números y excluye valores no numéricos
       const numericValues = filteredRows
-        .map(row => {
-          // Eliminar cualquier carácter que no sea número, punto o coma
-          const cleanValue = row[field].replace(/[^\d,]/g, "").replace(",", ".");
-          const num = parseFloat(cleanValue);
-          return isNaN(num) ? null : num;
-        })
-        .filter(value => value !== null);
+    .map(row => {
+      const value = row[field]?.trim(); // Eliminar espacios en blanco extra
+      if (!value) return null; // Si está vacío, ignorarlo
+
+      const num = parseFloat(value.replace(",", "").replace(/\s/g, "")); // Asegurar que sea un número
+      return isNaN(num) ? null : num;
+    })
+    .filter(value => value !== null);
 
       // Calcula la media
       const sum = numericValues.reduce((acc, val) => acc + val, 0);
