@@ -3,7 +3,7 @@ const csv = require("csv-parser");
 
 const results = [];
 
-fs.createReadStream("SOS2425-21-Propuesta - Laura.csv")
+fs.createReadStream("SOS2425-21-Propuesta - Paula.csv")
   .pipe(csv())
   .on("data", (row) => {
     results.push(row);
