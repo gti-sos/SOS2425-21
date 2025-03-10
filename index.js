@@ -134,7 +134,7 @@ app.get("/samples/LEL", async (request, response) => {
             </head>
             <body>
                 <h1>INDEX-LEL</h1>
-                <p id="res">Media de total_trips en ${prov}: ${media.toFixed(2)}</p><br>
+                <p id="res">Media de transacciones en ${prov}: ${media.toFixed(2)}</p><br>
                 <a href="/">Volver</a>   
             </body>
             </html>`);
@@ -155,7 +155,7 @@ app.get("/samples/LEL", async (request, response) => {
             </head>
             <body>
                 <h1>INDEX-AGB</h1>
-                <p id="res">Media de total_trips en ${prov}: ${parseFloat(media).toFixed(2)}</p>
+                <p id="res">Media de transacciones en ${prov}: ${parseFloat(media).toFixed(2)}</p>
                 <a href="/">Volver</a>   
             </body>
             </html>`);

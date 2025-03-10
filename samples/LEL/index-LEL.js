@@ -6,18 +6,17 @@ function calcularMedia(provincia){
   return new Promise((resolve, reject) => {
     const results = [];
 
-  fs.createReadStream("SOS2425-21-Propuesta - Laura.csv") 
+  fs.createReadStream("samples/LEL/SOS2425-21-Propuesta - Laura.csv") 
     .pipe(csv())
     .on("data", (row) => {
       results.push(row);
     })
     .on("end", () => {
       // Provincia y campo a calcular
-      const targetProvince = "Madrid"; // Cambia según la provincia deseada
       const field = "transaction_total"; // Campo a calcular la media
 
       // Filtra por provincia
-      const filteredRows = results.filter(row => row.province.toLowerCase() === targetProvince.toLowerCase());
+      const filteredRows = results.filter(row => row.province.toLowerCase() === provincia.toLowerCase());
 
       // Convierte valores a números y excluye valores no numéricos
       const numericValues = filteredRows
