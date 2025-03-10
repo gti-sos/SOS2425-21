@@ -2,7 +2,7 @@ const fs = require("fs");
 const csv = require("csv-parser");
 
 
-function calcularMedia(provincia){
+function calcularMediaLEL(provincia){
   return new Promise((resolve, reject) => {
     const results = [];
 
@@ -36,4 +36,4 @@ function calcularMedia(provincia){
   });
 }
 
-module.exports = calcularMedia;
+module.exports = calcularMediaLEL;

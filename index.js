@@ -120,11 +120,11 @@ app.get("/samples/PRG", (req, res) => {
 });
 
 //LEL
-const calcularMedia = require("./samples/LEL/index-LEL.js");
+const calcularMediaLEL = require("./samples/LEL/index-LEL.js");
 app.get("/samples/LEL", async (request, response) => {
     const prov = "Madrid";
     try {
-        const media = await calcularMedia(prov);
+        const media = await calcularMediaLEL(prov);
         response.send(`<!DOCTYPE html>
             <html lang="en">
             <head>
@@ -145,7 +145,7 @@ app.get("/samples/LEL", async (request, response) => {
 });app.get("/samples/LEL", async (request, response) => {
     const prov = "Madrid";
     try {
-        const media = await calcularMedia(prov);
+        const media = await calcularMediaLEL(prov);
         response.send(`<!DOCTYPE html>
             <html lang="en">
             <head>
