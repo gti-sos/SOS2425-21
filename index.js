@@ -4,6 +4,8 @@ const cool = require('cool-ascii-faces');
 const app = express();
 const PORT = process.env.PORT || 16078;
 
+app.use("/",express.static(__dirname));
+
 app.get('/', (request, response) => {
     response.send(`Este es el servidor del <a href="/about">grupo 21</a><br>
         <a href="/cool">Cool</a><br>
@@ -18,9 +20,6 @@ app.get('/cool', (req, res) => {
     res.send(`${caritas}<br><a href="/">Volver</a>`);
 });
 
-app.get("/about", (req, res) => {
-    res.sendFile(__dirname + "/about.html");
-});
 
 
 //AGB
