@@ -14,14 +14,17 @@ function calcularMedia(provincia){
     .on("end", () => {
       // Provincia y campo a calcular
       const field = "transaction_total"; // Campo a calcular la media
-
-      // Filtra por provincia
-      const filteredRows = results.filter(row => row.province.toLowerCase() === provincia.toLowerCase());
+      const filteredRows = results.filter(row => row.province === provincia);
 
       // Convierte valores a números y excluye valores no numéricos
       const numericValues = filteredRows
-        .map(row => parseInt(row[field], 10))
-        .filter(value => !isNaN(value));
+        .map(row => {
+          // Eliminar cualquier carácter que no sea número, punto o coma
+          const cleanValue = row[field].replace(/[^\d,]/g, "").replace(",", ".");
+          const num = parseFloat(cleanValue);
+          return isNaN(num) ? null : num;
+        })
+        .filter(value => value !== null);
 
       // Calcula la media
       const sum = numericValues.reduce((acc, val) => acc + val, 0);
