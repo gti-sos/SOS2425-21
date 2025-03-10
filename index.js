@@ -1,7 +1,6 @@
 
 const express = require('express');
 const cool = require('cool-ascii-faces');
-const dataLEL = require('./index-LEL.js');
 const app = express();
 const PORT = process.env.PORT || 16078;
 
@@ -23,11 +22,6 @@ app.get("/about", (req, res) => {
     res.sendFile(__dirname + "/about.html");
 });
 
-app.get("/samples/LEL", (req, res) => {
-    console.log("Accediendo a /samples/LEL");
-    const result = dataLEL();
-    res.json(result);
-})
 
 //AGB
 const calcularMedia = require("./samples/AGB/index-AGB.js");
@@ -80,7 +74,7 @@ app.listen(PORT, () => {
 });
 
 // PRG - NUEVO CÓDIGO AGREGADO
-cconst fs = require("fs");
+const fs = require("fs");
 const csv = require("csv-parser");
 
 app.get("/samples/PRG", (req, res) => {
@@ -123,4 +117,50 @@ app.get("/samples/PRG", (req, res) => {
             console.error("Error al procesar el CSV:", err);
             res.status(500).send("Error al procesar el archivo CSV.");
         });
+});
+
+//LEL
+const calcularMedia = require("./samples/LEL/index-LEL.js");
+app.get("/samples/LEL", async (request, response) => {
+    const prov = "Madrid";
+    try {
+        const media = await calcularMedia(prov);
+        response.send(`<!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>INDEX-LEL</title>
+            </head>
+            <body>
+                <h1>INDEX-LEL</h1>
+                <p id="res">Media de total_trips en ${prov}: ${media.toFixed(2)}</p><br>
+                <a href="/">Volver</a>   
+            </body>
+            </html>`);
+    } catch (error) {
+        console.error("Error al calcular la media:", error);
+        response.status(500).send("Error interno del servidor.");
+    }
+});app.get("/samples/LEL", async (request, response) => {
+    const prov = "Madrid";
+    try {
+        const media = await calcularMedia(prov);
+        response.send(`<!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>INDEX-LEL</title>
+            </head>
+            <body>
+                <h1>INDEX-AGB</h1>
+                <p id="res">Media de total_trips en ${prov}: ${parseFloat(media).toFixed(2)}</p>
+                <a href="/">Volver</a>   
+            </body>
+            </html>`);
+    } catch (error) {
+        console.error("Error al calcular la media:", error);
+        response.status(500).send("Error interno del servidor.");
+    }
 });
