@@ -46,27 +46,6 @@ app.get("/samples/AGB", async (request, response) => {
         console.error("Error al calcular la media:", error);
         response.status(500).send("Error interno del servidor.");
     }
-});app.get("/samples/AGB", async (request, response) => {
-    const prov = "Madrid";
-    try {
-        const media = await calcularMedia(prov);
-        response.send(`<!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>INDEX-AGB</title>
-            </head>
-            <body>
-                <h1>INDEX-AGB</h1>
-                <p id="res">Media de total_trips en ${prov}: ${parseFloat(media).toFixed(2)}</p>
-                <a href="/">Volver</a>   
-            </body>
-            </html>`);
-    } catch (error) {
-        console.error("Error al calcular la media:", error);
-        response.status(500).send("Error interno del servidor.");
-    }
 });
 
 app.listen(PORT, () => {
