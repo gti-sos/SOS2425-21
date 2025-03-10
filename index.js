@@ -5,13 +5,14 @@ const dataLEL = require('./index-LEL.js');
 const app = express();
 const PORT = process.env.PORT || 16078;
 
-app.get('/', (request, response) =>{
+app.get('/', (request, response) => {
     response.send(`Este es el servidor del <a href="/about">grupo 21</a><br>
         <a href="/cool">Cool</a><br>
         <a href="/samples/LEL">Algoritmo LEL</a><br>
-        <a href="/samples/AGB">Algoritmo AGB</a>`);
-}
-);
+        <a href="/samples/AGB">Algoritmo AGB</a><br>
+        <a href="/samples/PRG">Algoritmo PRG</a>`);  
+});
+
 
 app.get('/cool', (req, res) => {
     let caritas = cool();
@@ -85,56 +86,6 @@ const csv = require("csv-parser");
 app.get("/samples/PRG", (req, res) => {
     const results = [];
     fs.createReadStream("samples/PRG/SOS2425-21-Propuesta - Paula.csv")
-        .pipe(csv())
-        .on("data", (row) => {
-            results.push(row);
-        })
-        .on("end", () => {
-            const targetProvince = "alicante";
-            const field = "transaction_total";
-
-            const filteredRows = results.filter(
-                row => row.province.trim().toLowerCase() === targetProvince.toLowerCase()
-            );
-
-            const numericValues = filteredRows
-                .map(row => parseFloat(row[field]))
-                .filter(value => !isNaN(value));
-
-            const sum = numericValues.reduce((acc, val) => acc + val, 0);
-            const mean = numericValues.length > 0 ? sum / numericValues.length : 0;
-
-            res.send(`<!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>INDEX-PRG</title>
-                </head>
-                <body>
-                    <h1>INDEX-PRG</h1>
-                    <p id="res">Media de transaction_total en ${targetProvince}: ${mean.toFixed(2)}</p><br>
-                    <a href="/">Volver</a>   
-                </body>
-                </html>`);
-        })
-        .on("error", (err) => {
-            console.error("Error al procesar el CSV:", err);
-            res.status(500).send("Error al procesar el archivo CSV.");
-        });
-});
-
-app.listen(PORT, () => {
-    console.log(`Servidor funcionando en http://localhost:${PORT}`);
-});
-
-const fs = require("fs");
-const csv = require("csv-parser");
-
-// Ruta para /samples/PRG
-app.get("/samples/PRG", (req, res) => {
-    const results = [];
-    fs.createReadStream("samples/PRG/SOS2425-21-Propuesta - Paula.csv")  
         .pipe(csv())
         .on("data", (row) => {
             results.push(row);
