@@ -162,14 +162,14 @@ app.delete(`${BASE_API}/${RESOURCE}`, (req, res) => {
 
 // DELETE - Eliminar una provincia específica
 app.delete(`${BASE_API}/${RESOURCE}/:province`, (req, res) => {
-    const { province } = req.params;
-    const index = publicTransitStats.findIndex(item => item.province.toLowerCase() === province.toLowerCase());
+    const province = req.params.province.trim().toLowerCase(); // Elimina espacios y normaliza a minúsculas
+    const index = publicTransitStats.findIndex(item => item.province.trim().toLowerCase() === province);
 
     if (index !== -1) {
         publicTransitStats.splice(index, 1);
         res.status(200).json({ message: `Datos de ${province} eliminados correctamente.` });
     } else {
-        res.status(404).json({ error: "Provincia no encontrada." });
+        res.status(404).json({ error: `Provincia '${province}' no encontrada.` });
     }
 });
 
