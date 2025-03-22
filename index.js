@@ -25,7 +25,6 @@ app.get('/cool', (req, res) => {
 
 
 //AGB
-const fs = require("fs");
 const csv = require("csv-parser");
 const calcularMedia = require("./samples/AGB/index-AGB.js");
 let publicTransitStats = [];
