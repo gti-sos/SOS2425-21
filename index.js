@@ -116,21 +116,17 @@ app.get(`${BASE_API}/${RESOURCE}/:province`, (req, res) => {
 
 // POST - Agregar un nuevo dato
 app.post(`${BASE_API}/${RESOURCE}`, (req, res) => {
-    console.log("📢 Datos recibidos en POST:", req.body);
     const newData = req.body;
 
     if (!newData.year || !newData.province || !newData.ticket_price || !newData.total_trips || !newData.route_length) {
-        console.log("❌ Faltan campos en el cuerpo de la solicitud.");
         return res.status(400).json({ error: "Faltan campos requeridos." });
     }
 
     if (publicTransitStats.some(item => item.province.toLowerCase() === newData.province.toLowerCase())) {
-        console.log("⚠️ La provincia ya existe.");
         return res.status(409).json({ error: "El recurso ya existe." });
     }
 
     publicTransitStats.push(newData);
-    console.log("✅ Nuevo dato agregado:", newData);
     res.status(201).json(newData);
 });
 
