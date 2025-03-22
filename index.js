@@ -5,7 +5,7 @@ const app = express();
 const PORT = process.env.PORT || 16078;
 
 const BASE_API="/api/v1";
-
+app.use(express.json())
 app.use("/",express.static(__dirname));
 
 app.get('/', (request, response) => {
