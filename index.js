@@ -238,12 +238,12 @@ app.get("/samples/PRG", (req, res) => {
 //====================================================================================
 
 //LEL
-const dataLEL = require("./samples/LEL/index-LEL.js");
+const calcularMediaLEL = require("./samples/LEL/index-LEL.js");
 let homeBuyingSellingStats = [];
 app.get("/samples/LEL", async (request, response) => {
     const prov = "Madrid";
     try {
-        const media = await dataLEL(prov);
+        const media = await calcularMediaLEL(prov);
         response.send(`<!DOCTYPE html>
             <html lang="en">
             <head>
@@ -268,26 +268,22 @@ app.listen(PORT, () => {
 });
 
 //L05 - LEL
-
-//Lista de Recursos Laura:
-let applications = dataLEL;
 const RESOURCE_LEL = "home-buying-selling-stats";
-
+// Función para leer datos del CSV
 const readCSVDataLEL = () => {
     return new Promise((resolve, reject) => {
         const results = [];
-
         fs.createReadStream("samples/LEL/SOS2425-21-Propuesta - Laura.csv")
             .pipe(csv())
             .on("data", (row) => {
                 try {
                     const formattedRow = {
-                        year: Number(row.year) || null,
-                        province: row.province?.trim() || "Unknown",
-                        transaction_total: Number(row.transaction_total.replace(/\D/g, "")) || 0,
-                        transaction_protected_housing: Number(row.transaction_protected_housing.replace(/\D/g, "")) || 0,
-                        transaction_new_housing: Number(row.transaction_new_housing.replace(/\D/g, "")) || 0,
-                        transaction_secondhand_housing: Number(row.transaction_secondhand_housing.replace(/\D/g, "")) || 0
+                        year: parseInt(row.year),
+                        province: row.province,
+                        transaction_total: parseInt(row.transaction_total.replace(/\D/g, "")),
+                        transaction_protected_housing: parseInt(row.transaction_protected_housing.replace(/\D/g, "")),
+                        transaction_new_housing: parseInt(row.transaction_new_housing.replace(/\D/g, "")),
+                        transaction_secondhand_housing: parseInt(row.transaction_secondhand_housing.replace(/\D/g, ""))
                     };
                     results.push(formattedRow);
                 } catch (error) {
@@ -298,38 +294,106 @@ const readCSVDataLEL = () => {
             .on("error", (err) => reject(err));
     });
 };
-
-readCSVDataLEL().then((data) => console.log(data)).catch((err) => console.error(err));
-
-app.get(`${BASE_API}/${RESOURCE_LEL}`, (req, res) => {
-    console.log(`New GET to /${RESOURCE_LEL}`);
-
-    // Si no hay datos, en lugar de redirigir, los cargamos automáticamente
-    if (applications.length === 0) {
-        console.log("No hay datos. Cargando datos iniciales...");
-        loadInitialData(); // Llamamos a la función directamente
+// Endpoint para cargar los datos iniciales desde el CSV
+app.get(`${BASE_API}/${RESOURCE_LEL}/loadInitialData`, async (req, res) => {
+    if (homeBuyingSellingStats.length > 0) {
+        return res.status(409).json({ error: "Los datos ya están cargados." });
     }
 
-    res.status(200).json(applications);
+    try {
+        homeBuyingSellingStats = await readCSVDataLEL();
+        res.status(201).json({ message: "Datos iniciales cargados correctamente." });
+    } catch (error) {
+        console.error("Error al leer CSV:", error);
+        res.status(500).json({ error: "Error interno al cargar los datos." });
+    }
+});
+
+// GET - Obtener todos los datos
+app.get(`${BASE_API}/${RESOURCE_LEL}`, (req, res) => {
+    res.status(200).json(homeBuyingSellingStats);
 });
 
 // GET - Obtener datos de una provincia específica
 app.get(`${BASE_API}/${RESOURCE_LEL}/:province`, (req, res) => {
     const { province } = req.params;
-    const results = applications.filter(item => item.province.toLowerCase() === province.toLowerCase());
+    const result = homeBuyingSellingStats.find(item => item.province.toLowerCase() === province.toLowerCase());
 
-    if (results.length > 0) {
-        res.status(200).json(results);
+    if (result) {
+        res.status(200).json(result);
     } else {
         res.status(404).json({ error: "Provincia no encontrada." });
     }
 });
-// Función para cargar datos iniciales si no hay datos
-function loadInitialData() {
-    applications = [
-        { year: 2024, province: "alicante", transaction_total: 42176, transaction_protected_housing: 998, transaction_new_housing: 4687, transaction_secondhand_housing: 37489 },
-        { year: 2024, province: "las palmas", transaction_total: 10702, transaction_protected_housing: 216, transaction_new_housing: 612, transaction_secondhand_housing: 10090 },
-        { year: 2024, province: "madrid", transaction_total: 63218, transaction_protected_housing: 1203, transaction_new_housing: 5720, transaction_secondhand_housing: 57498 }
-    ];
-    console.log("Datos iniciales cargados correctamente.");
-}
+
+// POST - Agregar un nuevo dato
+app.post(`${BASE_API}/${RESOURCE_LEL}`, (req, res) => {
+    const newData = req.body;
+
+    if (!newData.year || !newData.province || !newData.transaction_total || !newData.transaction_protected_housing || !newData.transaction_new_housing || !newData.transaction_secondhand_housing) {
+        return res.status(400).json({ error: "Faltan campos requeridos." });
+    }
+
+    if (homeBuyingSellingStats.some(item => item.province.toLowerCase() === newData.province.toLowerCase())) {
+        return res.status(409).json({ error: "El recurso ya existe." });
+    }
+
+    homeBuyingSellingStats.push(newData);
+    res.status(201).json(newData);
+});
+
+
+// PUT - Actualizar datos de una provincia
+app.put(`${BASE_API}/${RESOURCE_LEL}/:province`, (req, res) => {
+    const { province } = req.params;
+    const newData = req.body;
+    
+    if (!newData.year || !newData.province || !newData.transaction_total || !newData.transaction_protected_housing || !newData.transaction_new_housing || !newData.transaction_secondhand_housing) {
+        return res.status(400).json({ error: "Faltan campos requeridos." });
+    }
+
+    if (newData.province.toLowerCase() !== province.toLowerCase()) {
+        return res.status(400).json({ error: "El ID de la URL y del cuerpo deben coincidir." });
+    }
+
+    const index = homeBuyingSellingStats.findIndex(item => item.province.toLowerCase() === province.toLowerCase());
+
+    if (index !== -1) {
+        homeBuyingSellingStats[index] = newData;
+        res.status(200).json(newData);
+    } else {
+        res.status(404).json({ error: "Provincia no encontrada." });
+    }
+});
+
+// DELETE - Eliminar todos los datos
+app.delete(`${BASE_API}/${RESOURCE_LEL}`, (req, res) => {
+    homeBuyingSellingStats = [];
+    res.status(200).json({ message: "Todos los datos han sido eliminados." });
+});
+
+// DELETE - Eliminar una provincia específica
+app.delete(`${BASE_API}/${RESOURCE_LEL}/:province`, (req, res) => {
+    const province = req.params.province.trim().toLowerCase(); // Elimina espacios y normaliza a minúsculas
+    const index = homeBuyingSellingStats.findIndex(item => item.province.trim().toLowerCase() === province);
+
+    if (index !== -1) {
+        homeBuyingSellingStats.splice(index, 1);
+        res.status(200).json({ message: `Datos de ${province} eliminados correctamente.` });
+    } else {
+        res.status(404).json({ error: `Provincia '${province}' no encontrada.` });
+    }
+});
+
+// Manejo de métodos no permitidos
+app.all(`${BASE_API}/${RESOURCE_LEL}`, (req, res) => {
+    if (!["GET", "POST", "DELETE"].includes(req.method)) {
+        return res.status(405).json({ error: "Método no permitido." });
+    }
+});
+
+app.all(`${BASE_API}/${RESOURCE_LEL}/:province`, (req, res) => {
+    if (!["GET", "PUT", "DELETE"].includes(req.method)) {
+        return res.status(405).json({ error: "Método no permitido." });
+    }
+});
