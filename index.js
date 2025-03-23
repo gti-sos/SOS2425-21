@@ -273,9 +273,6 @@ app.listen(PORT, () => {
 let applications = dataLEL;
 const RESOURCE_LEL = "home-buying-selling-stats";
 
-const fs = require("fs");
-const csv = require("csv-parser");
-
 const readCSVDataLEL = () => {
     return new Promise((resolve, reject) => {
         const results = [];
