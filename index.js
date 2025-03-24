@@ -262,12 +262,12 @@ const readCSVDataCultural = () => {
                         month: row.month,
                         province: row.province,
                         total_event: parseInt(row.total_event),
-                        avg_ticket_price: parseFloat(row.avg_ticket_price),
-                        total_attendance: parseInt(row.total_attendance),
-                        local_attendance: parseInt(row.local_attendance),
-                        foreign_attendance: parseInt(row.foreign_attendance),
+                        avg_ticket_price: parseFloat(row.avg_ticket_price.replace(",", ".")),
+                        total_attendance: parseInt(row.total_attendance.replace(/\D/g, "")),
+                        local_attendance: parseInt(row.local_attendance.replace(/\D/g, "")),
+                        foreign_attendance: parseInt(row.foreign_attendance.replace(/\D/g, "")),
                         event_type: row.event_type,
-                        avg_event_duration: parseFloat(row.avg_event_duration)
+                        avg_event_duration: parseFloat(row.avg_event_duration.replace(",", "."))
                     };
                     results.push(formattedRow);
                 } catch (error) {
