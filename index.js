@@ -1,4 +1,3 @@
-
 const express = require('express');
 const cool = require('cool-ascii-faces');
 const app = express();
@@ -241,9 +240,6 @@ app.get("/samples/PRG", (request, response) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Servidor funcionando en http://localhost:${PORT}`);
-});
 
 
 //L05
@@ -407,9 +403,6 @@ app.get("/samples/LEL", async (request, response) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Servidor funcionando en http://localhost:${PORT}`);
-});
 
 //L05 - LEL
 const RESOURCE_LEL = "home-buying-selling-stats";
