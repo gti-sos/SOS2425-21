@@ -4,6 +4,16 @@ const cool = require('cool-ascii-faces');
 const app = express();
 const PORT = process.env.PORT || 16078;
 
+// Desactivar búsqueda de archivos inexistentes por Render
+try {
+    require.resolve('./front/build/handler.js');
+    console.error("Error: Render está intentando cargar un archivo inexistente.");
+    process.exit(1);
+} catch (e) {
+    // Si el archivo no existe, continuar normalmente
+}
+
+
 const BASE_API="/api/v1";
 app.use(express.json())
 app.use("/",express.static(__dirname));
