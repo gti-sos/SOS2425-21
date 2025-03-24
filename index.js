@@ -4,6 +4,10 @@ const cool = require('cool-ascii-faces');
 const app = express();
 const PORT = process.env.PORT || 16078;
 
+const fs = require('fs');
+const csv = require('csv-parser');
+
+
 // Desactivar búsqueda de archivos inexistentes por Render
 try {
     require.resolve('./front/build/handler.js');
