@@ -237,9 +237,9 @@ app.get("/samples/PRG", (request, response) => {
     }
 });
 
-//app.listen(PORT, () => {
-//    console.log(`Servidor funcionando en http://localhost:${PORT}`);
-//});
+app.listen(PORT, () => {
+    console.log(`Servidor funcionando en http://localhost:${PORT}`);
+});
 
 
 //L05
@@ -403,7 +403,9 @@ app.get("/samples/LEL", async (request, response) => {
     }
 });
 
-
+app.listen(PORT, () => {
+    console.log(`Servidor funcionando en http://localhost:${PORT}`);
+});
 
 //L05 - LEL
 const RESOURCE_LEL = "home-buying-selling-stats";
@@ -411,7 +413,7 @@ const RESOURCE_LEL = "home-buying-selling-stats";
 const readCSVDataLEL = () => {
     return new Promise((resolve, reject) => {
         const results = [];
-        fs.createReadStream("samples/LEL/SOS2425-21-Propuesta - Laura.csv")
+        fs.createReadStream("samples/LEL/SOS2425-21-Propuesta - Laura.csv") 
             .pipe(csv())
             .on("data", (row) => {
                 try {
