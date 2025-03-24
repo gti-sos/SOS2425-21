@@ -189,51 +189,181 @@ app.all(`${BASE_API}/${RESOURCE}/:province`, (req, res) => {
 
 //====================================================================================
 
-// PRG - NUEVO CÓDIGO AGREGADO
-const fs = require("fs");
-const csv = require("csv-parser");
+// PRG 
+//PRG
+let culturalEvents = [];
 
-app.get("/samples/PRG", (req, res) => {
-    const results = [];
-    fs.createReadStream("samples/PRG/SOS2425-21-Propuesta - Paula.csv")
-        .pipe(csv())
-        .on("data", (row) => {
-            results.push(row);
-        })
-        .on("end", () => {
-            const targetProvince = "alicante";
-            const field = "total_event";  // ✅ Usa un campo existente del CSV
+// Función para calcular la media de asistencia total (total_attendance) para una provincia
+const calcularMediaPRG = (provincia) => {
+    const eventosProvincia = culturalEvents.filter(evento => evento.province.toLowerCase() === provincia.toLowerCase());
+    if (eventosProvincia.length === 0) return null;
 
-            const filteredRows = results.filter(
-                row => row.province.trim().toLowerCase() === targetProvince.toLowerCase()
-            );
+    const totalAsistencia = eventosProvincia.reduce((acc, evento) => acc + evento.total_attendance, 0);
+    const media = totalAsistencia / eventosProvincia.length;
+    return media;
+};
 
-            const numericValues = filteredRows
-                .map(row => parseFloat(row[field].replace(/,/g, "")))  // ✅ Limpia las comas en los números
-                .filter(value => !isNaN(value));
+// Endpoint para calcular la media de asistencia total por provincia
+app.get("/samples/PRG", (request, response) => {
+    const prov = "Madrid";  // Puedes cambiar por otra provincia o hacerlo dinámico con query params
+    const media = calcularMediaPRG(prov);
 
-            const sum = numericValues.reduce((acc, val) => acc + val, 0);
-            const mean = numericValues.length > 0 ? sum / numericValues.length : 0;
-
-            res.send(`<!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>INDEX-PRG</title>
-                </head>
-                <body>
-                    <h1>INDEX-PRG</h1>
-                    <p id="res">Media de ${field} en ${targetProvince}: ${mean.toFixed(2)}</p><br>
-                    <a href="/">Volver</a>   
-                </body>
-                </html>`);
-        })
-        .on("error", (err) => {
-            console.error("Error al procesar el CSV:", err);
-            res.status(500).send("Error al procesar el archivo CSV.");
-        });
+    if (media === null) {
+        response.status(404).send("Provincia no encontrada o sin datos disponibles.");
+    } else {
+        response.send(`<!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>INDEX-PRG</title>
+            </head>
+            <body>
+                <h1>INDEX-PRG</h1>
+                <p id="res">Media de asistencia total en ${prov}: ${media.toFixed(2)}</p><br>
+                <a href="/">Volver</a>   
+            </body>
+            </html>`);
+    }
 });
+
+app.listen(PORT, () => {
+    console.log(`Servidor funcionando en http://localhost:${PORT}`);
+});
+
+
+//L05
+const RESOURCE_CULTURAL = "cultural-events";
+
+// Función para leer datos del CSV
+const readCSVDataCultural = () => {
+    return new Promise((resolve, reject) => {
+        const results = [];
+        fs.createReadStream("samples/PRG/SOS2425-21-Propuesta - Paula.csv")
+            .pipe(csv())
+            .on("data", (row) => {
+                try {
+                    const formattedRow = {
+                        year: parseInt(row.year),
+                        month: row.month,
+                        province: row.province,
+                        total_event: parseInt(row.total_event),
+                        avg_ticket_price: parseFloat(row.avg_ticket_price),
+                        total_attendance: parseInt(row.total_attendance),
+                        local_attendance: parseInt(row.local_attendance),
+                        foreign_attendance: parseInt(row.foreign_attendance),
+                        event_type: row.event_type,
+                        avg_event_duration: parseFloat(row.avg_event_duration)
+                    };
+                    results.push(formattedRow);
+                } catch (error) {
+                    console.error("Error procesando fila:", row, error);
+                }
+            })
+            .on("end", () => resolve(results))
+            .on("error", (err) => reject(err));
+    });
+};
+
+// Endpoint para cargar los datos iniciales desde el CSV
+app.get(`${BASE_API}/${RESOURCE_CULTURAL}/loadInitialData`, async (req, res) => {
+    if (culturalEvents.length > 0) {
+        return res.status(409).json({ error: "Los datos ya están cargados." });
+    }
+
+    try {
+        culturalEvents = await readCSVDataCultural();
+        res.status(201).json({ message: "Datos iniciales cargados correctamente." });
+    } catch (error) {
+        console.error("Error al leer CSV:", error);
+        res.status(500).json({ error: "Error interno al cargar los datos." });
+    }
+});
+
+// GET - Obtener todos los datos
+app.get(`${BASE_API}/${RESOURCE_CULTURAL}`, (req, res) => {
+    res.status(200).json(culturalEvents);
+});
+
+// GET - Obtener datos de una provincia específica
+app.get(`${BASE_API}/${RESOURCE_CULTURAL}/:province`, (req, res) => {
+    const { province } = req.params;
+    const result = culturalEvents.filter(item => item.province.toLowerCase() === province.toLowerCase());
+
+    if (result.length > 0) {
+        res.status(200).json(result);
+    } else {
+        res.status(404).json({ error: "Provincia no encontrada." });
+    }
+});
+
+// POST - Agregar un nuevo dato
+app.post(`${BASE_API}/${RESOURCE_CULTURAL}`, (req, res) => {
+    const newData = req.body;
+
+    if (!newData.year || !newData.month || !newData.province || !newData.total_event || !newData.avg_ticket_price ||
+        !newData.total_attendance || !newData.local_attendance || !newData.foreign_attendance || !newData.event_type || !newData.avg_event_duration) {
+        return res.status(400).json({ error: "Faltan campos requeridos." });
+    }
+
+    if (culturalEvents.some(item => item.province.toLowerCase() === newData.province.toLowerCase())) {
+        return res.status(409).json({ error: "El recurso ya existe." });
+    }
+
+    culturalEvents.push(newData);
+    res.status(201).json(newData);
+});
+
+// PUT - Actualizar datos de una provincia
+app.put(`${BASE_API}/${RESOURCE_CULTURAL}/:province`, (req, res) => {
+    const { province } = req.params;
+    const newData = req.body;
+
+    if (!newData.year || !newData.month || !newData.province || !newData.total_event || !newData.avg_ticket_price ||
+        !newData.total_attendance || !newData.local_attendance || !newData.foreign_attendance || !newData.event_type || !newData.avg_event_duration) {
+        return res.status(400).json({ error: "Faltan campos requeridos." });
+    }
+
+    if (newData.province.toLowerCase() !== province.toLowerCase()) {
+        return res.status(400).json({ error: "El ID de la URL y del cuerpo deben coincidir." });
+    }
+
+    const index = culturalEvents.findIndex(item => item.province.toLowerCase() === province.toLowerCase());
+
+    if (index !== -1) {
+        culturalEvents[index] = newData;
+        res.status(200).json(newData);
+    } else {
+        res.status(404).json({ error: "Provincia no encontrada." });
+    }
+});
+
+// DELETE - Eliminar todos los datos
+app.delete(`${BASE_API}/${RESOURCE_CULTURAL}`, (req, res) => {
+    culturalEvents = [];
+    res.status(200).json({ message: "Todos los eventos culturales han sido eliminados." });
+});
+
+// DELETE - Eliminar una provincia específica
+app.delete(`${BASE_API}/${RESOURCE_CULTURAL}/:province`, (req, res) => {
+    const { province } = req.params;
+    culturalEvents = culturalEvents.filter(item => item.province.toLowerCase() !== province.toLowerCase());
+    res.status(200).json({ message: `Eventos culturales de ${province} eliminados correctamente.` });
+});
+
+// Manejo de métodos no permitidos
+app.all(`${BASE_API}/${RESOURCE_CULTURAL}`, (req, res) => {
+    if (!["GET", "POST", "DELETE"].includes(req.method)) {
+        return res.status(405).json({ error: "Método no permitido." });
+    }
+});
+
+app.all(`${BASE_API}/${RESOURCE_CULTURAL}/:province`, (req, res) => {
+    if (!["GET", "PUT", "DELETE"].includes(req.method)) {
+        return res.status(405).json({ error: "Método no permitido." });
+    }
+});
+
 
 //====================================================================================
 
