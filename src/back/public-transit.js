@@ -4,14 +4,13 @@ import fs from "fs";
 import csv from "csv-parser";
 
 let db_AGB = new DataStore({ filename: "publicTransitStats.db", autoload: true });
-const calcularMedia = require("./samples/AGB/index-AGB.js");
 const RESOURCE = "public-transit-stats";
 
 // Función para leer datos del CSV
 const readCSVData = () => {
     return new Promise((resolve, reject) => {
         const results = [];
-        fs.createReadStream("samples/AGB/SOS2425-21-Propuesta - Andrea.csv")
+        fs.createReadStream("data/SOS2425-21-Propuesta - Andrea.csv")
             .pipe(csv())
             .on("data", (row) => {
                 try {
