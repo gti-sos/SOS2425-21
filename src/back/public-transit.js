@@ -33,11 +33,6 @@ const readCSVData = () => {
 };
 
 function loadBackendAGB(app) {
-    // Redireccionar a la documentación (se coloca antes que el endpoint dinámico)
-    app.get(`${BASE_API}/${RESOURCE}/docs`, (req, res) => {
-        res.redirect("https://documenter.getpostman.com/view/41997974/2sB2cSi4as");
-    });
-
     // Endpoint para cargar los datos iniciales desde el CSV
     app.get(`${BASE_API}/${RESOURCE}/loadInitialData`, async (req, res) => {
         db_AGB.count({}, async (err, count) => {
@@ -67,9 +62,15 @@ function loadBackendAGB(app) {
         });
     });
 
+    // Redireccionar a la documentación (se coloca antes que el endpoint dinámico)
+    app.get(`${BASE_API}/${RESOURCE}/docs`, (req, res) => {
+        res.redirect("https://documenter.getpostman.com/view/41997974/2sB2cSi4as");
+    });
+
     // GET - Obtener datos de una provincia específica sin _id
     app.get(`${BASE_API}/${RESOURCE}/:province`, (req, res) => {
-        db_AGB.findOne({ province: new RegExp(`^${req.params.province}$`, "i") }, (err, doc) => {
+        const provinceQuery = new RegExp(`^${req.params.province}$`, "i");
+        db_AGB.findOne({ province: provinceQuery }, (err, doc) => {
             if (err) return res.status(500).json({ error: "Error al obtener datos." });
             if (!doc) return res.status(404).json({ error: "Provincia no encontrada." });
             delete doc._id;
