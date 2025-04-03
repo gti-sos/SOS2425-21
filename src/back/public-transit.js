@@ -111,6 +111,11 @@ function loadBackendAGB(app) {
             res.status(200).json({ message: `Datos de ${req.params.province} eliminados correctamente.` });
         });
     });
+
+    // documentación
+    app.get(BASE_API+"/public-transit-stats/docs",(request,response)=>{
+        response.redirect("https://documenter.getpostman.com/view/41997974/2sB2cSi4as");
+    });
 }
 
 export { loadBackendAGB };
