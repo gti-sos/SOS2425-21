@@ -1,5 +1,11 @@
 import express from "express";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import { loadBackendAGB } from "./src/back/public-transit.js";
+
+// Obtener el directorio actual
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 16078;
@@ -9,13 +15,13 @@ const PORT = process.env.PORT || 16078;
 
 
 // Desactivar búsqueda de archivos inexistentes por Render
-try {
+/*try {
     require.resolve('./front/build/handler.js');
     console.error("Error: Render está intentando cargar un archivo inexistente.");
     process.exit(1);
 } catch (e) {
     // Si el archivo no existe, continuar normalmente
-}
+}*/
 
 
 const BASE_API="/api/v1";
@@ -30,6 +36,10 @@ app.get('/', (request, response) => {
 });
 
 loadBackendAGB(app);
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
 
 /*
 //====================================================================================
