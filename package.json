@@ -6,7 +6,12 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test-public-transit-local": "npx newman run tests/back/AGB/api-tests-AGB.json  -e tests/back/AGB/api-env-local-AGB.json ",
+    "test-public-transit-online": "npx newman run tests/back/AGB/api-tests-AGB.json  -e tests/back/AGB/api-env-online-AGB.json ",
+    "test-AGB-local": "start-server-and-test start http://localhost:16078 test-public-transit-local",
+    "test-MADC-online": "start-server-and-test start https://sos2425-21.onrender.com test-public-transit-online",
+    "test-AGB-loc": "npm run test-AGB-local",
+    "test-AGB-onl": "npm run test-AGB-online"
   },
   "repository": {
     "type": "git",
@@ -23,5 +28,8 @@
     "csv-parser": "^3.2.0",
     "express": "^4.21.2",
     "nedb": "^1.8.0"
+  },
+  "devDependencies": {
+    "start-server-and-test": "^2.0.11"
   }
 }

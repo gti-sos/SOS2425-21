@@ -1,0 +1,15 @@
+{
+	"id": "a4c97b71-2ee2-4e9f-95ed-786280d7a53c",
+	"name": "local",
+	"values": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:16078",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-04-04T09:49:51.580Z",
+	"_postman_exported_using": "Postman/11.39.5-250403-2338"
+}
