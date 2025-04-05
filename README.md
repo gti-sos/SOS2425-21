@@ -8,13 +8,13 @@ Lecturer:
 # SOS2425-21
 
 - **Team 21**
-  - Paula Ruiz Gardón (https://github.com/pauruigar6)
   - Andrea Gómez Balmaseda (https://github.com/andgombal)
   - Laura Eraso Lorenzo (https://github.com/laueralor)
+  - Paula Ruiz Gardón (https://github.com/pauruigar6)
 - **Project description**: Our project consists of analyzing the relationship between official data on urban bus transportation usage, the celebration of cultural events, and the buying and selling of homes in Spain.
 - **Repository**: [gti-sos/SOS2425-21](https://github.com/orgs/gti-sos/teams/sos2425-21)
 - **URL**: https://sos2425-21.onrender.com
 -  **APIs**:
     - http://sos2425-21.onrender/api/v1/public-transit-stats/docs (developed by Andrea Gómez Balmaseda)
-    - TBD
-    - TBD
+    - http://sos2425-21.onrender.com/api/v1/XXXX/docs (developed by Laura Eraso Lorenzo)
+    - http://sos2425-21.onrender.com/api/v1/XXXX/docs (developed by Paula Ruiz Gardón)
