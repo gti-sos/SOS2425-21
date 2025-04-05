@@ -12,7 +12,7 @@ jobs:
         run: |
           npm run test-AGB-onl
       - name: Depoly to Render
-        uses: johnbeynon/render-deploy-action@0.0.8
+        uses: johnbeynon/render-deploy-action@v0.0.8
         with:
           service-id: ${{  secrets.MY_RENDER_SERVICE_ID  }}
           service-id: ${{  secrets.MY_RENDER_API_KEY  }}
