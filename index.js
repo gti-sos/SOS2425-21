@@ -2,27 +2,13 @@ import express from "express";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { loadBackendAGB } from "./src/back/public-transit.js";
+import { loadBackendPRG } from "./src/back/cultural-events.js"; 
 
-// Obtener el directorio actual
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 16078;
-
-//const fs = require('fs');
-//const csv = require('csv-parser');
-
-
-// Desactivar búsqueda de archivos inexistentes por Render
-/*try {
-    require.resolve('./front/build/handler.js');
-    console.error("Error: Render está intentando cargar un archivo inexistente.");
-    process.exit(1);
-} catch (e) {
-    // Si el archivo no existe, continuar normalmente
-}*/
-
 
 const BASE_API="/api/v1";
 app.use(express.json())
@@ -31,15 +17,17 @@ app.use("/",express.static(__dirname));
 app.get('/', (request, response) => {
     response.send(`Este es el servidor del <a href="/about">grupo 21</a><br>
         <a href="https://sos2425-21.onrender.com/api/v1/public-transit-stats">API Andrea Gómez</a><br>
-        <a href="">API Paula Ruiz</a><br>
+        <a href="https://sos2425-21.onrender.com/api/v1/cultural-events">API Paula Ruiz</a><br>
         <a href="">API Laura Eraso</a><br>`);  
 });
 
 loadBackendAGB(app);
+loadBackendPRG(app); // 👈 NUEVA LÍNEA
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
 
 /*
 //====================================================================================

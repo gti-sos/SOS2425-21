@@ -1,55 +1,196 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SOS2425-11</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            line-height: 1.6;
+      :root {
+        --primary-color: #0a66c2;
+        --background-color: #f5f8fa;
+        --card-bg: #ffffff;
+        --text-color: #333;
+        --shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.6;
+      }
+
+      header {
+        background-color: var(--primary-color);
+        color: #fff;
+        padding: 2rem 1rem;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      main {
+        max-width: 960px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+
+      .card {
+        background-color: var(--card-bg);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: var(--shadow);
+      }
+
+      .card h2 {
+        margin-bottom: 0.8rem;
+        color: var(--primary-color);
+        font-size: 1.4rem;
+      }
+
+      ul {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      ul li {
+        margin: 0.5rem 0;
+      }
+
+      ul ul {
+        margin-top: 0.5rem;
+        margin-left: 1rem;
+        padding-left: 1rem;
+        border-left: 3px solid #dfe3e8;
+      }
+
+      a {
+        color: var(--primary-color);
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-top: 1rem;
+        color: #555;
+      }
+
+      .back-link:hover {
+        color: #000;
+      }
+
+      /* Responsive styles */
+      @media (max-width: 600px) {
+        header {
+          padding: 1.5rem 1rem;
         }
-        h1 {
-            border-bottom: 2px solid #ccc;
-            padding-bottom: 5px;
+
+        .card {
+          padding: 1rem;
         }
-        ul {
-            list-style-type: disc;
-            margin-left: 20px;
+
+        .card h2 {
+          font-size: 1.2rem;
         }
-        a {
-            color: #007bff;
-            text-decoration: none;
+
+        main {
+          padding: 0 0.8rem;
         }
-        a:hover {
-            text-decoration: underline;
+
+        a,
+        .back-link {
+          word-break: break-word;
         }
+      }
     </style>
-</head>
-<body>
-    <h1>Grupo 21</h1>
-    <ul>
-        <li><strong>Team</strong>
-            <ul>
-                <li>Andrea Gómez Balmaseda(<a href="https://github.com/andgombal" target="_blank">https://github.com/andgombal</a>)</li>
-                <li>Laura Eraso Lorenzo (<a href="https://github.com/laueralor" target="_blank">https://github.com/laueralor</a>)</li>
-                <li>Paula Ruiz Gardón (<a href="https://github.com/pauruigar" target="_blank">https://github.com/pauruigar</a>)</li>
-            </ul>
-        </li>
-        <li><strong>Project description:</strong> Our project consists of analyzing the relationship between official data on urban bus transportation usage, the celebration of cultural events, and the buying and selling of homes in Spain.</li>
-        <li><strong>Repository:</strong> <a href="https://github.com/gti-sos/SOS2425-21" target="_blank">gti-sos/SOS2425-21</a></li>
-        <li><strong>URL:</strong> <a href="https://sos2425-21.onrender.com/">https://sos2425-21.onrender.com/</a></li>
-        <li><strong>APIs:</strong>
-            <ul>
-                <li>
-                    <a href="http://sos2425-21.onrender/api/v1/public-transit-stats/docs" target="_blank">http://sos2425-21.onrender/api/v1/public-transit-stats/docs (developed by Andrea Gómez Balmaseda)</a>
-                </li>
-                <li>TBD</li>
-                <li>TBD</li>
-            </ul>
-        </li>
-    </ul>
-    <a href="/">Volver</a>
-</body>
+  </head>
+  <body>
+    <header>
+      <h1>Grupo 21</h1>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>Team</h2>
+        <ul>
+          <li>
+            Andrea Gómez Balmaseda (<a
+              href="https://github.com/andgombal"
+              target="_blank"
+              >andgombal</a
+            >)
+          </li>
+          <li>
+            Laura Eraso Lorenzo (<a
+              href="https://github.com/laueralor"
+              target="_blank"
+              >laueralor</a
+            >)
+          </li>
+          <li>
+            Paula Ruiz Gardón (<a
+              href="https://github.com/pauruigar"
+              target="_blank"
+              >pauruigar</a
+            >)
+          </li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>Project description</h2>
+        <p>
+          Our project consists of analyzing the relationship between official
+          data on urban bus transportation usage, the celebration of cultural
+          events, and the buying and selling of homes in Spain.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>Repository</h2>
+        <p>
+          <a href="https://github.com/gti-sos/SOS2425-21" target="_blank"
+            >gti-sos/SOS2425-21</a
+          >
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>URL</h2>
+        <p>
+          <a href="https://sos2425-21.onrender.com/" target="_blank"
+            >https://sos2425-21.onrender.com/</a
+          >
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>APIs</h2>
+        <ul>
+          <li>
+            <a
+              href="http://sos2425-21.onrender/api/v1/public-transit-stats/docs"
+              target="_blank"
+            >
+              Public Transit Stats API (Andrea Gómez Balmaseda)
+            </a>
+          </li>
+          <li>TBD</li>
+          <li>TBD</li>
+        </ul>
+      </section>
+
+      <a href="/" class="back-link">← Volver</a>
+    </main>
+  </body>
 </html>
