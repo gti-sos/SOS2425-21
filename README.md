@@ -15,6 +15,6 @@ Lecturer:
 - **Repository**: [gti-sos/SOS2425-21](https://github.com/orgs/gti-sos/teams/sos2425-21)
 - **URL**: https://sos2425-21.onrender.com
 -  **APIs**:
-    - TBD
+    - http://sos2425-21.onrender/api/v1/public-transit-stats/docs (developed by Andrea Gómez Balmaseda)
     - TBD
     - TBD
