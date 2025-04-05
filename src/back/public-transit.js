@@ -82,6 +82,12 @@ function loadBackendAGB(app) {
                 });
         });
     });
+
+    // Redireccionar a la documentación
+    app.get(`${BASE_API}/${RESOURCE}/docs`, (req, res) => {
+        res.redirect("https://documenter.getpostman.com/view/41997974/2sB2cSi4as");
+    });
+
     // GET - Obtener datos por una provincia
     app.get(`${BASE_API}/${RESOURCE}/:province`, (req, res) => {
         const province = req.params.province;
