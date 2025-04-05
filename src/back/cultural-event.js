@@ -3,8 +3,8 @@ import DataStore from "nedb";
 import fs from "fs";
 import csv from "csv-parser";
 
-const RESOURCE = "cultural-events";
-const db_PRG = new DataStore({ filename: "culturalEvents.db", autoload: true });
+const RESOURCE = "cultural-event";
+const db_PRG = new DataStore({ filename: "culturalevent.db", autoload: true });
 
 // Leer CSV
 const readCSVData = () => {
