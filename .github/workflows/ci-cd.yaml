@@ -1,7 +1,7 @@
 name: CI / CD
 on: [push,pull_request]
 jobs:
-  ci:
+  ci-cd:
     runs-on:  ubuntu-latest
     steps:
       - name: Checkout code 
@@ -15,5 +15,5 @@ jobs:
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
           service-id: ${{  secrets.MY_RENDER_SERVICE_ID  }}
-          service-id: ${{  secrets.MY_RENDER_API_KEY  }}
+          api-key: ${{  secrets.MY_RENDER_API_KEY  }}
           
