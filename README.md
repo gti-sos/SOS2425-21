@@ -17,4 +17,4 @@ Lecturer:
 -  **APIs**:
     - http://sos2425-21.onrender/api/v1/public-transit-stats/docs (developed by Andrea Gómez Balmaseda)
     - http://sos2425-21.onrender.com/api/v1/XXXX/docs (developed by Laura Eraso Lorenzo)
-    - http://sos2425-21.onrender.com/api/v1/XXXX/docs (developed by Paula Ruiz Gardón)
+    - http://sos2425-21.onrender.com/api/v1/cultural-event/docs (developed by Paula Ruiz Gardón)
