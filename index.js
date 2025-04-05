@@ -14,12 +14,10 @@ const BASE_API = "/api/v1";
 app.use(express.json());
 app.use("/", express.static(__dirname));
 
-app.get("/", (request, response) => {
-  response.send(`Este es el servidor del <a href="/about">grupo 21</a><br>
-        <a href="https://sos2425-21.onrender.com/api/v1/public-transit-stats">API Andrea Gómez</a><br>
-        <a href="https://sos2425-21.onrender.com/api/v1/cultural-event">API Paula Ruiz</a><br>
-        <a href="">API Laura Eraso</a><br>`);
-});
+app.get("/", (req, res) => {
+    res.redirect("/about");
+  });
+  
 
 loadBackendAGB(app);
 loadBackendPRG(app); // 👈 NUEVA LÍNEA
