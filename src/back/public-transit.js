@@ -82,7 +82,17 @@ function loadBackendAGB(app) {
                 });
         });
     });
-
+    // GET - Obtener datos por una provincia
+    app.get(`${BASE_API}/${RESOURCE}/:province`, (req, res) => {
+        const province = req.params.province;
+        db_AGB.findOne({ province: new RegExp(`^${province}$`, "i") }, (err, doc) => {
+            if (err) return res.status(500).json({ error: "Error al buscar la provincia." });
+            if (!doc) return res.status(404).json({ error: "Provincia no encontrada." });
+            const { _id, ...cleanDoc } = doc;
+            res.status(200).json(cleanDoc);
+        });
+    });
+    
     // GET - Obtener datos por identificador compuesto (province + year)
     app.get(`${BASE_API}/${RESOURCE}/:province/:year`, (req, res) => {
         const province = req.params.province.toLowerCase();
