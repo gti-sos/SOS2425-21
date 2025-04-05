@@ -17,7 +17,7 @@ app.use("/", express.static(__dirname));
 app.get("/", (request, response) => {
   response.send(`Este es el servidor del <a href="/about">grupo 21</a><br>
         <a href="https://sos2425-21.onrender.com/api/v1/public-transit-stats">API Andrea Gómez</a><br>
-        <a href="https://sos2425-21.onrender.com/api/v1/cultural-events">API Paula Ruiz</a><br>
+        <a href="https://sos2425-21.onrender.com/api/v1/cultural-event">API Paula Ruiz</a><br>
         <a href="">API Laura Eraso</a><br>`);
 });
 
