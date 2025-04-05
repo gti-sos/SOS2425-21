@@ -17,7 +17,7 @@ app.use("/", express.static(__dirname));
 app.get("/", (request, response) => {
   response.send(`Este es el servidor del <a href="/about">grupo 21</a><br>
         <a href="https://sos2425-21.onrender.com/api/v1/public-transit-stats">API Andrea Gómez</a><br>
-        <a href="https://sos2425-21.onrender.com/api/v1/cultural-event.js">API Paula Ruiz</a><br>
+        <a href="https://sos2425-21.onrender.com/api/v1/cultural-events.js">API Paula Ruiz</a><br>
         <a href="">API Laura Eraso</a><br>`);
 });
 
@@ -27,8 +27,6 @@ loadBackendPRG(app); // 👈 NUEVA LÍNEA
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
-
 
 // //====================================================================================
 
@@ -49,7 +47,7 @@ app.listen(PORT, () => {
 //             <body>
 //                 <h1>INDEX-LEL</h1>
 //                 <p id="res">Media de transacciones en ${prov}: ${media.toFixed(2)}</p><br>
-//                 <a href="/">Volver</a>   
+//                 <a href="/">Volver</a>
 //             </body>
 //             </html>`);
 //     } catch (error) {
@@ -58,14 +56,13 @@ app.listen(PORT, () => {
 //     }
 // });
 
-
 // //L05 - LEL
 // const RESOURCE_LEL = "home-buying-selling-stats";
 // // Función para leer datos del CSV
 // const readCSVDataLEL = () => {
 //     return new Promise((resolve, reject) => {
 //         const results = [];
-//         fs.createReadStream("samples/LEL/SOS2425-21-Propuesta - Laura.csv") 
+//         fs.createReadStream("samples/LEL/SOS2425-21-Propuesta - Laura.csv")
 //             .pipe(csv())
 //             .on("data", (row) => {
 //                 try {
@@ -134,12 +131,11 @@ app.listen(PORT, () => {
 //     res.status(201).json(newData);
 // });
 
-
 // // PUT - Actualizar datos de una provincia
 // app.put(`${BASE_API}/${RESOURCE_LEL}/:province`, (req, res) => {
 //     const { province } = req.params;
 //     const newData = req.body;
-    
+
 //     if (!newData.year || !newData.province || !newData.transaction_total || !newData.transaction_protected_housing || !newData.transaction_new_housing || !newData.transaction_secondhand_housing) {
 //         return res.status(400).json({ error: "Faltan campos requeridos." });
 //     }
@@ -189,4 +185,3 @@ app.listen(PORT, () => {
 //         return res.status(405).json({ error: "Método no permitido." });
 //     }
 // });
-
