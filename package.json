@@ -11,7 +11,13 @@
     "test-AGB-local": "start-server-and-test start http://localhost:16078 test-public-transit-local",
     "test-AGB-online": "start-server-and-test start https://sos2425-21.onrender.com test-public-transit-online",
     "test-AGB-loc": "npm run test-AGB-local",
-    "test-AGB-onl": "npm run test-AGB-online"
+    "test-AGB-onl": "npm run test-AGB-online",
+    "test-home-buying-selling-stats-local": "npx newman run tests/back/LEL/api-tests-LEL.json  -e tests/back/LEL/api-env-local-LEL.json ",
+    "test-home-buying-selling-stats-online": "npx newman run tests/back/LEL/api-tests-LEL.json  -e tests/back/LEL/api-env-online-LEL.json ",
+    "test-LEL-local": "start-server-and-test start http://localhost:16078 test-home-buying-selling-stats-local",
+    "test-LEL-online": "start-server-and-test start https://sos2425-21.onrender.com test-home-buying-selling-stats-online",
+    "test-LEL-loc": "npm run test-LEL-local",
+    "test-LEL-onl": "npm run test-LEL-online"
   },
   "repository": {
     "type": "git",
