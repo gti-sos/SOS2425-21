@@ -9,9 +9,8 @@ jobs:
       - name: Install dependences 
         run: npm install
       - name: Run tests 
-        run: |
-          npm run test-AGB-onl
-          npm run test-LEL-onl
+        run: npm run test
+          
       - name: Depoly to Render
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:

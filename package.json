@@ -17,7 +17,9 @@
     "test-LEL-local": "start-server-and-test start http://localhost:16078 test-home-buying-selling-stats-local",
     "test-LEL-online": "start-server-and-test start https://sos2425-21.onrender.com test-home-buying-selling-stats-online",
     "test-LEL-loc": "npm run test-LEL-local",
-    "test-LEL-onl": "npm run test-LEL-online"
+    "test-LEL-onl": "npm run test-LEL-online",
+
+    "test": "npm run test-AGB-loc & test-LEL-loc"
   },
   "repository": {
     "type": "git",
