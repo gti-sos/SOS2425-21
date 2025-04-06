@@ -85,6 +85,10 @@ function loadBackendLEL(app){
                 });
         });
     });
+     // Redireccionar a la documentación (se coloca antes que el endpoint dinámico)
+     app.get(`${BASE_API}/${RESOURCE}/docs`, (req, res) => {
+        res.redirect("https://documenter.getpostman.com/view/42241739/2sB2cUANcY");
+    });
 
     // GET - Obtener datos por una provincia
     app.get(`${BASE_API}/${RESOURCE}/:province`, (req, res) => {
@@ -204,10 +208,6 @@ function loadBackendLEL(app){
         if (!["GET", "PUT", "DELETE"].includes(req.method)) {
             return res.status(405).json({ error: "Método no permitido." });
         }
-    });
-    // Redireccionar a la documentación (se coloca antes que el endpoint dinámico)
-    app.get(`${BASE_API}/${RESOURCE}/docs`, (req, res) => {
-        res.redirect("https://documenter.getpostman.com/view/42241739/2sB2cUANcY");
     });
 }
 
