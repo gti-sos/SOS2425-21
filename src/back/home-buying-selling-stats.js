@@ -76,12 +76,8 @@ function loadBackendLEL(app){
                     if (err) return res.status(500).json({ error: "Error al obtener los datos." });
 
                     const cleanDocs = docs.map(({ _id, ...rest }) => rest);
-                    res.status(200).json({
-                        total: totalCount,
-                        limit,
-                        offset,
-                        data: cleanDocs
-                    });
+                    res.status(200).json(cleanDocs);
+
                 });
         });
     });
