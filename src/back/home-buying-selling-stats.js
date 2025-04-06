@@ -11,7 +11,7 @@ const RESOURCE = "home-buying-selling-stats";
 const readCSVDataLEL = () => {
     return new Promise((resolve, reject) => {
         const results = [];
-        fs.createReadStream("data\SOS2425-21-Propuesta - Laura.csv") 
+        fs.createReadStream("data/SOS2425-21-Propuesta - Laura.csv") 
             .pipe(csv())
             .on("data", (row) => {
                 try {
