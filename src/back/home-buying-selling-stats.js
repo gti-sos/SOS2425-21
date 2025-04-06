@@ -11,7 +11,7 @@ const RESOURCE = "home-buying-selling-stats";
 const readCSVDataLEL = () => {
     return new Promise((resolve, reject) => {
         const results = [];
-        fs.createReadStream("samples/LEL/SOS2425-21-Propuesta - Laura.csv") 
+        fs.createReadStream("data\SOS2425-21-Propuesta - Laura.csv") 
             .pipe(csv())
             .on("data", (row) => {
                 try {
@@ -61,10 +61,6 @@ function loadBackendLEL(app){
             }));
         });
     });
-    // Redireccionar a la documentación (se coloca antes que el endpoint dinámico)
-    app.get(`${BASE_API}/${RESOURCE}/docs`, (req, res) => {
-        res.redirect("https://documenter.getpostman.com/view/42241739/2sB2cUANcY");
-    });
     // GET - Obtener datos de una provincia específica sin _id
     app.get(`${BASE_API}/${RESOURCE}/:province`, (req, res) => {
         const provinceQuery = new RegExp(`^${req.params.province}$`, "i");
@@ -111,4 +107,10 @@ function loadBackendLEL(app){
             res.status(200).json({ message: `Datos de ${req.params.province} eliminados correctamente.` });
         });
     });
+    // Redireccionar a la documentación (se coloca antes que el endpoint dinámico)
+    app.get(`${BASE_API}/${RESOURCE}/docs`, (req, res) => {
+        res.redirect("https://documenter.getpostman.com/view/42241739/2sB2cUANcY");
+    });
 }
+
+export { loadBackendLEL };
