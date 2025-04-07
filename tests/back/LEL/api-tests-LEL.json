@@ -7,81 +7,6 @@
 	},
 	"item": [
 		{
-			"name": "loadInitialData",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {\r",
-							"    pm.response.to.have.status(201);\r",
-							"});\r",
-							"\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{BASE_URL}}/api/v1/home-buying-selling-stats/loadInitialData",
-					"host": [
-						"{{BASE_URL}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"home-buying-selling-stats",
-						"loadInitialData"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response is an array and not empty\", function () {\r",
-							"    const jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData).to.be.an('array').that.is.not.empty;\r",
-							"});\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{BASE_URL}}/api/v1/home-buying-selling-stats",
-					"host": [
-						"{{BASE_URL}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"home-buying-selling-stats"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Paginación",
 			"event": [
 				{
@@ -157,7 +82,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BASE_URL}}/api/v1/home-buying-selling-stats/Madrid/2024",
+					"raw": "{{BASE_URL}}/api/v1/home-buying-selling-stats/Malaga/2015",
 					"host": [
 						"{{BASE_URL}}"
 					],
@@ -165,8 +90,8 @@
 						"api",
 						"v1",
 						"home-buying-selling-stats",
-						"Madrid",
-						"2024"
+						"Malaga",
+						"2015"
 					]
 				}
 			},
@@ -198,7 +123,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BASE_URL}}/api/v1/home-buying-selling-stats/Madrid",
+					"raw": "{{BASE_URL}}/api/v1/home-buying-selling-stats/Malaga",
 					"host": [
 						"{{BASE_URL}}"
 					],
@@ -206,7 +131,7 @@
 						"api",
 						"v1",
 						"home-buying-selling-stats",
-						"Madrid"
+						"Malaga"
 					]
 				}
 			},
@@ -432,6 +357,49 @@
 			"response": []
 		},
 		{
+			"name": "actualizar Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"year\": 2024,\r\n    \"province\": \"madrid\",\r\n    \"transaction_total\": 63218,\r\n    \"transaction_protected_housing\": 1203,\r\n    \"transaction_new_housing\": 5720,\r\n    \"transaction_secondhand_housing\": 57498\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/home-buying-selling-stats/Madrid",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"home-buying-selling-stats",
+						"Madrid"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "ID y URL no coinciden",
 			"event": [
 				{
@@ -558,16 +526,20 @@
 			"response": []
 		},
 		{
-			"name": "eliminar todo",
+			"name": "provincia eliminada",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
 							"});\r",
-							""
+							"\r",
+							"pm.test(\"Created resource has province field\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.province).to.exist;\r",
+							"});"
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -575,80 +547,11 @@
 				}
 			],
 			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{BASE_URL}}/api/v1/home-buying-selling-stats",
-					"host": [
-						"{{BASE_URL}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"home-buying-selling-stats"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "no existe",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 404\", function () {\r",
-							"    pm.response.to.have.status(404);\r",
-							"});\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{BASE_URL}}/api/v1/home-buying-selling-stats/Leon",
-					"host": [
-						"{{BASE_URL}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"home-buying-selling-stats",
-						"Leon"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "put en towns no permitido",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 405\", function () {\r",
-							"    pm.response.to.have.status(405);\r",
-							"});\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"year\": 2024,\r\n    \"province\": \"madrid\",\r\n    \"transaction_total\": 63218,\r\n    \"transaction_protected_housing\": 1203,\r\n    \"transaction_new_housing\": 5720,\r\n    \"transaction_secondhand_housing\": 57498\r\n}",
+					"raw": "{\r\n    \"year\": 2015,\r\n    \"province\": \"malaga\",\r\n    \"transaction_total\": 25798,\r\n    \"transaction_protected_housing\": 600,\r\n    \"transaction_new_housing\": 2636,\r\n    \"transaction_secondhand_housing\": 23162\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -700,6 +603,85 @@
 						"home-buying-selling-stats",
 						"Malaga",
 						"2015"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/home-buying-selling-stats/Leon/2015",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"home-buying-selling-stats",
+						"Leon",
+						"2015"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "put en towns no permitido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"year\": 2024,\r\n    \"province\": \"madrid\",\r\n    \"transaction_total\": 63218,\r\n    \"transaction_protected_housing\": 1203,\r\n    \"transaction_new_housing\": 5720,\r\n    \"transaction_secondhand_housing\": 57498\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/home-buying-selling-stats",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"home-buying-selling-stats"
 					]
 				}
 			},
