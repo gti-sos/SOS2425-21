@@ -113,7 +113,24 @@ function loadBackendPRG(app) {
     res.redirect("https://documenter.getpostman.com/view/42397783/2sB2cUBNpz");
   });
 
-  // GET - Por provincia (sin año)
+  // ✅ Primero la ruta con año (más específica)
+  app.get(`${BASE_API}/${RESOURCE}/:province/:year`, (req, res) => {
+    const province = req.params.province;
+    const year = parseInt(req.params.year);
+
+    db_PRG.findOne(
+      { province: new RegExp(`^${province}$`, "i"), year },
+      (err, doc) => {
+        if (err) return res.status(500).json({ error: "Error al buscar." });
+        if (!doc) return res.status(404).json({ error: "No encontrado." });
+
+        const { _id, ...cleanDoc } = doc;
+        res.status(200).json(cleanDoc);
+      }
+    );
+  });
+
+  // ✅ Después la ruta con solo provincia
   app.get(`${BASE_API}/${RESOURCE}/:province`, (req, res) => {
     const province = req.params.province.trim().toLowerCase();
 
@@ -130,23 +147,6 @@ function loadBackendPRG(app) {
       const cleanDocs = matches.map(({ _id, ...rest }) => rest);
       res.status(200).json(cleanDocs);
     });
-  });
-
-  // GET - Identificador compuesto (por provincia y año)
-  app.get(`${BASE_API}/${RESOURCE}/:province/:year`, (req, res) => {
-    const province = req.params.province;
-    const year = parseInt(req.params.year);
-
-    db_PRG.findOne(
-      { province: new RegExp(`^${province}$`, "i"), year },
-      (err, doc) => {
-        if (err) return res.status(500).json({ error: "Error al buscar." });
-        if (!doc) return res.status(404).json({ error: "No encontrado." });
-
-        const { _id, ...cleanDoc } = doc;
-        res.status(200).json(cleanDoc);
-      }
-    );
   });
 
   // POST - Insertar
