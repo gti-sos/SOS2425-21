@@ -105,7 +105,7 @@ function loadBackendLEL(app){
         const province = req.params.province.toLowerCase();
         const year = parseInt(req.params.year);
 
-        db_LEL.find({ province: new RegExp(`^${province}$`, "i"), year }, (err, doc) => {
+        db_LEL.findOne({ province: new RegExp(`^${province}$`, "i"), year }, (err, doc) => {
             if (err) return res.status(500).json({ error: "Error al buscar la estadística." });
             if (!doc) return res.status(404).json({ error: "Estadística no encontrada." });
 
@@ -129,7 +129,7 @@ function loadBackendLEL(app){
             return res.status(400).json({ error: "Faltan campos requeridos o son incorrectos." });
         }
 
-        db_LEL.find({ province: new RegExp(`^${newData.province}$`, "i"), year: newData.year }, (err, existing) => {
+        db_LEL.findOne({ province: new RegExp(`^${newData.province}$`, "i"), year: newData.year }, (err, existing) => {
             if (err) return res.status(500).json({ error: "Error al comprobar duplicados." });
             if (existing) return res.status(409).json({ error: "El recurso ya existe." });
 
