@@ -8,6 +8,21 @@
 	"item": [
 		{
 			"name": "loadInitialData",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"La respuesta es 201 OK\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -28,6 +43,21 @@
 		},
 		{
 			"name": "get",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"La respuesta es 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -40,6 +70,90 @@
 						"api",
 						"v1",
 						"public-transit-stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "paginación",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"La respuesta es 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/public-transit-stats?limit=2&offset=0",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"public-transit-stats"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "2"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "identificador compuesto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"La respuesta es 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/public-transit-stats/Alicante/2024",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"public-transit-stats",
+						"Alicante",
+						"2024"
 					]
 				}
 			},
@@ -67,6 +181,21 @@
 		},
 		{
 			"name": "no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -87,6 +216,20 @@
 		},
 		{
 			"name": "provincia",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"La respuesta es 201 Created\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -115,6 +258,21 @@
 		},
 		{
 			"name": "ya existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 409\", function () {\r",
+							"    pm.response.to.have.status(409);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -143,6 +301,20 @@
 		},
 		{
 			"name": "faltan campos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -171,12 +343,27 @@
 		},
 		{
 			"name": "actualizar",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"La respuesta es 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"year\": 2024,\r\n  \"province\": \"Sevilla\",\r\n  \"ticket_price\": 2.00,\r\n  \"total_trips\": 13000000,\r\n  \"route_length\": 160.0\r\n}\r\n",
+					"raw": "{\r\n  \"year\": 2015,\r\n  \"province\": \"Madrid\",\r\n  \"ticket_price\": 2.00,\r\n  \"total_trips\": 13000000,\r\n  \"route_length\": 160.0\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -184,7 +371,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{BASE_URL}}/api/v1/public-transit-stats/Sevilla",
+					"raw": "{{BASE_URL}}/api/v1/public-transit-stats/Madrid/2015",
 					"host": [
 						"{{BASE_URL}}"
 					],
@@ -192,7 +379,53 @@
 						"api",
 						"v1",
 						"public-transit-stats",
-						"Sevilla"
+						"Madrid",
+						"2015"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "actualizar Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"La respuesta es 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"year\": 2015,\r\n  \"province\": \"Madrid\",\r\n  \"ticket_price\": 2.00,\r\n  \"total_trips\": 13000000,\r\n  \"route_length\": 160.0\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/public-transit-stats/Madrid/2015",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"public-transit-stats",
+						"Madrid",
+						"2015"
 					]
 				}
 			},
@@ -200,6 +433,21 @@
 		},
 		{
 			"name": "ID y URL no coinciden",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -213,7 +461,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{BASE_URL}}/api/v1/public-transit-stats/Castilla\n",
+					"raw": "{{BASE_URL}}/api/v1/public-transit-stats/Castilla/2015\n",
 					"host": [
 						"{{BASE_URL}}"
 					],
@@ -221,7 +469,8 @@
 						"api",
 						"v1",
 						"public-transit-stats",
-						"Castilla\n"
+						"Castilla",
+						"2015\n"
 					]
 				}
 			},
@@ -229,6 +478,21 @@
 		},
 		{
 			"name": "no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -258,11 +522,26 @@
 		},
 		{
 			"name": "delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"La respuesta es 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{BASE_URL}}/api/v1/public-transit-stats/Malaga\n\n",
+					"raw": "{{BASE_URL}}/api/v1/public-transit-stats/Malaga/2019",
 					"host": [
 						"{{BASE_URL}}"
 					],
@@ -270,7 +549,50 @@
 						"api",
 						"v1",
 						"public-transit-stats",
-						"Malaga\n\n"
+						"Malaga",
+						"2019"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"year\": 2019,\r\n    \"province\": \"Malaga\",\r\n    \"ticket_price\": 1.55,\r\n    \"total_trips\": 65390000,\r\n    \"route_length\": 5.824\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/public-transit-stats/Malaga/2019",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"public-transit-stats",
+						"Malaga",
+						"2019"
 					]
 				}
 			},
@@ -278,6 +600,21 @@
 		},
 		{
 			"name": "no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "DELETE",
 				"header": [],
@@ -297,26 +634,22 @@
 			"response": []
 		},
 		{
-			"name": "borra todo",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{BASE_URL}}/api/v1/public-transit-stats",
-					"host": [
-						"{{BASE_URL}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"public-transit-stats"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "put en 'towns' no permitido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"La respuesta es 405\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -345,6 +678,20 @@
 		},
 		{
 			"name": "post en 'towns/sevilla' no permitido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"La respuesta es 405\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -358,7 +705,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{BASE_URL}}/api/v1/public-transit-stats/sevilla",
+					"raw": "{{BASE_URL}}/api/v1/public-transit-stats/Madrid/2015",
 					"host": [
 						"{{BASE_URL}}"
 					],
@@ -366,7 +713,8 @@
 						"api",
 						"v1",
 						"public-transit-stats",
-						"sevilla"
+						"Madrid",
+						"2015"
 					]
 				}
 			},
