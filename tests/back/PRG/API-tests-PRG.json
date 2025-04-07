@@ -1,0 +1,903 @@
+{
+	"info": {
+		"_postman_id": "8f47dae5-26b4-4384-879f-bc17ffeab15e",
+		"name": "L05",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42397783"
+	},
+	"item": [
+        {
+			"name": "delete all (200 OK)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event",
+					"protocol": "https",
+					"host": [
+						"sos2425-21",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cultural-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete all (200 OK) Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event",
+					"protocol": "https",
+					"host": [
+						"sos2425-21",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cultural-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "loadInitialData (201 Created)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"  pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Message is a non-empty string\", function () {",
+							"  const res = pm.response.json();",
+							"  pm.expect(res.message).to.be.a(\"string\").and.to.have.lengthOf.at.least(1);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/loadInitialData",
+					"protocol": "https",
+					"host": [
+						"sos2425-21",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cultural-event",
+						"loadInitialData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get (200 OK)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is an array\", function () {",
+							"  const res = pm.response.json();",
+							"  pm.expect(res.data).to.be.an(\"array\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/",
+					"protocol": "https",
+					"host": [
+						"sos2425-21",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cultural-event",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "provincia (200 OK)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Each item has required fields\", function () {",
+							"  const res = pm.response.json();",
+							"  res.forEach(event => {",
+							"    pm.expect(event).to.include.all.keys(\"year\", \"month\", \"province\", \"total_event\", \"avg_ticket_price\", \"total_attendance\", \"local_attendance\", \"foreign_attendance\", \"event_type\", \"avg_event_duration\");",
+							"  });",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/alicante",
+					"protocol": "https",
+					"host": [
+						"sos2425-21",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cultural-event",
+						"alicante"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "paginación (200 OK)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Data is an array\", function () {",
+							"  const res = pm.response.json();",
+							"  pm.expect(res.data).to.be.an(\"array\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event?limit=2&offset=0",
+					"protocol": "https",
+					"host": [
+						"sos2425-21",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cultural-event"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "2"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "identificador compuesto (200 OK)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Has expected fields\", function () {",
+							"  const res = pm.response.json();",
+							"  const expectedFields = [\"year\", \"month\", \"province\", \"total_event\", \"avg_ticket_price\", \"total_attendance\", \"local_attendance\", \"foreign_attendance\", \"event_type\", \"avg_event_duration\"];",
+							"  expectedFields.forEach(field => pm.expect(res).to.have.property(field));",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/alicante/2024",
+					"protocol": "https",
+					"host": [
+						"sos2425-21",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cultural-event",
+						"alicante",
+						"2024"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "no existe (404 Not Found)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"  pm.response.to.have.status(404);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/cadiz",
+					"protocol": "https",
+					"host": [
+						"sos2425-21",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cultural-event",
+						"cadiz"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "provincia (201 Created)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", () => {",
+							"    pm.expect(pm.response.code).to.eql(201);",
+							"});",
+							"",
+							"pm.test(\"Created event has all required fields\", () => {",
+							"    const json = pm.response.json();",
+							"    pm.expect(json).to.include.all.keys(",
+							"        \"year\", \"month\", \"province\", \"total_event\", \"avg_ticket_price\",",
+							"        \"total_attendance\", \"local_attendance\", \"foreign_attendance\",",
+							"        \"event_type\", \"avg_event_duration\"",
+							"    );",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"year\": 2024,\n    \"month\": \"March\",\n    \"province\": \"benidorm\",\n    \"total_event\": 15,\n    \"avg_ticket_price\": 25.5, \n    \"total_attendance\": 4500,\n    \"local_attendance\": 3000,\n    \"foreign_attendance\": 1500,\n    \"event_type\": \"Festival\",\n    \"avg_event_duration\": 4.5\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event",
+					"protocol": "https",
+					"host": [
+						"sos2425-21",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cultural-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ya existe (409 Conflict)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 409\", function () {\r",
+							"  pm.response.to.have.status(409);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n            \"year\": 2019,\r\n            \"month\": \"febrero\",\r\n            \"province\": \"las palmas\",\r\n            \"total_event\": 40,\r\n            \"avg_ticket_price\": 17,\r\n            \"total_attendance\": 8500,\r\n            \"local_attendance\": 5000,\r\n            \"foreign_attendance\": 3500,\r\n            \"event_type\": \"Conciertos, Festivales, Teatro\",\r\n            \"avg_event_duration\": 2.5\r\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event",
+					"protocol": "https",
+					"host": [
+						"sos2425-21",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cultural-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "faltan campos (400 Bad Request)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"  pm.response.to.have.status(400);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n            \"year\": 2019,\r\n            \"month\": \"febrero\",\r\n            \"province\": \"las palmas\",\r\n            \"total_event\": 40,\r\n            \"avg_ticket_price\": 17,\r\n            \"total_attendance\": 8500,\r\n            \"local_attendance\": 5000,\r\n            \"foreign_attendance\": 3500,\r\n            \r\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event",
+					"protocol": "https",
+					"host": [
+						"sos2425-21",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cultural-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "actualizar (200 OK)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Updated resource has all fields\", function () {",
+							"  const res = pm.response.json();",
+							"  pm.expect(res).to.include.all.keys(\"year\", \"month\", \"province\", \"total_event\", \"avg_ticket_price\", \"total_attendance\", \"local_attendance\", \"foreign_attendance\", \"event_type\", \"avg_event_duration\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n        \"year\": 2024,\n        \"month\": \"febrero\",\n        \"province\": \"alicante\",\n        \"total_event\": 40,\n        \"avg_ticket_price\": 18,\n        \"total_attendance\": 8500,\n        \"local_attendance\": 6000,\n        \"foreign_attendance\": 2500,\n        \"event_type\": \"Conciertos, Teatro, Exposiciones\",\n        \"avg_event_duration\": 2\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/alicante/2024",
+					"protocol": "https",
+					"host": [
+						"sos2425-21",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cultural-event",
+						"alicante",
+						"2024"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ID y URL no coinciden (400 Bad Request)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"  pm.response.to.have.status(400);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n        \"year\": 2015,\r\n        \"month\": \"febrero\",\r\n        \"province\": \"alicante\",\r\n        \"total_event\": 40,\r\n        \"avg_ticket_price\": 18,\r\n        \"total_attendance\": 8500,\r\n        \"local_attendance\": 6000,\r\n        \"foreign_attendance\": 2500,\r\n        \"event_type\": \"Conciertos, Teatro, Exposiciones\",\r\n        \"avg_event_duration\": 2\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/alicante/2024",
+					"protocol": "https",
+					"host": [
+						"sos2425-21",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cultural-event",
+						"alicante",
+						"2024"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "no existe (404 Not Found)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"  pm.response.to.have.status(404);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n        \"year\": 2014,\n        \"month\": \"febrero\",\n        \"province\": \"alicante\",\n        \"total_event\": 40,\n        \"avg_ticket_price\": 18,\n        \"total_attendance\": 8500,\n        \"local_attendance\": 6000,\n        \"foreign_attendance\": 2500,\n        \"event_type\": \"Conciertos, Teatro, Exposiciones\",\n        \"avg_event_duration\": 2\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/alicante/2014",
+					"protocol": "https",
+					"host": [
+						"sos2425-21",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cultural-event",
+						"alicante",
+						"2014"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete (200 OK)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/alicante/2024",
+					"protocol": "https",
+					"host": [
+						"sos2425-21",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cultural-event",
+						"alicante",
+						"2024"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "no existe (404 Not Found)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"  pm.response.to.have.status(404);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/cadiz",
+					"protocol": "https",
+					"host": [
+						"sos2425-21",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cultural-event",
+						"cadiz"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "put en 'towns' no permitido (405 Method Not Allowed)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {\r",
+							"  pm.response.to.have.status(405);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"province\": \"alicante\",\r\n  \"year\": 2023,\r\n  \"month\": \"abril\",\r\n  \"total_event\": 50,\r\n  \"avg_ticket_price\": 10.5,\r\n  \"total_attendance\": 10000,\r\n  \"local_attendance\": 7000,\r\n  \"foreign_attendance\": 3000,\r\n  \"event_type\": \"música\",\r\n  \"avg_event_duration\": 2.5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event",
+					"protocol": "https",
+					"host": [
+						"sos2425-21",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cultural-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post en 'towns/provincia' no permitido (405 Method Not Allowed)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {\r",
+							"  pm.response.to.have.status(405);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"year\": 2023,\r\n  \"month\": \"abril\",\r\n  \"province\": \"alicante\",\r\n  \"total_event\": 50,\r\n  \"avg_ticket_price\": 10.5,\r\n  \"total_attendance\": 10000,\r\n  \"local_attendance\": 7000,\r\n  \"foreign_attendance\": 3000,\r\n  \"event_type\": \"música\",\r\n  \"avg_event_duration\": 2.5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/alicante/2023",
+					"protocol": "https",
+					"host": [
+						"sos2425-21",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cultural-event",
+						"alicante",
+						"2023"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete all (200 OK)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event",
+					"protocol": "https",
+					"host": [
+						"sos2425-21",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cultural-event"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
+

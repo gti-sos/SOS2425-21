@@ -1,0 +1,15 @@
+{
+	"id": "9a0d28e1-eeaa-4330-a7fa-9c832bf9a2eb",
+	"name": "local",
+	"values": [
+		{
+			"key": "BASE_URL",
+			"value": "https://e84a5cd0-3c76-4f1a-a05a-574d407b5bfd.mock.pstmn.io",
+			"type": "text",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-04-07T07:55:18.279Z",
+	"_postman_exported_using": "Postman/11.40.0-250406-2333"
+}

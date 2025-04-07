@@ -70,6 +70,7 @@ function loadBackendPRG(app) {
     const offset = parseInt(req.query.offset) || 0;
     const query = {};
 
+    // Filtro dinámico por todos los campos
     if (req.query.province)
       query.province = new RegExp(`^${req.query.province}$`, "i");
     if (req.query.year) query.year = parseInt(req.query.year);
@@ -107,7 +108,31 @@ function loadBackendPRG(app) {
     });
   });
 
-  // GET - Por provincia y año
+  // Redireccionar a la documentación
+  app.get(`${BASE_API}/${RESOURCE}/docs`, (req, res) => {
+    res.redirect("https://documenter.getpostman.com/view/42397783/2sB2cUBNpz");
+  });
+
+  // GET - Por provincia (sin año)
+  app.get(`${BASE_API}/${RESOURCE}/:province`, (req, res) => {
+    const province = req.params.province.trim().toLowerCase();
+
+    db_PRG.find({}, (err, docs) => {
+      if (err) return res.status(500).json({ error: "Error al buscar." });
+
+      const matches = docs.filter(
+        (doc) => doc.province.toLowerCase().trim() === province
+      );
+
+      if (matches.length === 0)
+        return res.status(404).json({ error: "No encontrado." });
+
+      const cleanDocs = matches.map(({ _id, ...rest }) => rest);
+      res.status(200).json(cleanDocs);
+    });
+  });
+
+  // GET - Identificador compuesto (por provincia y año)
   app.get(`${BASE_API}/${RESOURCE}/:province/:year`, (req, res) => {
     const province = req.params.province;
     const year = parseInt(req.params.year);
@@ -165,28 +190,49 @@ function loadBackendPRG(app) {
   });
 
   // PUT - Actualizar
+  // PUT - Actualizar evento cultural por provincia y año
   app.put(`${BASE_API}/${RESOURCE}/:province/:year`, (req, res) => {
-    const province = req.params.province;
+    const province = req.params.province.toLowerCase();
     const year = parseInt(req.params.year);
     const newData = req.body;
 
+    // Validación de tipos y existencia de campos
     if (
-      newData.province.toLowerCase() !== province.toLowerCase() ||
-      newData.year !== year
+      typeof newData.year !== "number" ||
+      typeof newData.province !== "string" ||
+      typeof newData.month !== "string" ||
+      typeof newData.total_event !== "number" ||
+      typeof newData.avg_ticket_price !== "number" ||
+      typeof newData.total_attendance !== "number" ||
+      typeof newData.local_attendance !== "number" ||
+      typeof newData.foreign_attendance !== "number" ||
+      typeof newData.event_type !== "string" ||
+      typeof newData.avg_event_duration !== "number"
     ) {
       return res
         .status(400)
-        .json({ error: "ID de URL y cuerpo no coinciden." });
+        .json({ error: "Faltan campos requeridos o con tipos incorrectos." });
     }
 
-    delete newData._id;
+    // Comprobación de coincidencia entre URL y body
+    if (newData.province.toLowerCase() !== province || newData.year !== year) {
+      return res.status(400).json({
+        error: "El identificador de la URL y del cuerpo deben coincidir.",
+      });
+    }
+
+    // Intentar actualizar
     db_PRG.update(
       { province: new RegExp(`^${province}$`, "i"), year },
       newData,
       {},
       (err, numReplaced) => {
+        if (err) return res.status(500).json({ error: "Error al actualizar." });
         if (numReplaced === 0)
-          return res.status(404).json({ error: "No encontrado." });
+          return res
+            .status(404)
+            .json({ error: "Evento cultural no encontrado." });
+
         res.status(200).json(newData);
       }
     );
@@ -215,9 +261,18 @@ function loadBackendPRG(app) {
     );
   });
 
-  // Redirección a documentación
-  app.get(`${BASE_API}/${RESOURCE}/docs`, (req, res) => {
-    res.redirect("https://documenter.getpostman.com/view/42397783/2sB2cUBNpz"); // pon tu enlace aquí
+  // Manejo de métodos no permitidos en /api/v1/cultural-event
+  app.all(`${BASE_API}/${RESOURCE}`, (req, res) => {
+    if (!["GET", "POST", "DELETE"].includes(req.method)) {
+      return res.status(405).json({ error: "Método no permitido." });
+    }
+  });
+
+  // Manejo de métodos no permitidos en /api/v1/cultural-event/:province/:year
+  app.all(`${BASE_API}/${RESOURCE}/:province/:year`, (req, res) => {
+    if (!["GET", "PUT", "DELETE"].includes(req.method)) {
+      return res.status(405).json({ error: "Método no permitido." });
+    }
   });
 }
 
