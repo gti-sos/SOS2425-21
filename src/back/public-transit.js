@@ -91,7 +91,7 @@ function loadBackendAGB(app) {
     // GET - Obtener datos por una provincia
     app.get(`${BASE_API}/${RESOURCE}/:province`, (req, res) => {
         const province = req.params.province;
-        db_AGB.findOne({ province: new RegExp(`^${province}$`, "i") }, (err, doc) => {
+        db_AGB.find({ province: new RegExp(`^${province}$`, "i") }, (err, doc) => {
             if (err) return res.status(500).json({ error: "Error al buscar la provincia." });
             if (!doc) return res.status(404).json({ error: "Provincia no encontrada." });
             const { _id, ...cleanDoc } = doc;
@@ -104,7 +104,7 @@ function loadBackendAGB(app) {
         const province = req.params.province.toLowerCase();
         const year = parseInt(req.params.year);
 
-        db_AGB.findOne({ province: new RegExp(`^${province}$`, "i"), year }, (err, doc) => {
+        db_AGB.find({ province: new RegExp(`^${province}$`, "i"), year }, (err, doc) => {
             if (err) return res.status(500).json({ error: "Error al buscar la estadística." });
             if (!doc) return res.status(404).json({ error: "Estadística no encontrada." });
 
@@ -127,7 +127,7 @@ function loadBackendAGB(app) {
             return res.status(400).json({ error: "Faltan campos requeridos o son incorrectos." });
         }
 
-        db_AGB.findOne({ province: new RegExp(`^${newData.province}$`, "i"), year: newData.year }, (err, existing) => {
+        db_AGB.find({ province: new RegExp(`^${newData.province}$`, "i"), year: newData.year }, (err, existing) => {
             if (err) return res.status(500).json({ error: "Error al comprobar duplicados." });
             if (existing) return res.status(409).json({ error: "El recurso ya existe." });
 
