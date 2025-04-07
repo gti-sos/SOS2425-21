@@ -2,7 +2,7 @@ import express from "express";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { loadBackendAGB } from "./src/back/public-transit.js";
-import { loadBackendPRG } from "./src/back/cultural-event.js";
+import { loadBackendPRG } from "./src/back/cultural-events-stats.js";
 import { loadBackendLEL } from "./src/back/home-buying-selling-stats.js";
 
 const __filename = fileURLToPath(import.meta.url);
