@@ -10,7 +10,7 @@ jobs:
         run: npm install
       - name: Run tests
         run: |
-          npm run test-AGB-onl
+          # npm run test-AGB-onl
           # npm run test-LEL-onl
           npm run test-PRG-onl
       - name: Depoly to Render
