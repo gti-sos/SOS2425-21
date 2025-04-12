@@ -24,7 +24,8 @@
     "test-PRG-online": "start-server-and-test start https://sos2425-21.onrender.com test-cultural-event-online",
     "test-PRG-loc": "npm run test-PRG-local",
     "test-PRG-onl": "npm run test-PRG-online",
-    "test": "npm run test-AGB-local && npm run test-LEL-local && npm run test-PRG-local"
+    "test": "npm run test-AGB-local && npm run test-LEL-local && npm run test-PRG-local",
+    "build": "cd src/front; npm run build"
   },
   "repository": {
     "type": "git",
