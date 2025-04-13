@@ -15,7 +15,6 @@ const PORT = process.env.PORT || 16078;
 const BASE_API = "/api/v1";
 app.use(express.json());
 //app.use("/", express.static(__dirname));
-app.use(handler);
 
 app.get("/", (req, res) => {
     res.redirect("/about");
@@ -25,6 +24,8 @@ app.get("/", (req, res) => {
 loadBackendAGB(app);
 loadBackendPRG(app); // 👈 NUEVA LÍNEA
 loadBackendLEL(app);
+
+app.use(handler);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

@@ -25,7 +25,7 @@
     "test-PRG-loc": "npm run test-PRG-local",
     "test-PRG-onl": "npm run test-PRG-online",
     "test": "npm run test-AGB-local && npm run test-LEL-local && npm run test-PRG-local",
-    "build": "cd src/front; npm run build"
+    "build": "cd src/front; npm install; npm run build"
   },
   "repository": {
     "type": "git",
