@@ -32,24 +32,29 @@ const readCSVData = () => {
 };
 
 function loadBackendAGB(app) {
-    app.get(`${BASE_API}/${RESOURCE}/loadInitialData`, async (req, res) => {
-        db_AGB.count({}, async (err, count) => {
-            if (err) return res.status(500).json({ error: "Error al contar registros." });
-            if (count > 0) return res.status(409).json({ error: "Los datos ya están cargados." });
+    db_AGB.count({}, async (err, count) => {
+        if (err) {
+            console.error("Error al contar registros iniciales:", err);
+            return;
+        }
 
+        if (count === 0) {
             try {
                 const data = await readCSVData();
                 db_AGB.insert(data, (err) => {
-                    if (err) return res.status(500).json({ error: "Error al insertar los datos." });
-                    res.status(201).json({ message: "Datos iniciales cargados correctamente." });
+                    if (err) {
+                        console.error("Error al insertar los datos iniciales:", err);
+                    } else {
+                        console.log("✅ Datos iniciales cargados automáticamente.");
+                    }
                 });
             } catch (error) {
-                console.error("Error al leer CSV:", error);
-                res.status(500).json({ error: "Error interno al cargar los datos." });
+                console.error("❌ Error al leer e insertar datos del CSV:", error);
             }
-        });
+        } else {
+            console.log(`ℹ️ Base de datos ya contiene ${count} registros. No se recargan los datos.`);
+        }
     });
-
     // GET - Obtener todos los datos con paginación y filtrado por todos los campos
     app.get(`${BASE_API}/${RESOURCE}`, (req, res) => {
         const limit = parseInt(req.query.limit) || 0;   // 0 significa sin límite
