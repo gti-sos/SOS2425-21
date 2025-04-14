@@ -147,7 +147,7 @@ function loadBackendLEL(app){
         const year = parseInt(req.params.year);
         const newData = req.body;
 
-        if (
+        if ( 
             typeof newData.year !== "number" ||
             typeof newData.province !== "string" ||
             typeof newData.transaction_total !== "number" ||

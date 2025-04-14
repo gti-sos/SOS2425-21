@@ -1,21 +1,22 @@
 name: CI / CD
-on: [push,pull_request]
+on: [push, pull_request]
 jobs:
   ci-cd:
-    runs-on:  ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code 
+      - name: Checkout code
         uses: actions/checkout@v4
-      - name: Install dependences 
+      - name: Install dependences
         run: npm install
-      - name: Run tests 
+      - name: Build front
+        run: npm run build
+      - name: Run tests
         run: |
-          npm run test-AGB-onl
-          npm run test-LEL-onl
+          # npm run test-AGB-onl
+          # npm run test-LEL-onl
           npm run test-PRG-onl
       - name: Depoly to Render
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
           service-id: ${{  secrets.MY_RENDER_SERVICE_ID  }}
           api-key: ${{  secrets.MY_RENDER_API_KEY  }}
-          

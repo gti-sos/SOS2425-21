@@ -269,6 +269,41 @@
 			"response": []
 		},
 		{
+			"name": "eliminar provincia",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/home-buying-selling-stats/Lugo/2024",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"home-buying-selling-stats",
+						"Lugo",
+						"2024"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "falta campo",
 			"event": [
 				{
@@ -385,7 +420,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{BASE_URL}}/api/v1/home-buying-selling-stats/Madrid",
+					"raw": "{{BASE_URL}}/api/v1/home-buying-selling-stats/Madrid/2024",
 					"host": [
 						"{{BASE_URL}}"
 					],
@@ -393,7 +428,8 @@
 						"api",
 						"v1",
 						"home-buying-selling-stats",
-						"Madrid"
+						"Madrid",
+						"2024"
 					]
 				}
 			},
