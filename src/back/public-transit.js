@@ -40,7 +40,7 @@ function loadBackendAGB(app) {
 
             try {
                 const data = await readCSVData();
-                db_LEL.insert(data, (err) => {
+                db_AGB.insert(data, (err) => {
                     if (err) return res.status(500).json({ error: "Error al insertar los datos." });
                     res.status(201).json({ message: "Datos iniciales cargados correctamente." });
                 });

@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { loadBackendAGB } from "./src/back/public-transit.js";
@@ -13,7 +14,9 @@ const app = express();
 const PORT = process.env.PORT || 16078;
 
 const BASE_API = "/api/v1";
+
 app.use(express.json());
+app.use(cors());
 //app.use("/", express.static(__dirname));
 
 app.get("/", (req, res) => {
