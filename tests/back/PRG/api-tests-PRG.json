@@ -6,7 +6,6 @@
 		"_exporter_id": "42397783"
 	},
 	"item": [
-<<<<<<< HEAD
         {
 			"name": "delete all (200 OK)",
 			"event": [
@@ -87,8 +86,6 @@
 			},
 			"response": []
 		},
-=======
->>>>>>> c016fdcf063237fe2f7607722b2b8574d87d3b83
 		{
 			"name": "loadInitialData (201 Created)",
 			"event": [
@@ -870,11 +867,11 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-<<<<<<< HEAD
+
 					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-events-stats/cadiz",
-=======
+
 					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/alicante/2013",
->>>>>>> c016fdcf063237fe2f7607722b2b8574d87d3b83
+
 					"protocol": "https",
 					"host": [
 						"sos2425-21",
@@ -884,14 +881,14 @@
 					"path": [
 						"api",
 						"v1",
-<<<<<<< HEAD
+
 						"cultural-events-stats",
-						"cadiz"
-=======
+						"cadiz",
+
 						"cultural-event",
 						"alicante",
 						"2013"
->>>>>>> c016fdcf063237fe2f7607722b2b8574d87d3b83
+
 					]
 				}
 			},
