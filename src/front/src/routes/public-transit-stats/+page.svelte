@@ -1,17 +1,10 @@
-<script lang="ts">
-    import { onMount } from "svelte";
-    import { dev } from "$app/environment";
-    import { Button, Table, Alert, Input } from "@sveltestrap/sveltestrap";
-    import { goto } from "$app/navigation";
-
-    // Interfaz de los datos de transporte
-    interface TransitStat {
-        province: string;
-        year: number;
-        ticket_price: number;
-        total_trips: number;
-        route_length: number;
-    }
+<script>
+    // @ts-nocheck
+    import { Button, Alert, Input, Table } from '@sveltestrap/sveltestrap';
+	import { dev } from '$app/environment';
+	import { onMount } from 'svelte';
+	import 'bootstrap/dist/css/bootstrap.min.css';
+	import { goto } from '$app/navigation';
 
     const DEVEL_HOST = "http://localhost:16078";
     let API = "/api/v1/public-transit-stats";
@@ -19,121 +12,133 @@
         API = DEVEL_HOST + API;
     }
 
-    let transitData: TransitStat[] = [];
-    let filtro: string = "";
-    let mensaje: string = "";
-    let tipoMensaje: "success" | "danger" = "success";
+    let transitData= [];
+    let result= "";
+    let resultStatus= "";
 
-    // Nuevos datos para crear
-    let nuevaProvincia: string = "";
-    let nuevoAnio: string = "";
-    let nuevoPrecio: string = "";
-    let nuevosViajes: string = "";
-    let nuevaLongitud: string = "";
+    let newProvince= "";
+    let newYear="";
+    let newPrice= "";
+    let newTrips = "";
+    let newLength= "";
 
-    async function cargarDatos(): Promise<void> {
-        mensaje = "";
-        let url = API;
-        if (filtro.trim()) {
-            url += `?province=${encodeURIComponent(filtro.trim())}`;
-        }
+    async function getData() {
+        resultStatus = result = "";
         try {
-            const res = await fetch(url);
-            if (!res.ok) throw new Error("Error al obtener los datos.");
+            const res = await fetch(API,{method:"GET"});
+  
             const data = await res.json();
+            result = JSON.stringify(data,null,2);
 
-            // Si está paginado (viene con { data: [...] }), extraemos solo los datos
-            transitData = Array.isArray(data) ? data : data.data;
-        } catch (err) {
-            mostrarError("No se pudieron cargar los datos.");
+            transitData = data;
+            console.log(`Response received:\n${JSON.stringify(transitData,null,2)}`);
+
+        } catch (error){
+            console.log(`ERROR:  GET from ${API}: ${error}`);
         }
     }
 
-    async function crearDato(): Promise<void> {
-        mensaje = "";
+    async function deleteTrip(province,year) {
+        resultStatus = result = "";
         try {
-            const res = await fetch(API, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    year: parseInt(nuevoAnio),
-                    province: nuevaProvincia,
-                    ticket_price: parseFloat(nuevoPrecio),
-                    total_trips: parseInt(nuevosViajes),
-                    route_length: parseFloat(nuevaLongitud)
-                })
-            });
-
-            if (res.status === 201) {
-                mostrarExito("Dato creado correctamente.");
-                limpiarFormulario();
-                cargarDatos();
-            } else if (res.status === 409) {
-                mostrarError("Ya existe un dato con esa provincia y año.");
-            } else {
-                mostrarError("Error al crear el dato.");
+            const res = await fetch(API+"/"+province+"/"+year,{method:"DELETE"});
+            const status =  await res.status;
+            resultStatus =status
+            result = JSON.stringify(data,null,2);
+            if (status== 200){
+                console.log(`Trip ${province,year} deleted `);
+                getData();
+            }else{
+                console.log(`ERROR deleting trip ${province,year}:\n ${status}`);
             }
-        } catch (err) {
-            mostrarError("No se pudo crear el dato.");
+            
+        } catch (error){
+            console.log(`ERROR: GET from ${API}: ${error}`);
         }
     }
 
-    async function borrarDato(province: string, year: number): Promise<void> {
-        mensaje = "";
-        try {
-            const res = await fetch(`${API}/${province}/${year}`, {
-                method: "DELETE"
-            });
+    async function createTrip() {
+    resultStatus = result = "";
+    try {
+        const res = await fetch(API, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+            province: newProvince,
+            year: parseInt(newYear),
+            ticket_price: parseFloat(newPrice),
+            total_trips: parseInt(newTrips),
+            route_length: parseFloat(newLength)
+        })
+        });
 
-            if (res.status === 200) {
-                mostrarExito("Dato eliminado correctamente.");
-                cargarDatos();
-            } else if (res.status === 404) {
-                mostrarError(`No se encontró el dato con provincia '${province}' y año '${year}'.`);
-            } else {
-                mostrarError("Error al eliminar el dato.");
-            }
-        } catch {
-            mostrarError("No se pudo eliminar el dato.");
+        const status = await res.status;
+        resultStatus = status;
+        result = await res.text(); // para capturar cualquier respuesta del backend
+        if (status == 201) {
+            console.log(`Trip created`);
+            getData();
+        } else {
+            console.log(`ERROR creating trip:\n ${status}`);
         }
-    }
 
-    async function borrarTodo(): Promise<void> {
-        mensaje = "";
-        try {
-            const res = await fetch(API, { method: "DELETE" });
-            if (res.status === 200) {
-                mostrarExito("Todos los datos han sido eliminados.");
-                cargarDatos();
-            } else {
-                mostrarError("Error al eliminar todos los datos.");
-            }
-        } catch {
-            mostrarError("No se pudo eliminar la información.");
-        }
+    } catch (error) {
+        console.log(`ERROR: POST to ${API}: ${error}`);
     }
+}
 
-    function limpiarFormulario(): void {
-        nuevaProvincia = "";
-        nuevoAnio = "";
-        nuevoPrecio = "";
-        nuevosViajes = "";
-        nuevaLongitud = "";
-    }
-
-    function mostrarExito(msg: string): void {
-        mensaje = msg;
-        tipoMensaje = "success";
-    }
-
-    function mostrarError(msg: string): void {
-        mensaje = msg;
-        tipoMensaje = "danger";
-    }
-
-    function editarDato(dato: TransitStat): void {
-        goto(`/editar/${dato.province}/${dato.year}`);
-    }
-
-    onMount(cargarDatos);
+    onMount(async () => {
+        getData();
+    })
 </script>
+<h2>Trips List</h2>
+
+<Table>
+    <thead>
+        <tr>
+            <th>Province</th>
+            <th>Year</th>
+            <th>Price</th>
+            <th>Trips</th>
+            <th>Length</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>
+                <input bind:value={newProvince}>
+            </td>
+            <td>
+                <input bind:value={newYear}>
+            </td>
+            <td>
+                <input bind:value={newPrice}>
+            </td>
+            <td>
+                <input bind:value={newTrips}>
+            </td>
+            <td>
+                <input bind:value={newLength}>
+            </td>
+            <td>
+                <Button color="primary" on:click={createTrip}>Create</Button>
+            </td>
+        </tr>
+        {#each transitData as trip}
+            <tr>
+                <td>{trip.province}</td>
+                <td>{trip.year}</td>
+                <td>{trip.ticket_price}</td>
+                <td>{trip.total_trips}</td>
+                <td>{trip.route_length}</td>
+                <td>
+                    <Button color="danger" on:click={() => deleteTrip(trip.province, trip.year)}>Delete</Button>
+                </td>
+            </tr>
+        {/each}
+    </tbody>
+</Table>

@@ -1,39 +1,55 @@
 const BASE_API = "/api/v1";
 import DataStore from "nedb";
-import fs from "fs";
-import csv from "csv-parser";
 
 let db_AGB = new DataStore({ filename: "publicTransitStats.db", autoload: true });
 const RESOURCE = "public-transit-stats";
 
-// Función para leer datos del CSV
-const readCSVData = () => {
-    return new Promise((resolve, reject) => {
-        const results = [];
-        fs.createReadStream("data/SOS2425-21-Propuesta - Andrea.csv")
-            .pipe(csv())
-            .on("data", (row) => {
-                try {
-                    const formattedRow = {
-                        year: parseInt(row.year),
-                        province: row.province,
-                        ticket_price: parseFloat(row.ticket_price.replace(",", ".")),
-                        total_trips: parseInt(row.total_trips.replace(/\D/g, "")),
-                        route_length: parseFloat(row.route_length.replace(",", "."))
-                    };
-                    results.push(formattedRow);
-                } catch (error) {
-                    console.error("Error procesando fila:", row, error);
-                }
-            })
-            .on("end", () => resolve(results))
-            .on("error", (err) => reject(err));
-    });
-};
+const initialData = [
+    { year: 2024, province: "Madrid", ticket_price: 1, total_trips: 5, route_length: 727.780, extra: 2 },
+    { year: 2024, province: "Barcelona", ticket_price: 2, total_trips: 50, route_length: 408.601, extra: 7 },
+    { year: 2024, province: "Valencia", ticket_price: 1, total_trips: 5, route_length: 115.640, extra: 0 },
+    { year: 2024, province: "Sevilla", ticket_price: 1, total_trips: 5, route_length: 88.160, extra: 1 },
+    { year: 2024, province: "Bizkaia", ticket_price: 1, total_trips: 4, route_length: 49.007, extra: 0 },
+    { year: 2024, province: "Malaga", ticket_price: 1, total_trips: 55, route_length: 51.300, extra: 4 },
+    { year: 2024, province: "Alicante", ticket_price: 1, total_trips: 35, route_length: 19.950, extra: 0 },
+    { year: 2019, province: "Madrid", ticket_price: 1, total_trips: 5, route_length: 694.490, extra: 7 },
+    { year: 2019, province: "Barcelona", ticket_price: 2, total_trips: 2, route_length: 404.590, extra: 2 },
+    { year: 2019, province: "Valencia", ticket_price: 1, total_trips: 5, route_length: 107.100, extra: 9 },
+    { year: 2019, province: "Sevilla", ticket_price: 1, total_trips: 5, route_length: 91.420, extra: 1 },
+    { year: 2019, province: "Bizkaia", ticket_price: 1, total_trips: 4, route_length: 55.710, extra: 0 },
+    { year: 2019, province: "Malaga", ticket_price: 1, total_trips: 55, route_length: 65.390, extra: 7 },
+    { year: 2019, province: "Alicante", ticket_price: 1, total_trips: 35, route_length: 25.120, extra: 0 },
+    { year: 2015, province: "Madrid", ticket_price: 1, total_trips: 5, route_length: 609.900, extra: 8 },
+    { year: 2015, province: "Barcelona", ticket_price: 2, total_trips: 15, route_length: 342.300, extra: 0 },
+    { year: 2015, province: "Valencia", ticket_price: 1, total_trips: 5, route_length: 98.500, extra: 1 },
+    { year: 2015, province: "Sevilla", ticket_price: 1, total_trips: 5, route_length: 86.500, extra: 1 },
+    { year: 2015, province: "Bizkaia", ticket_price: 1, total_trips: 4, route_length: 53.300, extra: 0 },
+    { year: 2015, province: "Malaga", ticket_price: 1, total_trips: 55, route_length: 58.600, extra: 8 },
+    { year: 2015, province: "Alicante", ticket_price: 1, total_trips: 35, route_length: 22.040, extra: 2 }
+];
+
+db_AGB.find({}, (err, trips) => {
+    if (err) {
+        console.error("Error al obtener los registros: ", err);
+        return;
+    }
+    if (trips.length < 1) {
+        console.log("Insertando datos iniciales...");
+        db_AGB.insert(initialData, (err) => {
+            if (err) {
+                console.error("Error al insertar los datos iniciales:", err);
+            } else {
+                console.log("Datos iniciales insertados correctamente.");
+            }
+        });
+    } else {
+        console.log("Datos ya presentes en la base de datos.");
+    }
+});
 
 function loadBackendAGB(app) {
     // Endpoint para cargar los datos iniciales desde el CSV
-    app.get(`${BASE_API}/${RESOURCE}/loadInitialData`, async (req, res) => {
+    /*app.get(`${BASE_API}/${RESOURCE}/loadInitialData`, async (req, res) => {
         db_AGB.count({}, async (err, count) => {
             if (err) return res.status(500).json({ error: "Error al contar registros." });
             if (count > 0) return res.status(409).json({ error: "Los datos ya están cargados." });
@@ -49,7 +65,7 @@ function loadBackendAGB(app) {
                 res.status(500).json({ error: "Error interno al cargar los datos." });
             }
         });
-    });
+    });*/
     // GET - Obtener todos los datos con paginación y filtrado por todos los campos
     app.get(`${BASE_API}/${RESOURCE}`, (req, res) => {
         const limit = parseInt(req.query.limit) || 0;   // 0 significa sin límite
