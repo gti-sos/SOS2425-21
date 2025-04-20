@@ -105,7 +105,7 @@ function loadBackendLEL(app){
         const province = req.params.province.toLowerCase();
         const year = parseInt(req.params.year);
 
-        db_LEL.find({ province: new RegExp(`^${province}$`, "i"), year }, (err, doc) => {
+        db_LEL.findOne({ province: new RegExp(`^${province}$`, "i"), year }, (err, doc) => {
             if (err) return res.status(500).json({ error: "Error al buscar la estadística." });
             if (!doc) return res.status(404).json({ error: "Estadística no encontrada." });
 
