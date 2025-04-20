@@ -57,7 +57,7 @@ function loadBackendLEL(app){
     app.get(`${BASE_API}/${RESOURCE}`, (req, res) => {
         const limit = parseInt(req.query.limit) || 0;   // 0 significa sin límite
         const offset = parseInt(req.query.offset) || 0;
-
+    
         // Filtro dinámico por todos los campos
         const query = {};
         if (req.query.year) query.year = parseInt(req.query.year);
@@ -66,26 +66,18 @@ function loadBackendLEL(app){
         if (req.query.transaction_protected_housing) query.transaction_protected_housing = parseInt(req.query.transaction_protected_housing);
         if (req.query.transaction_new_housing) query.transaction_new_housing = parseInt(req.query.transaction_new_housing);
         if (req.query.transaction_secondhand_housing) query.transaction_secondhand_housing = parseInt(req.query.transaction_secondhand_housing);
-
-        db_LEL.count(query, (err, totalCount) => {
-            if (err) return res.status(500).json({ error: "Error al contar registros." });
-
-            db_LEL.find(query)
-                .skip(offset)
-                .limit(limit)
-                .exec((err, docs) => {
-                    if (err) return res.status(500).json({ error: "Error al obtener los datos." });
-
-                    const cleanDocs = docs.map(({ _id, ...rest }) => rest);
-                    res.status(200).json({
-                        total: totalCount,
-                        limit,
-                        offset,
-                        data: cleanDocs
-                    });
-                });
-        });
+    
+        db_LEL.find(query)
+            .skip(offset)
+            .limit(limit)
+            .exec((err, docs) => {
+                if (err) return res.status(500).json({ error: "Error al obtener los datos." });
+    
+                const cleanDocs = docs.map(({ _id, ...rest }) => rest);
+                res.status(200).json(cleanDocs); // ✅ Ahora devuelve un array directamente
+            });
     });
+    
      // Redireccionar a la documentación (se coloca antes que el endpoint dinámico)
      app.get(`${BASE_API}/${RESOURCE}/docs`, (req, res) => {
         res.redirect("https://documenter.getpostman.com/view/42241739/2sB2cUANcY");
