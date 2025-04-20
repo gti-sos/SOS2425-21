@@ -116,7 +116,7 @@ function loadBackendLEL(app){
         const province = req.params.province;
         db_LEL.find({ province: new RegExp(`^${province}$`, "i") }, (err, doc) => {
             if (err) return res.status(500).json({ error: "Error al buscar la provincia." });
-            if (!doc) return res.status(404).json({ error: "Provincia no encontrada." });
+            if (!doc|| doc.length === 0) return res.status(404).json({ error: "Provincia no encontrada." });
             const { _id, ...cleanDoc } = doc;
             res.status(200).json(cleanDoc);
         });
@@ -155,7 +155,7 @@ function loadBackendLEL(app){
 
         db_LEL.find({ province: new RegExp(`^${newData.province}$`, "i"), year: newData.year }, (err, existing) => {
             if (err) return res.status(500).json({ error: "Error al comprobar duplicados." });
-            if (existing) return res.status(409).json({ error: "El recurso ya existe." });
+            if (existing.length > 0) return res.status(409).json({ error: "El recurso ya existe." });
 
             db_LEL.insert(newData, (err, inserted) => {
                 if (err) return res.status(500).json({ error: "Error al insertar el dato." });
