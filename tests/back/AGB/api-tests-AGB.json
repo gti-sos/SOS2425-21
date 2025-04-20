@@ -7,6 +7,29 @@
 	},
 	"item": [
 		{
+			"name": "loadInitialData",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/public-transit-stats/loadInitialData",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"public-transit-stats",
+						"loadInitialData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "get",
 			"event": [
 				{
