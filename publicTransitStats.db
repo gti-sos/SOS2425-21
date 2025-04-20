@@ -1,8 +1,8 @@
-{"year":2019,"province":"Malaga","ticket_price":1.55,"total_trips":65390000,"route_length":5824.7,"_id":"12jffWeGCGf56fUc"}
 {"year":2015,"province":"Sevilla","ticket_price":1.5,"total_trips":86500000,"route_length":3234.1,"_id":"BEjUF0PEz4mL3awf"}
 {"year":2024,"province":"Madrid","ticket_price":1.5,"total_trips":694490000,"route_length":25159.7,"_id":"Ip6j9ctLKB6VCiIB"}
 {"year":2024,"province":"Sevilla","ticket_price":1.5,"total_trips":88160000,"route_length":3515.1,"_id":"L177WimgSyHMxHSG"}
 {"year":2024,"province":"Valencia","ticket_price":1.5,"total_trips":107100000,"route_length":2473.9,"_id":"MW5FIlUgH2fYZd1P"}
+{"province":"Malaga","year":2018,"ticket_price":1.2,"total_trips":682374,"route_length":322.2,"_id":"P6rH4FUHPb6P3aWA"}
 {"year":2015,"province":"Barcelona","ticket_price":2.15,"total_trips":342300000,"route_length":27731,"_id":"UBPFAoJw7yA0Njuh"}
 {"year":2024,"province":"Alicante","ticket_price":1.35,"total_trips":19950000,"route_length":694,"_id":"UpMRK2XkvedvlvTk"}
 {"year":2019,"province":"Alicante","ticket_price":1.35,"total_trips":25120000,"route_length":691.4,"_id":"VCNb9Eoco4vNSsZH"}
@@ -19,5 +19,3 @@
 {"year":2015,"province":"Alicante","ticket_price":1.35,"total_trips":22040000,"route_length":635.2,"_id":"s70l9GTfvyy87APg"}
 {"year":2015,"province":"Valencia","ticket_price":1.5,"total_trips":98500000,"route_length":2947.1,"_id":"sszARTKySYRcu21S"}
 {"year":2024,"province":"Malaga","ticket_price":1.55,"total_trips":51300000,"route_length":4915.4,"_id":"ygjzChli27GkIMWP"}
-{"$$deleted":true,"_id":"12jffWeGCGf56fUc"}
-{"province":"Malaga","year":2018,"ticket_price":1.2,"total_trips":682374,"route_length":322.2,"_id":"P6rH4FUHPb6P3aWA"}
