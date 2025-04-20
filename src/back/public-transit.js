@@ -49,7 +49,7 @@ db_AGB.find({}, (err, trips) => {
 
 function loadBackendAGB(app) {
     // Endpoint para cargar los datos iniciales desde el CSV
-    /*app.get(`${BASE_API}/${RESOURCE}/loadInitialData`, async (req, res) => {
+    app.get(`${BASE_API}/${RESOURCE}/loadInitialData`, async (req, res) => {
         db_AGB.count({}, async (err, count) => {
             if (err) return res.status(500).json({ error: "Error al contar registros." });
             if (count > 0) return res.status(409).json({ error: "Los datos ya están cargados." });
@@ -65,7 +65,7 @@ function loadBackendAGB(app) {
                 res.status(500).json({ error: "Error interno al cargar los datos." });
             }
         });
-    });*/
+    });
     // GET - Obtener todos los datos con paginación y filtrado por todos los campos
     app.get(`${BASE_API}/${RESOURCE}`, (req, res) => {
         const limit = parseInt(req.query.limit) || 0;   // 0 significa sin límite
