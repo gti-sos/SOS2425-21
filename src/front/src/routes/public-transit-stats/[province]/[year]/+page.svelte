@@ -4,6 +4,7 @@
     import { goto } from '$app/navigation';
     import { Button, Table, Input, Alert } from '@sveltestrap/sveltestrap';
     import { page } from '$app/stores';
+    import { dev } from '$app/environment';
 
     let province = $page.params.province;
     let year = $page.params.year;
@@ -15,7 +16,10 @@
     let newTrips = "";
     let newLength = "";
 
-    const API = `/api/v1/public-transit-stats/${province}/${year}`;
+    let API = `/api/v1/public-transit-stats/${province}/${year}`;
+    if (dev) {
+        API = `http://localhost:16078` + API;
+    }
 
     let alertMessage = "";
     let alertType = "";
@@ -102,8 +106,8 @@
 
     <tbody>
         <tr>
-            <td>{transitData.province}</td>
-            <td>{transitData.year}</td>
+            <td>{province}</td>
+            <td>{year}</td>
             <td>
                 <input bind:value={newPrice} type="number" placeholder="Ticket price" />
             </td>

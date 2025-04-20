@@ -1,4 +1,4 @@
-{"year":2015,"province":"Sevilla","ticket_price":1.5,"total_trips":86500000,"route_length":3234.1,"_id":"BEjUF0PEz4mL3awf"}
+{"province":"Sevilla","year":2015,"ticket_price":2.1,"total_trips":123,"route_length":123,"_id":"BEjUF0PEz4mL3awf"}
 {"year":2024,"province":"Madrid","ticket_price":1.5,"total_trips":694490000,"route_length":25159.7,"_id":"Ip6j9ctLKB6VCiIB"}
 {"year":2024,"province":"Sevilla","ticket_price":1.5,"total_trips":88160000,"route_length":3515.1,"_id":"L177WimgSyHMxHSG"}
 {"year":2024,"province":"Valencia","ticket_price":1.5,"total_trips":107100000,"route_length":2473.9,"_id":"MW5FIlUgH2fYZd1P"}

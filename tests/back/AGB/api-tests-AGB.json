@@ -7,41 +7,6 @@
 	},
 	"item": [
 		{
-			"name": "loadInitialData",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"La respuesta es 201 OK\", function () {\r",
-							"    pm.response.to.have.status(201);\r",
-							"});\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{BASE_URL}}/api/v1/public-transit-stats/loadInitialData",
-					"host": [
-						"{{BASE_URL}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"public-transit-stats",
-						"loadInitialData"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "get",
 			"event": [
 				{
@@ -541,7 +506,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{BASE_URL}}/api/v1/public-transit-stats/Malaga/2019",
+					"raw": "{{BASE_URL}}/api/v1/public-transit-stats/Benidorm/2024",
 					"host": [
 						"{{BASE_URL}}"
 					],
@@ -549,50 +514,8 @@
 						"api",
 						"v1",
 						"public-transit-stats",
-						"Malaga",
-						"2019"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "delete Copy",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"year\": 2019,\r\n    \"province\": \"Malaga\",\r\n    \"ticket_price\": 1.55,\r\n    \"total_trips\": 65390000,\r\n    \"route_length\": 5.824\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{BASE_URL}}/api/v1/public-transit-stats/Malaga/2019",
-					"host": [
-						"{{BASE_URL}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"public-transit-stats",
-						"Malaga",
-						"2019"
+						"Benidorm",
+						"2024"
 					]
 				}
 			},
