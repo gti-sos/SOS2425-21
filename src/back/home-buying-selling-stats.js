@@ -52,6 +52,24 @@ db_LEL.find({}, (err, records) => {
 });
 
 function loadBackendLEL(app){
+    // Endpoint para cargar los datos iniciales desde el CSV
+    app.get(`${BASE_API}/${RESOURCE}/loadInitialData`, async (req, res) => {
+        db_LEL.count({}, async (err, count) => {
+            if (err) return res.status(500).json({ error: "Error al contar registros." });
+            if (count > 0) return res.status(409).json({ error: "Los datos ya están cargados." });
+
+            try {
+                const data = await readCSVData();
+                db_LEL.insert(data, (err) => {
+                    if (err) return res.status(500).json({ error: "Error al insertar los datos." });
+                    res.status(201).json({ message: "Datos iniciales cargados correctamente." });
+                });
+            } catch (error) {
+                console.error("Error al leer CSV:", error);
+                res.status(500).json({ error: "Error interno al cargar los datos." });
+            }
+        });
+    });
     
     // GET - Obtener todos los datos con paginación y filtrado por todos los campos
     app.get(`${BASE_API}/${RESOURCE}`, (req, res) => {
@@ -67,15 +85,24 @@ function loadBackendLEL(app){
         if (req.query.transaction_new_housing) query.transaction_new_housing = parseInt(req.query.transaction_new_housing);
         if (req.query.transaction_secondhand_housing) query.transaction_secondhand_housing = parseInt(req.query.transaction_secondhand_housing);
     
-        db_LEL.find(query)
-            .skip(offset)
-            .limit(limit)
-            .exec((err, docs) => {
-                if (err) return res.status(500).json({ error: "Error al obtener los datos." });
-    
-                const cleanDocs = docs.map(({ _id, ...rest }) => rest);
-                res.status(200).json(cleanDocs); // ✅ Ahora devuelve un array directamente
-            });
+        db_LEL.count(query, (err, totalCount) => {
+            if (err) return res.status(500).json({ error: "Error al contar registros." });
+
+            db_LEL.find(query)
+                .skip(offset)
+                .limit(limit)
+                .exec((err, docs) => {
+                    if (err) return res.status(500).json({ error: "Error al obtener los datos." });
+
+                    const cleanDocs = docs.map(({ _id, ...rest }) => rest);
+                    res.status(200).json({
+                        total: totalCount,
+                        limit,
+                        offset,
+                        data: cleanDocs
+                    });
+                });
+        });
     });
     
      // Redireccionar a la documentación (se coloca antes que el endpoint dinámico)
@@ -87,7 +114,7 @@ function loadBackendLEL(app){
     // GET - Obtener todos los datos por una provincia
     app.get(`${BASE_API}/${RESOURCE}/:province`, (req, res) => {
         const province = req.params.province;
-        db_LEL.find({ province: new RegExp(`^${province}$`, "i") }, (err, docs) => {
+        db_LEL.find({ province: new RegExp(`^${province}$`, "i") }, (err, doc) => {
             if (err) return res.status(500).json({ error: "Error al buscar la provincia." });
             if (!doc) return res.status(404).json({ error: "Provincia no encontrada." });
             const { _id, ...cleanDoc } = doc;
@@ -100,12 +127,12 @@ function loadBackendLEL(app){
         const province = req.params.province.toLowerCase();
         const year = parseInt(req.params.year);
 
-        db_LEL.find({ province: new RegExp(`^${province}$`, "i"), year }, (err, docs) => {
+        db_LEL.find({ province: new RegExp(`^${province}$`, "i"), year }, (err, doc) => {
             if (err) return res.status(500).json({ error: "Error al buscar la estadística." });
-            if (!docs || docs.length === 0) return res.status(404).json({ error: "Estadísticas no encontradas." });
+            if (!doc) return res.status(404).json({ error: "Estadística no encontrada." });
 
-            const cleanDocs = docs.map(({ _id, ...rest }) => rest);
-            res.status(200).json(cleanDocs);
+            const { _id, ...cleanDoc } = doc;
+            res.status(200).json(cleanDoc);
         });
     });
 
