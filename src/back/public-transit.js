@@ -5,27 +5,27 @@ let db_AGB = new DataStore({ filename: "publicTransitStats.db", autoload: true }
 const RESOURCE = "public-transit-stats";
 
 const initialData = [
-    { year: 2024, province: "Madrid", ticket_price: 1, total_trips: 5, route_length: 727.780, extra: 2 },
-    { year: 2024, province: "Barcelona", ticket_price: 2, total_trips: 50, route_length: 408.601, extra: 7 },
-    { year: 2024, province: "Valencia", ticket_price: 1, total_trips: 5, route_length: 115.640, extra: 0 },
-    { year: 2024, province: "Sevilla", ticket_price: 1, total_trips: 5, route_length: 88.160, extra: 1 },
-    { year: 2024, province: "Bizkaia", ticket_price: 1, total_trips: 4, route_length: 49.007, extra: 0 },
-    { year: 2024, province: "Malaga", ticket_price: 1, total_trips: 55, route_length: 51.300, extra: 4 },
-    { year: 2024, province: "Alicante", ticket_price: 1, total_trips: 35, route_length: 19.950, extra: 0 },
-    { year: 2019, province: "Madrid", ticket_price: 1, total_trips: 5, route_length: 694.490, extra: 7 },
-    { year: 2019, province: "Barcelona", ticket_price: 2, total_trips: 2, route_length: 404.590, extra: 2 },
-    { year: 2019, province: "Valencia", ticket_price: 1, total_trips: 5, route_length: 107.100, extra: 9 },
-    { year: 2019, province: "Sevilla", ticket_price: 1, total_trips: 5, route_length: 91.420, extra: 1 },
-    { year: 2019, province: "Bizkaia", ticket_price: 1, total_trips: 4, route_length: 55.710, extra: 0 },
-    { year: 2019, province: "Malaga", ticket_price: 1, total_trips: 55, route_length: 65.390, extra: 7 },
-    { year: 2019, province: "Alicante", ticket_price: 1, total_trips: 35, route_length: 25.120, extra: 0 },
-    { year: 2015, province: "Madrid", ticket_price: 1, total_trips: 5, route_length: 609.900, extra: 8 },
-    { year: 2015, province: "Barcelona", ticket_price: 2, total_trips: 15, route_length: 342.300, extra: 0 },
-    { year: 2015, province: "Valencia", ticket_price: 1, total_trips: 5, route_length: 98.500, extra: 1 },
-    { year: 2015, province: "Sevilla", ticket_price: 1, total_trips: 5, route_length: 86.500, extra: 1 },
-    { year: 2015, province: "Bizkaia", ticket_price: 1, total_trips: 4, route_length: 53.300, extra: 0 },
-    { year: 2015, province: "Malaga", ticket_price: 1, total_trips: 55, route_length: 58.600, extra: 8 },
-    { year: 2015, province: "Alicante", ticket_price: 1, total_trips: 35, route_length: 22.040, extra: 2 }
+    { year: 2024, province: "Madrid", ticket_price: 1.5, total_trips: 727780000, route_length: 26090.2 },
+    { year: 2024, province: "Barcelona", ticket_price: 2.5, total_trips: 408601000, route_length: 27454.7 },
+    { year: 2024, province: "Valencia", ticket_price: 1.5, total_trips: 115640000, route_length: 2729 },
+    { year: 2024, province: "Sevilla", ticket_price: 1.5, total_trips: 88160000, route_length: 3515.1 },
+    { year: 2024, province: "Bizkaia", ticket_price: 1.4, total_trips: 49007000, route_length: 547 },
+    { year: 2024, province: "Malaga", ticket_price: 1.55, total_trips: 51300000, route_length: 4915.4 },
+    { year: 2024, province: "Alicante", ticket_price: 1.35, total_trips: 19950000, route_length: 694 },
+    { year: 2024, province: "Madrid", ticket_price: 1.5, total_trips: 694490000, route_length: 25159.7 },
+    { year: 2024, province: "Barcelona", ticket_price: 2.2, total_trips: 404590000, route_length: 26885.2 },
+    { year: 2024, province: "Valencia", ticket_price: 1.5, total_trips: 107100000, route_length: 2473.9 },
+    { year: 2024, province: "Sevilla", ticket_price: 1.5, total_trips: 91420000, route_length: 3474.1 },
+    { year: 2024, province: "Bizkaia", ticket_price: 1.4, total_trips: 55710000, route_length: 547 },
+    { year: 2019, province: "Malaga", ticket_price: 1.55, total_trips: 65390000, route_length: 5824.7 },
+    { year: 2019, province: "Alicante", ticket_price: 1.35, total_trips: 25120000, route_length: 691.4 },
+    { year: 2015, province: "Madrid", ticket_price: 1.5, total_trips: 609900000, route_length: 24465.8 },
+    { year: 2015, province: "Barcelona", ticket_price: 2.15, total_trips: 342300000, route_length: 27731 },
+    { year: 2015, province: "Valencia", ticket_price: 1.5, total_trips: 98500000, route_length: 2947.1 },
+    { year: 2015, province: "Sevilla", ticket_price: 1.5, total_trips: 86500000, route_length: 3234.1 },
+    { year: 2015, province: "Bizkaia", ticket_price: 1.4, total_trips: 53000000, route_length: 514 },
+    { year: 2015, province: "Malaga", ticket_price: 1.55, total_trips: 58600000, route_length: 5275.8 },
+    { year: 2015, province: "Alicante", ticket_price: 1.35, total_trips: 22040000, route_length: 635.2 }
 ];
 
 db_AGB.find({}, (err, trips) => {
@@ -117,9 +117,9 @@ function loadBackendAGB(app) {
     
     // GET - Obtener datos por identificador compuesto (province + year)
     app.get(`${BASE_API}/${RESOURCE}/:province/:year`, (req, res) => {
-        const province = req.params.province.toLowerCase();
+        const province = req.params.province;
         const year = parseInt(req.params.year);
-
+        
         db_AGB.find({ province: new RegExp(`^${province}$`, "i"), year }, (err, doc) => {
             if (err) return res.status(500).json({ error: "Error al buscar la estadística." });
             if (!doc) return res.status(404).json({ error: "Estadística no encontrada." });
@@ -145,15 +145,15 @@ function loadBackendAGB(app) {
 
         db_AGB.find({ province: new RegExp(`^${newData.province}$`, "i"), year: newData.year }, (err, existing) => {
             if (err) return res.status(500).json({ error: "Error al comprobar duplicados." });
-            if (existing) return res.status(409).json({ error: "El recurso ya existe." });
-
+            if (existing.length > 0) return res.status(409).json({ error: "El recurso ya existe." });
+        
             db_AGB.insert(newData, (err, inserted) => {
                 if (err) return res.status(500).json({ error: "Error al insertar el dato." });
-
+        
                 const { _id, ...cleanInserted } = inserted;
                 res.status(201).json(cleanInserted);
             });
-        });
+        });        
     });
 
     // PUT - Actualizar datos por identificador compuesto (province + year)

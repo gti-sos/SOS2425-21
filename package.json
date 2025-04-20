@@ -47,6 +47,8 @@
     "sveltestrap": "^5.11.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.14.1",
     "start-server-and-test": "^2.0.11"
   }
 }
