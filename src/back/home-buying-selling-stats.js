@@ -72,27 +72,30 @@ function loadBackendLEL(app) {
 
   // GET - Todos los datos con paginación y filtrado
   app.get(`${BASE_API}/${RESOURCE}`, (req, res) => {
+    const limit = parseInt(req.query.limit, 10) || 0;
+    const offset = parseInt(req.query.offset, 10) || 0;
+    const query = {};
+  
     if (req.query.year) query.year = parseInt(req.query.year, 10);
     if (req.query.province) query.province = new RegExp(`^${req.query.province}$`, "i");
     if (req.query.transaction_total) query.transaction_total = parseInt(req.query.transaction_total, 10);
     if (req.query.transaction_protected_housing) query.transaction_protected_housing = parseInt(req.query.transaction_protected_housing, 10);
     if (req.query.transaction_new_housing) query.transaction_new_housing = parseInt(req.query.transaction_new_housing, 10);
     if (req.query.transaction_secondhand_housing) query.transaction_secondhand_housing = parseInt(req.query.transaction_secondhand_housing, 10);
-
-    db_LEL.count(query, (err, totalCount) => {
-      if (err) return res.status(500).json({ error: "Error al contar registros." });
-
-      db_LEL.find(query)
-        .skip(offset)
-        .limit(limit)
-        .exec((err, docs) => {
-          if (err) return res.status(500).json({ error: "Error al obtener los datos." });
-          res.status(200).json({
-            docs
-          });
-        });
-    });
+  
+    db_LEL
+      .find(query, { _id: 0 })  // opcional: excluye _id
+      .skip(offset)
+      .limit(limit)
+      .exec((err, docs) => {
+        if (err) {
+          return res.status(500).json({ error: "Error al obtener los datos." });
+        }
+        // Devuelvo únicamente el array de documentos
+        res.status(200).json(docs);
+      });
   });
+  
 
   // GET - Documentación
   app.get(`${BASE_API}/${RESOURCE}/docs`, (req, res) => {

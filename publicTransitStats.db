@@ -20,7 +20,3 @@
 {"year":2015,"province":"Alicante","ticket_price":1.35,"total_trips":22040000,"route_length":635.2,"_id":"s70l9GTfvyy87APg"}
 {"year":2015,"province":"Valencia","ticket_price":1.5,"total_trips":98500000,"route_length":2947.1,"_id":"sszARTKySYRcu21S"}
 {"year":2024,"province":"Malaga","ticket_price":1.55,"total_trips":51300000,"route_length":4915.4,"_id":"ygjzChli27GkIMWP"}
-{"year":2024,"province":"Benidorm","ticket_price":1.8,"total_trips":12000000,"route_length":150,"_id":"muIFvqqoXEfxBMRc"}
-{"year":2015,"province":"Madrid","ticket_price":2,"total_trips":13000000,"route_length":160,"_id":"kdESAIwJ1t3Ao3F1"}
-{"year":2015,"province":"Madrid","ticket_price":2,"total_trips":13000000,"route_length":160,"_id":"kdESAIwJ1t3Ao3F1"}
-{"$$deleted":true,"_id":"muIFvqqoXEfxBMRc"}
