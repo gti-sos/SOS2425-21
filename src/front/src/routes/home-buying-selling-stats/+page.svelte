@@ -43,100 +43,170 @@
         setTimeout(() => {
             showAlert = false;
         }, 4000);
-    }
+    } 
 
     async function getData() {
+    // Reiniciamos estados de resultado
         resultStatus = result = "";
         try {
-            const res = await fetch(API);
-            const data = await res.json();
-            result = JSON.stringify(data, null, 2);
-            homeData = data;
-        } catch (error){
+            // Hacemos la petición GET a la API
+            const res  = await fetch(API, { method: "GET" });
+            const json = await res.json();
+            // Guardamos el JSON completo para depuración (opcional)
+            result = JSON.stringify(json, null, 2);
+            // Sobrescribimos homeData con el array de registros
+            // (ajusta a json.data si tu API envuelve los resultados en { data: […] })
+            homeData = Array.isArray(json) ? json : json.data;
+            console.log(`Datos recibidos:\n${JSON.stringify(homeData, null, 2)}`);
+        } catch (error) {
+            console.error(`ERROR al obtener datos de ${API}:`, error);
             showUserAlert("Error al obtener los datos del servidor", "danger");
         }
     }
 
     async function deleteStat(province, year) {
+    // Reiniciamos estados
+        resultStatus = result = "";
+
         try {
-            const res = await fetch(`${API}/${province}/${year}`, { method: "DELETE" });
-            if (res.status === 200) {
-                showUserAlert(`Registro eliminado correctamente`, "success");
-                getData();
-            } else if (res.status === 404) {
-                showUserAlert(`No existe el registro solicitado`, "warning");
-            } else {
-                showUserAlert(`Error al eliminar el registro`, "danger");
+            // Llamada DELETE al endpoint de tu API
+            const res = await fetch(`${API}/${province}/${year}`, {
+                method: "DELETE"
+            });
+            const status = res.status;
+            resultStatus = status;
+            result = await res.text();
+
+            if (status === 200) {
+                console.log(`Registro ${province} / ${year} eliminado`);
+                showUserAlert(`Registro de ${province} en ${year} eliminado correctamente`, "success");
+                // Recargamos la lista automáticamente
+                await getData();
             }
+            else if (status === 404) {
+                console.log(`No se encontró registro ${province} / ${year}`);
+                showUserAlert(`No existe un registro de ${province} en ${year}`, "warning");
+            }
+            else {
+                console.log(`Error al eliminar registro ${province} / ${year}: ${status}`);
+                showUserAlert(`Error al eliminar el registro (código ${status})`, "danger");
+            }
+
         } catch (error) {
-            showUserAlert("Error de conexión al eliminar", "danger");
+            console.error(`Error de conexión al eliminar registro:`, error);
+            showUserAlert("Error de conexión al eliminar el registro", "danger");
         }
     }
 
+
     async function createStat() {
+    // Reiniciamos estados de resultado
+        resultStatus = result = "";
         try {
             const res = await fetch(API, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     province: newProvince,
-                    year: parseInt(newYear),
-                    transaction_total: parseInt(newTotal),
-                    transaction_protected_housing: parseInt(newProtected),
-                    transaction_new_housing: parseInt(newNew),
-                    transaction_secondhand_housing: parseInt(newSecondhand)
+                    year: parseInt(newYear, 10),
+                    transaction_total: parseInt(newTotal, 10),
+                    transaction_protected_housing: parseInt(newProtected, 10),
+                    transaction_new_housing: parseInt(newNew, 10),
+                    transaction_secondhand_housing: parseInt(newSecondhand, 10)
                 })
             });
-            if (res.status === 201) {
+
+            const status = res.status;
+            resultStatus = status;
+            result = await res.text();
+
+            if (status === 201) {
+                console.log("Stat created");
                 showUserAlert("Registro creado correctamente", "success");
-                getData();
-                newProvince = newYear = newTotal = newProtected = newNew = newSecondhand = "";
-            } else if (res.status === 409) {
+                await getData();  // recarga la tabla
+                // Limpiamos el formulario
+                newProvince = "";
+                newYear = "";
+                newTotal = "";
+                newProtected = "";
+                newNew = "";
+                newSecondhand = "";
+            }
+            else if (status === 409) {
+                console.log(`ERROR creating stat: ${status}`);
                 showUserAlert("Ya existe un registro con esos datos", "warning");
-            } else {
+            }
+            else {
+                console.log(`ERROR creating stat: ${status}`);
                 showUserAlert("Error al crear el registro", "danger");
             }
-        } catch (error) {
-            showUserAlert("Error de conexión al crear", "danger");
+        }
+        catch (error) {
+            console.error(`ERROR POST to ${API}:`, error);
+            showUserAlert("Error de conexión al crear el registro", "danger");
         }
     }
 
+
+    // Borra todos los registros de vivienda
     async function deleteAllStats() {
+        // Reiniciamos estados de resultado
+        resultStatus = result = "";
         try {
             const res = await fetch(API, { method: "DELETE" });
-            if (res.status === 200) {
+            const status = res.status;
+            resultStatus = status;
+            result = await res.text();
+
+            if (status === 200) {
+                console.log(`All stats deleted`);
                 showUserAlert("Todos los registros fueron eliminados", "success");
-                getData();
+                await getData();   // recarga automáticamente la lista
             } else {
+                console.log(`ERROR deleting all stats: ${status}`);
                 showUserAlert("Error al eliminar todos los registros", "danger");
             }
         } catch (error) {
-            showUserAlert("Error de conexión al eliminar todo", "danger");
+            console.error(`ERROR: DELETE all from ${API}:`, error);
+            showUserAlert("Error de conexión al eliminar todos los registros", "danger");
         }
     }
 
+    // Busca registros según filtros “from”, “to” y “province”
     async function searchStats() {
+        // Reiniciamos estados
+        resultStatus = result = "";
         try {
-            let url = new URL(API);
-            if (searchFrom) url.searchParams.append("from", searchFrom);
-            if (searchTo) url.searchParams.append("to", searchTo);
+            // Construimos URL absoluta para usar searchParams
+            const url = new URL(API, window.location.origin);
+
+            if (searchFrom)     url.searchParams.append("from",     searchFrom);
+            if (searchTo)       url.searchParams.append("to",       searchTo);
             if (searchProvince) url.searchParams.append("province", searchProvince);
 
-            const res = await fetch(url.toString());
-            const data = await res.json();
-            homeData = data;
+            const res = await fetch(url.toString(), { method: "GET" });
+            resultStatus = res.status;
+            const json = await res.json();
 
+            // Asignamos el array de registros devuelto
+            homeData = Array.isArray(json) ? json : json.data;
+
+            console.log("Filtered stats:", homeData);
             if (homeData.length === 0) {
-                showUserAlert("No se encontraron resultados", "warning");
+                showUserAlert("No se encontraron registros con los filtros aplicados", "warning");
             } else {
                 showUserAlert("Búsqueda realizada correctamente", "info");
             }
         } catch (error) {
-            showUserAlert("Error al realizar la búsqueda", "danger");
+            console.error(`ERROR: filtered GET from ${API}:`, error);
+            showUserAlert("Error de conexión al realizar la búsqueda", "danger");
         }
     }
 
-    onMount(() => getData());
+
+    onMount(async () => {
+        getData();
+    })
 </script>
 
 {#if showAlert}
