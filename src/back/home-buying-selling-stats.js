@@ -72,9 +72,6 @@ function loadBackendLEL(app) {
 
   // GET - Todos los datos con paginación y filtrado
   app.get(`${BASE_API}/${RESOURCE}`, (req, res) => {
-    const limit = parseInt(req.query.limit) || 0;
-    const offset = parseInt(req.query.offset) || 0;
-    const query = {};
     if (req.query.year) query.year = parseInt(req.query.year, 10);
     if (req.query.province) query.province = new RegExp(`^${req.query.province}$`, "i");
     if (req.query.transaction_total) query.transaction_total = parseInt(req.query.transaction_total, 10);
@@ -85,16 +82,13 @@ function loadBackendLEL(app) {
     db_LEL.count(query, (err, totalCount) => {
       if (err) return res.status(500).json({ error: "Error al contar registros." });
 
-      db_LEL.find(query, { _id: 0 })
+      db_LEL.find(query)
         .skip(offset)
         .limit(limit)
         .exec((err, docs) => {
           if (err) return res.status(500).json({ error: "Error al obtener los datos." });
           res.status(200).json({
-            total: totalCount,
-            limit,
-            offset,
-            data: docs
+            docs
           });
         });
     });
