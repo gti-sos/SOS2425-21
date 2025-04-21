@@ -146,6 +146,12 @@
             showUserAlert("Error de conexión al crear el registro", "danger");
         }
     }
+    async function clearFilters() {
+        searchFrom     = "";
+        searchTo       = "";
+        searchProvince = "";
+        getData();
+    }
 
 
     // Borra todos los registros de vivienda
@@ -225,7 +231,7 @@
     <input id="provinceSearch" bind:value={searchProvince} placeholder="Ej. Málaga">
 
     <Button color="info" on:click={searchStats}>Buscar</Button>
-    <Button color="secondary" on:click={getData}>Limpiar</Button>
+    <Button color="secondary" on:click={clearFilters}>Limpiar</Button>
 </div>
 
 <Table>
