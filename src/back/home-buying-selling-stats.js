@@ -114,28 +114,40 @@ function loadBackendLEL(app){
     // GET - Obtener todos los datos por una provincia
     app.get(`${BASE_API}/${RESOURCE}/:province`, (req, res) => {
         const province = req.params.province;
-        db_LEL.find({ province: new RegExp(`^${province}$`, "i") }, (err, doc) => {
-            if (err) return res.status(500).json({ error: "Error al buscar la provincia." });
-            if (!doc|| doc.length === 0) return res.status(404).json({ error: "Provincia no encontrada." });
-            const { _id, ...cleanDoc } = doc;
-            res.status(200).json(cleanDoc);
+        db_LEL.find({ province: new RegExp(`^${province}$`, "i") }, (err, docs) => {
+          if (err)   return res.status(500).json({ error: "Error al buscar la provincia." });
+          if (!docs || docs.length === 0)
+                     return res.status(404).json({ error: "Provincia no encontrada." });
+      
+          // Para cada doc, saco _id y dejo el resto
+          const cleanDocs = docs.map(({ _id, ...rest }) => rest);
+          res.status(200).json(cleanDocs);
         });
-    });
-
+      });
+      
     // GET - Obtener datos por identificador compuesto (province + year)
     app.get(`${BASE_API}/${RESOURCE}/:province/:year`, (req, res) => {
         const province = req.params.province.toLowerCase();
         const year = parseInt(req.params.year);
-
-        db_LEL.find({ province: new RegExp(`^${province}$`, "i"), year }, (err, doc) => {
-            if (err) return res.status(500).json({ error: "Error al buscar la estadística." });
-            if (!doc) return res.status(404).json({ error: "Estadística no encontrada." });
-
-            const { _id, ...cleanDoc } = doc;
-            res.status(200).json(cleanDoc);
-        });
-    });
-
+      
+        db_LEL.find(
+          { province: new RegExp(`^${province}$`, "i"), year },
+          (err, docs) => {
+            if (err) {
+              return res.status(500).json({ error: "Error al buscar la estadística." });
+            }
+            if (!docs || docs.length === 0) {
+              return res.status(404).json({ error: "Estadística no encontrada." });
+            }
+      
+            // Mapear el array y quitar _id
+            const cleanDocs = docs.map(({ _id, ...rest }) => rest);
+            // Como sólo esperamos un elemento, devolvemos el primero
+            res.status(200).json(cleanDocs[0]);
+          }
+        );
+      });
+      
     
 
     // POST - Agregar un nuevo dato
