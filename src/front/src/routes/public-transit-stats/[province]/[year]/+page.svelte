@@ -29,10 +29,12 @@
         alertMessage = message;
         alertType = type;
         showAlert = true;
-        setTimeout(() => {
-            showAlert = false;
-        }, 4000);
+        // Ya no desaparece automáticamente
     }
+    function closeUserAlert() {
+        showAlert = false;
+    }
+
 
     async function getData() {
         try {
@@ -68,7 +70,7 @@
             if (status == 200) {
                 console.log(`Trip updated successfully`);
                 showUserAlert("Viaje actualizado correctamente", "success");
-                setTimeout(() => goto(`/public-transit-stats`), 1500);
+                // quitamos el redirect automático
             } else {
                 console.log(`ERROR updating trip: ${status}`);
                 showUserAlert("Error al actualizar el viaje", "danger");
@@ -86,7 +88,10 @@
 
 {#if showAlert}
     <Alert color={alertType}>
-        {alertMessage}
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span>{alertMessage}</span>
+            <Button close on:click={closeUserAlert} />
+        </div>
     </Alert>
 {/if}
 
