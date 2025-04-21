@@ -88,7 +88,7 @@ function loadBackendLEL(app){
         db_LEL.count(query, (err, totalCount) => {
             if (err) return res.status(500).json({ error: "Error al contar registros." });
 
-            db_LEL.find(query)
+            db_LEL.find(query, { _id: 0 })
                 .skip(offset)
                 .limit(limit)
                 .exec((err, docs) => {
