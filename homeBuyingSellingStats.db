@@ -1,50 +1,24 @@
-{"year":2024,"province":"las palmas","transaction_total":10702,"transaction_protected_housing":216,"transaction_new_housing":612,"transaction_secondhand_housing":10090,"_id":"0qTP6TzDgGOO0oI6"}
-{"year":2015,"province":"madrid","transaction_total":57431,"transaction_protected_housing":3255,"transaction_new_housing":6820,"transaction_secondhand_housing":50611,"_id":"4Qmya3aVQZy8qS5q"}
-{"year":2019,"province":"las palmas","transaction_total":12883,"transaction_protected_housing":428,"transaction_new_housing":1004,"transaction_secondhand_housing":11879,"_id":"87nIGExE2a3zfx94"}
-{"year":2024,"province":"madrid","transaction_total":63218,"transaction_protected_housing":1203,"transaction_new_housing":5720,"transaction_secondhand_housing":57498,"_id":"9BiXAsQ088Zgnxq5"}
-{"year":2019,"province":"badajoz","transaction_total":5795,"transaction_protected_housing":567,"transaction_new_housing":263,"transaction_secondhand_housing":5532,"_id":"EwJIj3FhmPa85VnB"}
-{"year":2019,"province":"pontevedra","transaction_total":6554,"transaction_protected_housing":113,"transaction_new_housing":529,"transaction_secondhand_housing":6025,"_id":"NAQPl9CWL529fpME"}
-{"year":2015,"province":"las palmas","transaction_total":10745,"transaction_protected_housing":341,"transaction_new_housing":1097,"transaction_secondhand_housing":9648,"_id":"NqCNOLayBlBLYvQj"}
-{"year":2024,"province":"pontevedra","transaction_total":5874,"transaction_protected_housing":49,"transaction_new_housing":607,"transaction_secondhand_housing":5267,"_id":"OT6iVkra1lcFjoSe"}
-{"year":2024,"province":"alicante","transaction_total":42176,"transaction_protected_housing":998,"transaction_new_housing":4687,"transaction_secondhand_housing":37489,"_id":"PJPvVFCqG8X3s3dB"}
-{"year":2024,"province":"badajoz","transaction_total":5471,"transaction_protected_housing":440,"transaction_new_housing":168,"transaction_secondhand_housing":5303,"_id":"SLMoMvTGdeT0S9lN"}
-{"year":2024,"province":"malaga","transaction_total":27791,"transaction_protected_housing":377,"transaction_new_housing":3482,"transaction_secondhand_housing":24309,"_id":"SeLHM2hKDPGwWRv0"}
-{"year":2015,"province":"barcelona","transaction_total":41342,"transaction_protected_housing":888,"transaction_new_housing":3472,"transaction_secondhand_housing":37870,"_id":"VN1fxEe5AdBWK1pZ"}
-{"year":2015,"province":"alicante","transaction_total":31677,"transaction_protected_housing":594,"transaction_new_housing":3769,"transaction_secondhand_housing":27908,"_id":"Vo4vw9XYc4DtRMUY"}
-{"year":2019,"province":"malaga","transaction_total":30876,"transaction_protected_housing":908,"transaction_new_housing":3657,"transaction_secondhand_housing":27219,"_id":"WPrGSIAlHeyMsvwv"}
-{"year":2019,"province":"barcelona","transaction_total":59554,"transaction_protected_housing":1186,"transaction_new_housing":5017,"transaction_secondhand_housing":54537,"_id":"Y08ZSbxz6BWF0dK8"}
-{"year":2015,"province":"badajoz","transaction_total":4044,"transaction_protected_housing":622,"transaction_new_housing":587,"transaction_secondhand_housing":3457,"_id":"cAun4VoSsEQUnq8i"}
-{"year":2015,"province":"pontevedra","transaction_total":4421,"transaction_protected_housing":128,"transaction_new_housing":700,"transaction_secondhand_housing":3721,"_id":"iK9Q5HU3RlLTypbW"}
-{"year":2019,"province":"madrid","transaction_total":78634,"transaction_protected_housing":3628,"transaction_new_housing":10598,"transaction_secondhand_housing":68036,"_id":"jYKoUg6bh4PQ1Zw6"}
-{"year":2019,"province":"alicante","transaction_total":42418,"transaction_protected_housing":1152,"transaction_new_housing":5456,"transaction_secondhand_housing":36962,"_id":"l2ZxHh3pwMcmpN3s"}
-{"year":2024,"province":"zaragoza","transaction_total":9529,"transaction_protected_housing":165,"transaction_new_housing":821,"transaction_secondhand_housing":8708,"_id":"qNvohjc5Z7LqqC9d"}
-{"year":2015,"province":"malaga","transaction_total":25798,"transaction_protected_housing":600,"transaction_new_housing":2636,"transaction_secondhand_housing":23162,"_id":"tfwlPOPaSk6t5X1Y"}
-{"year":2019,"province":"zaragoza","transaction_total":10787,"transaction_protected_housing":280,"transaction_new_housing":1278,"transaction_secondhand_housing":9509,"_id":"vM8HxAujtZLNLF44"}
-{"year":2024,"province":"barcelona","transaction_total":49950,"transaction_protected_housing":913,"transaction_new_housing":4268,"transaction_secondhand_housing":45682,"_id":"xynTFaYYfqHzh3Gv"}
-{"year":2015,"province":"zaragoza","transaction_total":7952,"transaction_protected_housing":191,"transaction_new_housing":848,"transaction_secondhand_housing":7104,"_id":"yQNGQBgwxaytFsWV"}
-{"$$deleted":true,"_id":"0qTP6TzDgGOO0oI6"}
-{"province":"orense","year":2018,"transaction_total":456789,"transaction_protected_housing":45678,"transaction_new_housing":34567,"transaction_secondhand_housing":4567,"_id":"IQKdI06zeWonOKI9"}
-{"$$deleted":true,"_id":"IQKdI06zeWonOKI9"}
-{"$$deleted":true,"_id":"4Qmya3aVQZy8qS5q"}
-{"$$deleted":true,"_id":"87nIGExE2a3zfx94"}
-{"$$deleted":true,"_id":"9BiXAsQ088Zgnxq5"}
-{"$$deleted":true,"_id":"EwJIj3FhmPa85VnB"}
-{"$$deleted":true,"_id":"NAQPl9CWL529fpME"}
-{"$$deleted":true,"_id":"NqCNOLayBlBLYvQj"}
-{"$$deleted":true,"_id":"OT6iVkra1lcFjoSe"}
-{"$$deleted":true,"_id":"PJPvVFCqG8X3s3dB"}
-{"$$deleted":true,"_id":"SLMoMvTGdeT0S9lN"}
-{"$$deleted":true,"_id":"SeLHM2hKDPGwWRv0"}
-{"$$deleted":true,"_id":"VN1fxEe5AdBWK1pZ"}
-{"$$deleted":true,"_id":"Vo4vw9XYc4DtRMUY"}
-{"$$deleted":true,"_id":"WPrGSIAlHeyMsvwv"}
-{"$$deleted":true,"_id":"Y08ZSbxz6BWF0dK8"}
-{"$$deleted":true,"_id":"cAun4VoSsEQUnq8i"}
-{"$$deleted":true,"_id":"iK9Q5HU3RlLTypbW"}
-{"$$deleted":true,"_id":"jYKoUg6bh4PQ1Zw6"}
-{"$$deleted":true,"_id":"l2ZxHh3pwMcmpN3s"}
-{"$$deleted":true,"_id":"qNvohjc5Z7LqqC9d"}
-{"$$deleted":true,"_id":"tfwlPOPaSk6t5X1Y"}
-{"$$deleted":true,"_id":"vM8HxAujtZLNLF44"}
-{"$$deleted":true,"_id":"xynTFaYYfqHzh3Gv"}
-{"$$deleted":true,"_id":"yQNGQBgwxaytFsWV"}
+{"province":"malaga","year":2015,"transaction_total":456,"transaction_protected_housing":2343,"transaction_new_housing":234,"transaction_secondhand_housing":1234,"_id":"0WyEKpOi6hgbFnr7"}
+{"year":2024,"province":"malaga","transaction_total":27791,"transaction_protected_housing":377,"transaction_new_housing":3482,"transaction_secondhand_housing":24309,"_id":"17vI7l2Dfv08vdt4"}
+{"year":2024,"province":"las palmas","transaction_total":10702,"transaction_protected_housing":216,"transaction_new_housing":612,"transaction_secondhand_housing":10090,"_id":"1TSU5za2FEjLn5KK"}
+{"year":2019,"province":"pontevedra","transaction_total":6554,"transaction_protected_housing":113,"transaction_new_housing":529,"transaction_secondhand_housing":6025,"_id":"5zpRZ8F8wysrS1W6"}
+{"year":2019,"province":"zaragoza","transaction_total":10787,"transaction_protected_housing":280,"transaction_new_housing":1278,"transaction_secondhand_housing":9509,"_id":"7oyLUSvniVaRsoQD"}
+{"year":2015,"province":"zaragoza","transaction_total":7952,"transaction_protected_housing":191,"transaction_new_housing":848,"transaction_secondhand_housing":7104,"_id":"B01bxeFfECcOOcRC"}
+{"year":2019,"province":"madrid","transaction_total":78634,"transaction_protected_housing":3628,"transaction_new_housing":10598,"transaction_secondhand_housing":68036,"_id":"FXpjAe38Lxuu31wt"}
+{"year":2019,"province":"malaga","transaction_total":30876,"transaction_protected_housing":908,"transaction_new_housing":3657,"transaction_secondhand_housing":27219,"_id":"GRY0iP24bChvnN8P"}
+{"year":2024,"province":"pontevedra","transaction_total":5874,"transaction_protected_housing":49,"transaction_new_housing":607,"transaction_secondhand_housing":5267,"_id":"I2UJGUdHu8aG0Igc"}
+{"year":2015,"province":"pontevedra","transaction_total":4421,"transaction_protected_housing":128,"transaction_new_housing":700,"transaction_secondhand_housing":3721,"_id":"KRz72gCi1mRIeWwX"}
+{"year":2024,"province":"madrid","transaction_total":63218,"transaction_protected_housing":1203,"transaction_new_housing":5720,"transaction_secondhand_housing":57498,"_id":"P6w2GmUd3NVPpBxB"}
+{"year":2024,"province":"alicante","transaction_total":42176,"transaction_protected_housing":998,"transaction_new_housing":4687,"transaction_secondhand_housing":37489,"_id":"QyHm8JGA8nWvNt1l"}
+{"year":2024,"province":"barcelona","transaction_total":49950,"transaction_protected_housing":913,"transaction_new_housing":4268,"transaction_secondhand_housing":45682,"_id":"S7hst2NjoHyU78Ua"}
+{"year":2015,"province":"badajoz","transaction_total":4044,"transaction_protected_housing":622,"transaction_new_housing":587,"transaction_secondhand_housing":3457,"_id":"TL91WXSsmoRa2Gd6"}
+{"year":2015,"province":"barcelona","transaction_total":41342,"transaction_protected_housing":888,"transaction_new_housing":3472,"transaction_secondhand_housing":37870,"_id":"TXymxoysxvrpcvpM"}
+{"year":2019,"province":"barcelona","transaction_total":59554,"transaction_protected_housing":1186,"transaction_new_housing":5017,"transaction_secondhand_housing":54537,"_id":"UhoBylMB25SFpOhs"}
+{"year":2019,"province":"alicante","transaction_total":42418,"transaction_protected_housing":1152,"transaction_new_housing":5456,"transaction_secondhand_housing":36962,"_id":"VsEuf5sGR3lOq7zy"}
+{"year":2019,"province":"las palmas","transaction_total":12883,"transaction_protected_housing":428,"transaction_new_housing":1004,"transaction_secondhand_housing":11879,"_id":"Xy0AT0i6KAq99hRG"}
+{"year":2019,"province":"badajoz","transaction_total":5795,"transaction_protected_housing":567,"transaction_new_housing":263,"transaction_secondhand_housing":5532,"_id":"Z3lIvRBSr8e588Wr"}
+{"year":2015,"province":"las palmas","transaction_total":10745,"transaction_protected_housing":341,"transaction_new_housing":1097,"transaction_secondhand_housing":9648,"_id":"iLrdHDh5Y3xaZaef"}
+{"year":2024,"province":"badajoz","transaction_total":5471,"transaction_protected_housing":440,"transaction_new_housing":168,"transaction_secondhand_housing":5303,"_id":"rCrt212qsIQ2Vv56"}
+{"year":2015,"province":"alicante","transaction_total":31677,"transaction_protected_housing":594,"transaction_new_housing":3769,"transaction_secondhand_housing":27908,"_id":"sTJ1pGGzvmypsUPM"}
+{"year":2015,"province":"madrid","transaction_total":57431,"transaction_protected_housing":3255,"transaction_new_housing":6820,"transaction_secondhand_housing":50611,"_id":"wBOcUdBqZiQoa294"}
+{"year":2024,"province":"zaragoza","transaction_total":9529,"transaction_protected_housing":165,"transaction_new_housing":821,"transaction_secondhand_housing":8708,"_id":"y2BvmETsdDvCrv94"}
