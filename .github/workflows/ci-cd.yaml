@@ -11,10 +11,8 @@ jobs:
       - name: Build front
         run: npm run build
       - name: Run tests
-        run: |
-          npm run test-AGB-onl
-          npm run test-LEL-onl
-          npm run test-PRG-onl
+        run: 
+          npm run test
       - name: Run e2e
         run: npm start &
       - name: Install Playwright Browsers

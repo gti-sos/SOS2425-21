@@ -52,3 +52,9 @@
 {"year":2024,"province":"madrid","transaction_total":63218,"transaction_protected_housing":1203,"transaction_new_housing":5720,"transaction_secondhand_housing":57498,"_id":"P6w2GmUd3NVPpBxB"}
 {"$$deleted":true,"_id":"C9npTnbq3az6BHAS"}
 {"year":2015,"province":"malaga","transaction_total":25798,"transaction_protected_housing":600,"transaction_new_housing":2636,"transaction_secondhand_housing":23162,"_id":"zmrV6wowPG009xO2"}
+{"year":2024,"province":"Lugo","transaction_total":12345,"transaction_protected_housing":123456,"transaction_new_housing":123456,"transaction_secondhand_housing":467865,"_id":"dcYSYNAnOrPrVDBh"}
+{"$$deleted":true,"_id":"dcYSYNAnOrPrVDBh"}
+{"year":2024,"province":"Madrid","transaction_total":12345,"transaction_protected_housing":123456,"transaction_new_housing":123456,"transaction_secondhand_housing":467865,"_id":"P6w2GmUd3NVPpBxB"}
+{"year":2024,"province":"madrid","transaction_total":63218,"transaction_protected_housing":1203,"transaction_new_housing":5720,"transaction_secondhand_housing":57498,"_id":"P6w2GmUd3NVPpBxB"}
+{"$$deleted":true,"_id":"zmrV6wowPG009xO2"}
+{"year":2015,"province":"malaga","transaction_total":25798,"transaction_protected_housing":600,"transaction_new_housing":2636,"transaction_secondhand_housing":23162,"_id":"8ti8V8bdbS4m6zUN"}
