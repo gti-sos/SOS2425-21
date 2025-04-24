@@ -13,10 +13,10 @@ const initialData = [
     { year: 2024, province: "Malaga", ticket_price: 1.55, total_trips: 51300000, route_length: 4915.4 },
     { year: 2024, province: "Alicante", ticket_price: 1.35, total_trips: 19950000, route_length: 694 },
     { year: 2023, province: "Madrid", ticket_price: 1.5, total_trips: 694490000, route_length: 25159.7 },
-    { year: 2024, province: "Barcelona", ticket_price: 2.2, total_trips: 404590000, route_length: 26885.2 },
-    { year: 2024, province: "Valencia", ticket_price: 1.5, total_trips: 107100000, route_length: 2473.9 },
-    { year: 2024, province: "Sevilla", ticket_price: 1.5, total_trips: 91420000, route_length: 3474.1 },
-    { year: 2024, province: "Bizkaia", ticket_price: 1.4, total_trips: 55710000, route_length: 547 },
+    { year: 2023, province: "Barcelona", ticket_price: 2.2, total_trips: 404590000, route_length: 26885.2 },
+    { year: 2023, province: "Valencia", ticket_price: 1.5, total_trips: 107100000, route_length: 2473.9 },
+    { year: 2023, province: "Sevilla", ticket_price: 1.5, total_trips: 91420000, route_length: 3474.1 },
+    { year: 2023, province: "Bizkaia", ticket_price: 1.4, total_trips: 55710000, route_length: 547 },
     { year: 2019, province: "Malaga", ticket_price: 1.55, total_trips: 65390000, route_length: 5824.7 },
     { year: 2019, province: "Alicante", ticket_price: 1.35, total_trips: 25120000, route_length: 691.4 },
     { year: 2015, province: "Madrid", ticket_price: 1.5, total_trips: 609900000, route_length: 24465.8 },
@@ -118,6 +118,24 @@ function loadBackendAGB(app) {
     app.get(`${BASE_API}/${RESOURCE}/docs`, (req, response) => {
         response.redirect("https://documenter.getpostman.com/view/41997974/2sB2cSi4as");
     });
+    // GET - Obtener datos por una provincia
+    app.get(`${BASE_API}/${RESOURCE}/:province`, (req, response) => {
+        let paramProvince = req.params.province;
+        db_AGB.find({ province: paramProvince }, function(err, docs) {
+            if (err) {
+                response.status(500).send("Error code 01 (please contact admin)");
+                console.error(`ERROR: ${err}`);
+            } else if(!docs.length){
+                return response.sendStatus(404);
+            } else {
+                docs = docs.map(d => {
+                    delete d._id;
+                    return d;
+                });
+                response.send(JSON.stringify(docs, null, 2));
+            }
+        });
+    });
 
     // GET - Obtener datos por identificador compuesto (province + year)
     app.get(`${BASE_API}/${RESOURCE}/:province/:year`, (req, response) => {
@@ -140,16 +158,22 @@ function loadBackendAGB(app) {
     // POST - Agregar un nuevo dato
     app.post(`${BASE_API}/${RESOURCE}`, (req, response) => {
         let postBody = req.body;
-        let allowedFields = ["province", "year", "ticket_price", "total_trips", "route_length"];
-        let invalidFields = Object.keys(postBody).filter(f => !allowedFields.includes(f));
-        let invalidValues = Object.values(postBody).filter(
-            f => ((f === "") || (f === null) || (f === undefined))
-        );
+        let requiredFields = ["province", "year", "ticket_price", "total_trips", "route_length"];
+        
+        // Comprobar que estén todos los campos requeridos
+        let missingFields = requiredFields.filter(field => !(field in postBody));
+        // Comprobar que los valores no estén vacíos o nulos
+        let invalidValues = requiredFields.filter(field => (
+            postBody[field] === "" || postBody[field] === null || postBody[field] === undefined
+        ));
 
-        if (invalidFields.length > 0 || invalidValues.length > 0){
-            return response.sendStatus(400);
-        }
-
+    if (missingFields.length > 0 || invalidValues.length > 0){
+        return response.status(400).json({
+            error: "Bad Request",
+            missingFields,
+            invalidValues
+        });
+    }
         db_AGB.find({ province: postBody.province, year: parseInt(postBody.year)}, function(err, docs){
             if (err) {
                 response.sendStatus(500).send("Error code 01 (please contact admin)");
