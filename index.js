@@ -3,7 +3,7 @@ import cors from "cors";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { loadBackendAGB } from "./src/back/public-transit.js";
-import { loadBackendPRG } from "./src/back/cultural-events-stats.js";
+import { loadBackendPRG } from "./src/back/cultural-events.js";
 import { loadBackendLEL } from "./src/back/home-buying-selling-stats.js";
 import { handler } from './src/front/build/handler.js';
 
