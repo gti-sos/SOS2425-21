@@ -1,14 +1,17 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
 
-const dev = process.env.NODE_ENV !== 'production';
+/*test('has title', async ({ page }) => { await page.goto('http://localhost:16078');
 
-let baseUrl = dev
-  ? 'http://localhost:16078/public-transit-stats' 
-  : '/public-transit-stats';
+  // Expect a title "to contain" a substring.
+  await expect(page).toHaveTitle(/API_GRUPO_21/);
+});*/
 
-test('has title', async ({ page }) => {
-  await page.goto(baseUrl);
+test('get public-transit-stats link', async ({ page }) => {
+  await page.goto('http://localhost:16078');
+
+  // Click the emigration link.
+  await page.getByRole('link', { name: 'Estadísticas sobre los viajes en autobús urbano en España' }).click();
 
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/Public Transit Manager/);
@@ -24,14 +27,16 @@ test('create and delete transit trip', async ({ page }) => {
   await page.goto('http://localhost:16078');
 
   // Llenar el formulario de creación
-  await page.getByRole('textbox').nth(0).fill(testProvince);     // Provincia
-  await page.getByRole('textbox').nth(1).fill(testYear);         // Año
-  await page.getByRole('textbox').nth(2).fill(testPrice);        // Precio
-  await page.getByRole('textbox').nth(3).fill(testTrips);        // Viajes
-  await page.getByRole('textbox').nth(4).fill(testLength);       // Longitud
+  await page.getByRole('link', { name: 'Estadísticas sobre los viajes en autobús urbano en España' }).click();
+
+  await page.locator('#Province').fill(testProvince);     // Provincia
+  await page.locator('#Year').fill(testYear);         // Año
+  await page.locator('#Price').fill(testPrice);        // Precio
+  await page.locator('#Trips').fill(testTrips);        // Viajes
+  await page.locator('#Length').fill(testLength);       // Longitud
 
   // Crear el viaje
-  await page.getByRole('button', { name: /Create/i }).click();
+  await page.getByRole('button', { name: "Create" }).click();
 
   // Verifica que la fila ha sido creada
   const newRow = page.locator('tr', { hasText: testProvince });
@@ -41,7 +46,7 @@ test('create and delete transit trip', async ({ page }) => {
   await expect(newRow).toContainText(testLength);
 
   // Eliminar la fila
-  const deleteButton = newRow.getByRole('button', { name: /Delete/i });
+  const deleteButton = newRow.getByRole('button', { name: "Delete" });
   await deleteButton.click();
 
   // Verifica que ya no exista

@@ -51,7 +51,8 @@
             const data = await res.json();
             result = JSON.stringify(data,null,2);
 
-            transitData = data.data;
+            transitData = Array.isArray(data) ? data : data.data;
+
             console.log(`Response received:\n${JSON.stringify(transitData,null,2)}`);
 
         } catch (error){
@@ -218,19 +219,19 @@
     <tbody>
         <tr>
             <td>
-                <input bind:value={newProvince}>
+                <input id="Province" bind:value={newProvince}>
             </td>
             <td>
-                <input bind:value={newYear}>
+                <input id="Year" bind:value={newYear}>
             </td>
             <td>
-                <input bind:value={newPrice}>
+                <input id="Price" bind:value={newPrice}>
             </td>
             <td>
-                <input bind:value={newTrips}>
+                <input id="Trips" bind:value={newTrips}>
             </td>
             <td>
-                <input bind:value={newLength}>
+                <input id="Length" bind:value={newLength}>
             </td>
             <td>
                 <Button color="primary" on:click={createTrip}>Create</Button>
