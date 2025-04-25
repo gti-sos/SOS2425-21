@@ -49,6 +49,6 @@ test('create and delete transit trip', async ({ page }) => {
   const deleteButton = newRow.getByRole('button', { name: "Delete" });
   await deleteButton.click();
 
-  // Verifica que ya no exista
+  // Verifica que ya no exista 
   await expect(newRow).toHaveCount(0);
 });
