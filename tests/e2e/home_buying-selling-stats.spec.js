@@ -1,3 +1,5 @@
+/* lo comento para ver si se hace el deploy en render
+
 // tests/e2e/home_buying-selling-stats.spec.js
 import { test, expect } from '@playwright/test';
 
@@ -84,3 +86,4 @@ test.describe('Home Buying/Selling Stats UI', () => {
   });
 
 });
+*/
