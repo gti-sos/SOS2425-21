@@ -6,7 +6,7 @@ test('get home-buying-selling-stats link', async ({ page }) => {
   await page.goto('http://localhost:16078');
 
   // Click the get started link.
-  await page.getByRole('link', { name: 'Estadisticas sobre la compraventa de viviendas en España' }).click();
+  await page.getByRole('link', { name: 'Estadísticas sobre la compraventa de viviendas en España' }).click();
 
   // Expects page to have a heading with the name of Installation.
   await expect(page).toHaveTitle(/Home Buying Selling Stats/);
@@ -23,7 +23,7 @@ test('create and delete stats', async ({ page }) => {
   await page.goto('http://localhost:16078');
 
   // Click the get started link.
-  await page.getByRole('link', { name: 'Estadisticas sobre la compraventa de viviendas en España' }).click();
+  await page.getByRole('link', { name: 'Estadísticas sobre la compraventa de viviendas en España' }).click();
 
   await page.locator('#Province').fill(testProvince);    
   await page.locator('#Year').fill(testYear);         
