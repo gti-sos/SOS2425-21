@@ -1,6 +1,6 @@
 
 <svelte:head>
-    <title>Home Buying/Selling Manager</title>
+    <title>Home Buying Selling Manager</title>
 </svelte:head>
 
 <script>
@@ -213,12 +213,12 @@
         const status = res.status;
 
         if (status === 201 || status === 200) {
-            mostrarMensaje("✅ Datos iniciales cargados correctamente", "ok");
+            showUserAlert("✅ Datos iniciales cargados correctamente", "ok");
             await getData();
         } else if (status === 400) {
-            mostrarMensaje("⚠️ Los datos ya estaban cargados", "error");
+            showUserAlert("⚠️ Los datos ya estaban cargados", "error");
         } else {
-            mostrarMensaje("❌ Error al cargar los datos iniciales", "error");
+            showUserAlert("❌ Error al cargar los datos iniciales", "error");
         }
     }
 

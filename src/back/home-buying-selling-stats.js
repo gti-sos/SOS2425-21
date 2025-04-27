@@ -50,25 +50,20 @@ db_LEL.find({}, (err, records) => {
 });
 
 function loadBackendLEL(app) {
-  // Cargar datos iniciales desde CSV
-  app.get(`${BASE_API}/${RESOURCE}/loadInitialData`, async (req, res) => {
-    db_LEL.count({}, (err, count) => {
-      if (err) return res.status(500).json({ error: "Error al contar registros." });
-      if (count > 0) return res.status(409).json({ error: "Los datos ya están cargados." });
-
-      readCSVData()
-        .then(data => {
-          db_LEL.insert(data, (err) => {
-            if (err) return res.status(500).json({ error: "Error al insertar los datos." });
-            res.status(201).json({ message: "Datos iniciales cargados correctamente." });
-          });
-        })
-        .catch(error => {
-          console.error("Error al leer CSV:", error);
-          res.status(500).json({ error: "Error interno al cargar los datos." });
+    // Endpoint para cargar los datos iniciales desde el CSV
+    app.get(`${BASE_API}/${RESOURCE}/loadInitialData`, (req, response) => {
+        db_LEL.find({}, (err, records) => {
+            if (err) {
+                response.status(500).send("Error code 01 (please contact admin)");
+                console.error(`ERROR:${err}`);
+            } else if (records.length > 0) {
+                response.sendStatus(200);
+            } else if(records.length < 1){
+                db_AGB.insert(initialDataLEL);
+                response.sendStatus(200);
+            }
         });
-    });
-  });
+    })
 
   // GET - Todos los datos con paginación y filtrado
   app.get(`${BASE_API}/${RESOURCE}`, (req, res) => {
