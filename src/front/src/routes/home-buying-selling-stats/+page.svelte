@@ -1,6 +1,6 @@
 
 <svelte:head>
-    <title>Home Buying Selling Manager</title>
+    <title>Home Buying Selling Stats</title>
 </svelte:head>
 
 <script>
@@ -262,12 +262,12 @@
 
     <tbody>
         <tr>
-            <td><input bind:value={newProvince}></td>
-            <td><input bind:value={newYear}></td>
-            <td><input bind:value={newTotal}></td>
-            <td><input bind:value={newProtected}></td>
-            <td><input bind:value={newNew}></td>
-            <td><input bind:value={newSecondhand}></td>
+            <td><input id="Province" bind:value={newProvince}></td>
+            <td><input id="Year" bind:value={newYear}></td>
+            <td><input id="Total" bind:value={newTotal}></td>
+            <td><input id="Protected" bind:value={newProtected}></td>
+            <td><input id="New" bind:value={newNew}></td>
+            <td><input id="Secondhand" bind:value={newSecondhand}></td>
             <td><Button color="primary" on:click={createStat}>Crear</Button></td>
         </tr>
 
