@@ -208,6 +208,19 @@
             showUserAlert("Error de conexión al realizar la búsqueda", "danger");
         }
     }
+    async function loadInitialData() {
+        const res = await fetch(`${API}/loadInitialData`);
+        const status = res.status;
+
+        if (status === 201 || status === 200) {
+            mostrarMensaje("✅ Datos iniciales cargados correctamente", "ok");
+            await getAccidentsStats();
+        } else if (status === 400) {
+            mostrarMensaje("⚠️ Los datos ya estaban cargados", "error");
+        } else {
+            mostrarMensaje("❌ Error al cargar los datos iniciales", "error");
+        }
+    }
 
 
     onMount(async () => {
@@ -276,6 +289,7 @@
         <tr>
             <td colspan="7">
                 <Button color="danger" on:click={deleteAllStats}>Borrar Todo</Button>
+                <Button color="secondary" on:click={loadInitialData}>Cargar datos iniciales</Button>
             </td>
         </tr>
     </tbody>

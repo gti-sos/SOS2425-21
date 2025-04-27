@@ -34,7 +34,7 @@
     const github = "https://github.com/gti-sos/SOS2425-21";
   </script>
   
-  <h1>Proyecto SOS2425 - Grupo XX</h1>
+  <h1>Proyecto SOS2425 - Grupo 21</h1>
   
   <h2>Miembros del equipo y sus recursos</h2>
   <ul>
