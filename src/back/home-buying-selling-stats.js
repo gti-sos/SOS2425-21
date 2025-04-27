@@ -59,7 +59,7 @@ function loadBackendLEL(app) {
             } else if (records.length > 0) {
                 response.sendStatus(200);
             } else if(records.length < 1){
-                db_AGB.insert(initialDataLEL);
+                db_LEL.insert(initialDataLEL);
                 response.sendStatus(200);
             }
         });
