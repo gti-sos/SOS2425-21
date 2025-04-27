@@ -214,7 +214,7 @@
 
         if (status === 201 || status === 200) {
             mostrarMensaje("✅ Datos iniciales cargados correctamente", "ok");
-            await getAccidentsStats();
+            await getData();
         } else if (status === 400) {
             mostrarMensaje("⚠️ Los datos ya estaban cargados", "error");
         } else {
