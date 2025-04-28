@@ -1,6 +1,6 @@
 
 <svelte:head>
-    <title>Home Buying Selling Stats</title>
+    <title>Home Buying Selling Manager</title>
 </svelte:head>
 
 <script>
@@ -250,13 +250,13 @@
 <Table>
     <thead>
         <tr>
-            <th>Provincia</th>
-            <th>Año</th>
+            <th>Province</th>
+            <th>Year</th>
             <th>Total</th>
-            <th>Protegida</th>
-            <th>Nueva</th>
-            <th>2ª Mano</th>
-            <th>Acciones</th>
+            <th>Protected</th>
+            <th>New</th>
+            <th>Secondhand</th>
+            <th>Actions</th>
         </tr>
     </thead>
 

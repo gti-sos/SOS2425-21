@@ -9,7 +9,7 @@ test('get home-buying-selling-stats link', async ({ page }) => {
   await page.getByRole('link', { name: 'Estadísticas sobre la compraventa de viviendas en España' }).click();
 
   // Expects page to have a heading with the name of Installation.
-  await expect(page).toHaveTitle(/Home Buying Selling Stats/);
+  await expect(page).toHaveTitle(/Home Buying Selling Manager/);
 });
 
 
@@ -39,6 +39,7 @@ test('create and delete stats', async ({ page }) => {
  await expect(newRow).toContainText(testYear);
  await expect(newRow).toContainText(testTransactionTotal);
  await expect(newRow).toContainText(testTransactionProtectedHousing);
+ await expect(newRow).toContainText(testTransactionNewHousing);
  await expect(newRow).toContainText(testTransactionSecondhandHousing);
 
  // Eliminar la fila
