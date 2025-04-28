@@ -268,7 +268,7 @@
             <td><input id="Protected" bind:value={newProtected}></td>
             <td><input id="New" bind:value={newNew}></td>
             <td><input id="Secondhand" bind:value={newSecondhand}></td>
-            <td><Button color="primary" on:click={createStat}>Crear</Button></td>
+            <td><Button color="primary" on:click={createStat}>Create</Button></td>
         </tr>
 
         {#each homeData as stat}
@@ -280,8 +280,8 @@
                 <td>{stat.transaction_new_housing}</td>
                 <td>{stat.transaction_secondhand_housing}</td>
                 <td>
-                    <Button color="primary" on:click={() => goto(`/home-buying-selling-stats/${stat.province}/${stat.year}`)}>Editar</Button>
-                    <Button color="danger" on:click={() => deleteStat(stat.province, stat.year)}>Eliminar</Button>
+                    <Button color="primary" on:click={() => goto(`/home-buying-selling-stats/${stat.province}/${stat.year}`)}>Edit</Button>
+                    <Button color="danger" on:click={() => deleteStat(stat.province, stat.year)}>Delete</Button>
                 </td>
             </tr>
         {/each}

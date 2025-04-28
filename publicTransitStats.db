@@ -35,3 +35,7 @@
 {"$$deleted":true,"_id":"hzp2SsPqDTZQmlDh"}
 {"province":"__TEST_PROVINCE__","year":2099,"ticket_price":1.99,"total_trips":99999,"route_length":123.45,"_id":"3Ndqs7TmmBm2jSwA"}
 {"$$deleted":true,"_id":"3Ndqs7TmmBm2jSwA"}
+{"province":"__TEST_PROVINCE__","year":2099,"ticket_price":1.99,"total_trips":99999,"route_length":123.45,"_id":"UGuLbDGQqzx3vOTz"}
+{"$$deleted":true,"_id":"UGuLbDGQqzx3vOTz"}
+{"province":"__TEST_PROVINCE__","year":2099,"ticket_price":1.99,"total_trips":99999,"route_length":123.45,"_id":"QNj5zajQZvr7lmXs"}
+{"$$deleted":true,"_id":"QNj5zajQZvr7lmXs"}
