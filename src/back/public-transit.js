@@ -12,13 +12,15 @@ const initialData = [
     { year: 2024, province: "Bizkaia", ticket_price: 1.4, total_trips: 49007000, route_length: 547 },
     { year: 2024, province: "Malaga", ticket_price: 1.55, total_trips: 51300000, route_length: 4915.4 },
     { year: 2024, province: "Alicante", ticket_price: 1.35, total_trips: 19950000, route_length: 694 },
+
     { year: 2023, province: "Madrid", ticket_price: 1.5, total_trips: 694490000, route_length: 25159.7 },
     { year: 2023, province: "Barcelona", ticket_price: 2.2, total_trips: 404590000, route_length: 26885.2 },
     { year: 2023, province: "Valencia", ticket_price: 1.5, total_trips: 107100000, route_length: 2473.9 },
     { year: 2023, province: "Sevilla", ticket_price: 1.5, total_trips: 91420000, route_length: 3474.1 },
     { year: 2023, province: "Bizkaia", ticket_price: 1.4, total_trips: 55710000, route_length: 547 },
-    { year: 2019, province: "Malaga", ticket_price: 1.55, total_trips: 65390000, route_length: 5824.7 },
-    { year: 2019, province: "Alicante", ticket_price: 1.35, total_trips: 25120000, route_length: 691.4 },
+    { year: 2023, province: "Malaga", ticket_price: 1.55, total_trips: 65390000, route_length: 5824.7 },
+    { year: 2023, province: "Alicante", ticket_price: 1.35, total_trips: 25120000, route_length: 691.4 },
+
     { year: 2015, province: "Madrid", ticket_price: 1.5, total_trips: 609900000, route_length: 24465.8 },
     { year: 2015, province: "Barcelona", ticket_price: 2.15, total_trips: 342300000, route_length: 27731 },
     { year: 2015, province: "Valencia", ticket_price: 1.5, total_trips: 98500000, route_length: 2947.1 },
