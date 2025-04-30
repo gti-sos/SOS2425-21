@@ -26,9 +26,13 @@
     let newTrips = "";
     let newLength= "";
 
-    let searchFrom = "";
-    let searchTo = "";
+    //filtros
     let searchProvince = "";
+    let searchYear = "";
+    let searchPrice = "";
+    let searchTrip = "";
+    let searchLength = "";
+
 
     let alertMessage = "";
     let alertType = "";
@@ -156,9 +160,11 @@
         try {
             let url = new URL(API);
 
-            if (searchFrom) url.searchParams.append("from", searchFrom);
-            if (searchTo) url.searchParams.append("to", searchTo);
             if (searchProvince) url.searchParams.append("province", searchProvince);
+            if (searchYear) url.searchParams.append("year", searchYear);
+            if (searchPrice) url.searchParams.append("ticket_price", searchPrice);
+            if (searchTrip) url.searchParams.append("total_trips", searchTrip);
+            if (searchLength) url.searchParams.append("route_length", searchLength);
 
             const res = await fetch(url.toString(), { method: "GET" });
             const data = await res.json();
@@ -189,24 +195,23 @@
     </Alert>
 {/if}
 
-<h2 style="display: flex; justify-content: space-between; align-items: center;">
-    <span>Trips List</span>
-    <span>
-        <Button color="success" on:click={() => goto('/public-transit-stats/pie-graph')} class="me-2">Pie Graph</Button>
-        <Button color="primary" on:click={() => goto('/public-transit-stats/bar-graph')}>Bar Graph</Button>
-    </span>
-</h2>
-
+<h2>Trips List</h2>
 <h3>Búsqueda</h3>
 <div class="mb-3">
-    <label for="fromYear">Desde el año:</label>
-    <input id="fromYear" bind:value={searchFrom} placeholder="Ej. 2000">
-
-    <label for="toYear">Hasta el año:</label>
-    <input id="toYear" bind:value={searchTo} placeholder="Ej. 2017">
-
     <label for="provinceSearch">Provincia:</label>
     <input id="provinceSearch" bind:value={searchProvince} placeholder="Ej. Sevilla">
+
+    <label for="yearSearch">Año:</label>
+    <input id="yearSearch" bind:value={searchYear} placeholder="Ej. 2015">
+
+    <label for="priceSearch">Precio del billete:</label>
+    <input id="priceSearch" bind:value={searchPrice} placeholder="Ej. 1.20">
+
+    <label for="tripsSearch">Número de viajes:</label>
+    <input id="tripsSearch" bind:value={searchTrip} placeholder="Ej. 45000">
+
+    <label for="lengthSearch">Longitud de la ruta:</label>
+    <input id="lengthSearch" bind:value={searchLength} placeholder="Ej. 28.5">
 
     <Button color="info" on:click={searchTrips}>Buscar</Button>
     <Button color="secondary" on:click={getData}>Limpiar</Button>
