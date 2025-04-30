@@ -196,6 +196,10 @@
 {/if}
 
 <h2>Trips List</h2>
+
+    <Button color="success" on:click={() => goto('/public-transit-stats/pie-graph')} class="me-2">Pie Graph</Button>
+    <Button color="primary" on:click={() => goto('/public-transit-stats/bar-graph')}>Bar Graph</Button>
+
 <h3>Búsqueda</h3>
 <div class="mb-3">
     <label for="provinceSearch">Provincia:</label>

@@ -22,5 +22,3 @@
 {"year":2015,"province":"malaga","transaction_total":25798,"transaction_protected_housing":600,"transaction_new_housing":2636,"transaction_secondhand_housing":23162,"_id":"qxcInR0hpCBkfSS9"}
 {"year":2015,"province":"badajoz","transaction_total":4044,"transaction_protected_housing":622,"transaction_new_housing":587,"transaction_secondhand_housing":3457,"_id":"rFgcN9tS3cd4BwcL"}
 {"year":2015,"province":"madrid","transaction_total":57431,"transaction_protected_housing":3255,"transaction_new_housing":6820,"transaction_secondhand_housing":50611,"_id":"urEbImpWDEeA4nuH"}
-{"province":"__TEST_PROVINCE__","year":99,"transaction_total":2999,"transaction_protected_housing":56799,"transaction_new_housing":12399,"transaction_secondhand_housing":12399,"_id":"4Y9UbczvNaXlZSiF"}
-{"$$deleted":true,"_id":"4Y9UbczvNaXlZSiF"}

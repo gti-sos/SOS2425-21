@@ -1,57 +1,71 @@
-<svelte:head>
-  <title>Integración EMT Madrid</title>
-</svelte:head>
-
 <script>
-    // @ts-nocheck
-    import { onMount } from "svelte";
-    import cors from "cors";
-
-    let emtLines = [];
-    let error = "";
-
-    const CLIENT_ID = "f155064f-2a6a-471a-a58b-1ff5c20073de";
-    const API_KEY = "372A9A442CE9DAAB45199A7ADE056A59C91D30088F689859207ADA0D154BAFF448F2859797039AE7E26DD5A436CDE10B7FA8ED144FD30CBB58FB5F8E26871E6D";
-
-    async function fetchEMTLines() {
-        try {
-            const response = await fetch("https://openapi.emtmadrid.es/v1/transport/busemtmad/lines/info/ALL", {
-                method: "GET",
-                headers: {
-                    "X-ClientId": CLIENT_ID,
-                    "X-ApiKey": API_KEY
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error ${response.status}`);
-            }
-
-            const result = await response.json();
-            emtLines = result.data;
-            console.log("Datos de líneas EMT:", emtLines);
-        } catch (err) {
-            console.error("Error al obtener datos de EMT:", err);
-            error = err.message;
-        }
+  // @ts-nocheck
+  
+  import { onMount } from 'svelte';
+  
+  let consorcioData = [];
+  let cargandoConsorcio = true;
+  
+  onMount(async () => {
+    try {
+      const resConsorcio = await fetch('https://api.ctan.es/v1/Consorcios/7/consorcios');
+      const json = await resConsorcio.json();
+      consorcioData = json.consorcios; // acceder al array dentro del objeto
+    } catch (err) {
+      console.error("Error consorcio:", err);
+    } finally {
+      cargandoConsorcio = false;
     }
-
-    onMount(() => {
-        fetchEMTLines();
-    });
-</script>
-
-{#if error}
-  <p>Error al cargar datos: {error}</p>
-{:else if emtLines.length}
-  <h2>Líneas de Autobús de EMT Madrid</h2>
-  <ul>
-    {#each emtLines as line}
-      <li>
-        <strong>{line.label}</strong>: {line.name} ({line.headerA} → {line.headerB})
-      </li>
-    {/each}
-  </ul>
-{:else}
-  <p>Cargando datos...</p>
-{/if}
+  });
+  </script>
+  
+  <h1>Integración de APIs</h1>
+  
+  <section>
+    <h2>Datos de Consorcios de Transporte</h2>
+    {#if cargandoConsorcio}
+      <p>Cargando datos de consorcios...</p>
+    {:else}
+      {#if consorcioData.length > 0}
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Nombre corto</th>
+            </tr>
+          </thead>
+          <tbody>
+            {#each consorcioData as consorcio}
+              <tr>
+                <td>{consorcio.idConsorcio}</td>
+                <td>{consorcio.nombre}</td>
+                <td>{consorcio.nombreCorto}</td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      {:else}
+        <p>No se encontraron datos de consorcios.</p>
+      {/if}
+    {/if}
+  </section>
+  
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+  
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      text-align: left;
+    }
+  
+    th {
+      background-color: #f4f4f4;
+    }
+  </style>
+  
