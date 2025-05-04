@@ -137,7 +137,10 @@
 </script>
 
 
-<h1>Integración de APIs</h1>
+<h1>Integración de APIs externas</h1>
+<p>
+  <a href="/integrations/AGB/sos">Integraciones sos</a>
+</p>
 
 <section>
   <h2>Datos de Consorcios de Transporte</h2>

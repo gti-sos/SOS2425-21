@@ -13,21 +13,24 @@
         frontend: "/public-transit-stats",
         api: `${baseAPI}/public-transit-stats`,
         postman: "https://documenter.getpostman.com/view/41997974/2sB2cSi4as",
-        dataset: "public-transit-stats"
+        dataset: "public-transit-stats",
+        integration: "/integrations/AGB"
       },
       {
         name: "Laura Eraso Lorenzo",
         frontend: "/home-buying-selling-stats",
         api: `${baseAPI}/home-buying-selling-stats`,
         postman: "https://documenter.getpostman.com/view/42241739/2sB2cUANcY",
-        dataset: "home-buying-selling-stats"
+        dataset: "home-buying-selling-stats",
+        integration: ""
       },
       {
         name: "Paula Ruiz Gardón",
         frontend: "/cultural-event-stats",
         api: `${baseAPI}/cultural-event-stats`,
         postman: "https://documenter.getpostman.com/view/42397783/2sB2cUBNpz",
-        dataset: "cultural-event-stats"
+        dataset: "cultural-event-stats",
+        integration: ""
       },
     ];
   
@@ -44,7 +47,8 @@
         Frontend: <a href="{member.frontend}">{member.frontend}</a><br>
         API: <a href="{member.api}">{member.api}</a><br>
         Postman: <a href="{member.postman}">Documentación</a><br>
-        Dataset: {member.dataset}
+        Dataset: {member.dataset}<br>
+        Integraciones: <a href="{member.integration}">{member.integration}</a><br>
       </li>
       <br>
     {/each}
