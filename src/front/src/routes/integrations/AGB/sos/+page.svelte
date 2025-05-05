@@ -7,6 +7,7 @@
 
   <script src="https://cdn.plot.ly/plotly-2.27.1.min.js"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </svelte:head>
 
 <script>
@@ -16,13 +17,16 @@
   let cargandoTransporte = true;
   let cargandoContratos = true;
   let cargandoTemperaturas = true;
+  let cargandoUniversidad = true;
 
   let chartContainer;
   let plotContainer;
+  let radarContainer;
 
   let transporte = [];
   let contratos = [];
   let temperatura = [];
+  let universidad = [];
 
   const provinciasMap = {
     "Alicante/Alacant": "Alicante",
@@ -74,6 +78,26 @@
       }
     }
   }
+
+  async function getData17() {
+    try {
+      await fetch("https://sos2425-17.onrender.com/api/v2/university-demands/loadInitialData");
+    } catch (err) {
+      console.warn("Los datos iniciales ya estaban cargados o hubo otro aviso:", err);
+    }
+    try {
+      const api17 = await fetch("https://sos2425-17.onrender.com/api/v2/university-demands");
+      universidad = await api17.json();
+    } catch (err) {
+      console.error("ERROR: GET data 17", err);
+    } finally {
+      cargandoUniversidad = false;
+      await tick();
+      if (radarContainer) {
+        dibujarPolarChart();
+      }
+    }
+  }
   
   function dibujarHeatmap() {
     const contratosPorProvincia = {};
@@ -90,7 +114,6 @@
         viajesPorProvincia[t.province] = (viajesPorProvincia[t.province] || 0) + t.total_trips;
       }
     });
-    console.log('viajes',viajesPorProvincia);
     const categoriasY = ["Viajes", "Contratos"];
     const categoriasX = provinciasObjetivo;
 
@@ -185,13 +208,13 @@
       yaxis: { zeroline: false },
       xaxis: { title: 'Categoría' },
       margin: {
-        l: 80, // margen izquierdo
-        r: 80, // margen derecho
-        t: 100, // margen superior
-        b: 100  // margen inferior
+        l: 80,
+        r: 80, 
+        t: 100, 
+        b: 100  
       },
-      height: 600, // altura del gráfico
-      width: 800,  // anchura del gráfico
+      height: 600, 
+      //width: 800,  
       showlegend: true,
       xaxis: {
         title: {
@@ -199,7 +222,7 @@
           font: { size: 14 },
           standoff: 10
         },
-        tickangle: -45,  // Rotación de las etiquetas del eje X si son largas
+        tickangle: -45,  
       },
       yaxis: {
         title: {
@@ -212,18 +235,50 @@
     Plotly.newPlot(plotContainer, data, layout);
   }
 
+function dibujarPolarChart() {
+  // Graduados en Badajoz 2017-2018
+  const demanda = universidad.find(u =>
+    u.location === "BADAJOZ" &&
+    u.academicYear === "2017-2018" &&
+    u.degree === "GRADO EN EDUCACIÓN PRIMARIA"
+  );
+
+  // Ruta en Alicante 2024
+  const transporteAlicante = transporte.find(t =>
+    t.province === "Alicante" && t.year === 2024
+  );
+
+  const graduados = demanda?.graduated ?? 0;
+  const ruta = transporteAlicante?.route_length ?? 0;
+
+  const options = {
+    chart: {
+      type: 'polarArea',
+      height: 500
+    },
+    labels: ['Graduados Badajoz (2017-18)', 'Longitud ruta Alicante (2024)'],
+    series: [graduados, ruta],
+    stroke: {
+      colors: ['#fff']
+    },
+    fill: {
+      opacity: 0.8
+    }
+  };
+
+  new ApexCharts(radarContainer, options).render();
+}
 
   onMount(async () => {
     await getData21();
     await getData18();
     await getData15();
+    await getData17();
   });
 </script>
 
-<h1>Integración de APIs sos</h1>
-
 <section>
-  <h2>Mapa de calor de viajes y contratos</h2>
+  <h2>Transporte y Contratos</h2>
   {#if cargandoContratos || cargandoTransporte}
     <p>Cargando datos...</p>
   {:else}
@@ -232,10 +287,19 @@
 </section>
 
 <section>
-  <h2>Diagrama de Violín: Viajes y Temperatura</h2>
+  <h2>Transporte y Temperatura</h2>
   {#if cargandoTemperaturas || cargandoTransporte}
     <p>Cargando datos...</p>
   {:else}
-    <div bind:this={plotContainer} style="width: 100%; height: 500px;"></div>
+    <div bind:this={plotContainer} style="width: 100%; height: 500px; overflow: hidden;"></div>
+  {/if}
+</section>
+
+<section>
+  <h2>Transporte y Universidades</h2>
+  {#if cargandoTransporte || cargandoUniversidad}
+    <p>Cargando datos...</p>
+  {:else}
+    <div bind:this={radarContainer} style="width: 100%; height: 500px;"></div>
   {/if}
 </section>

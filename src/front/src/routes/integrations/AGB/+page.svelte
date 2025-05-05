@@ -22,6 +22,7 @@
   let gasolineCosts = [];
 
   onMount(async () => {
+    //Integración consorcio (uso HTML)
     try {
       const resConsorcio = await fetch('https://api.ctan.es/v1/Consorcios/7/consorcios');
       const json = await resConsorcio.json();
@@ -32,22 +33,27 @@
       cargandoConsorcio = false;
     }
 
-    const datosTransporte = await fetch(API).then(res => res.json());
-    const provinciasUnicas = [...new Set(datosTransporte.map(d => d.province))];
+    //Integración coste de vida (chart.js tipo bubble)
+    try{
+      const datosTransporte = await fetch(API).then(res => res.json());
+      const provinciasUnicas = [...new Set(datosTransporte.map(d => d.province))];
 
-    for (const provincia of provinciasUnicas) {
-      const precios = await fetchCosteDeVida(provincia);
-      if (precios !== null) {
-        const entrada = datosTransporte.find(d => d.province === provincia);
-        provincias.push(provincia);
-        ticketPrices.push(entrada.ticket_price);
-        applesCosts.push(precios.apples);
-        cappuccinoCosts.push(precios.cappuccino);
-        gasolineCosts.push(precios.gasoline);
+      for (const provincia of provinciasUnicas) {
+        const precios = await fetchCosteDeVida(provincia);
+        if (precios !== null) {
+          const entrada = datosTransporte.find(d => d.province === provincia);
+          provincias.push(provincia);
+          ticketPrices.push(entrada.ticket_price);
+          applesCosts.push(precios.apples);
+          cappuccinoCosts.push(precios.cappuccino);
+          gasolineCosts.push(precios.gasoline);
+        }
       }
-    }
 
-    renderChart();
+      renderChart();
+    } catch (err) {
+      console.error("Error datos transporte o coste de vida:", err);
+    }
   });
 
   async function fetchCosteDeVida(ciudad) {
@@ -137,10 +143,7 @@
 </script>
 
 
-<h1>Integración de APIs externas</h1>
-<p>
-  <a href="/integrations/AGB/sos">Integraciones sos</a>
-</p>
+<h1>Integración de APIs</h1>
 
 <section>
   <h2>Datos de Consorcios de Transporte</h2>

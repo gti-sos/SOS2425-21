@@ -170,10 +170,10 @@
             const data = await res.json();
             resultStatus = res.status;
             result = JSON.stringify(data, null, 2);
-            transitData = data.data;
+            transitData = Array.isArray(data) ? data : data.data;
 
             console.log("Filtered trips:", transitData);
-            if (transitData.length === 0) {
+            if (!transitData || transitData.length === 0) {
                 showUserAlert("No se encontraron viajes con los filtros aplicados", "warning");
             } else {
                 showUserAlert("Búsqueda realizada correctamente", "info");
