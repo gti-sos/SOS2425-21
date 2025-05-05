@@ -31,6 +31,10 @@
     let searchFrom = "";
     let searchTo = "";
     let searchProvince = "";
+    let searchTotal = "";
+    let searchProtected = "";
+    let searchNew = "";
+    let searchSecond = "";
 
     let alertMessage = "";
     let alertType = "";
@@ -150,6 +154,10 @@
         searchFrom     = "";
         searchTo       = "";
         searchProvince = "";
+        searchTotal = "";
+        searchProtected = "";
+        searchNew = "";
+        searchSecond = "";
         getData();
     }
 
@@ -189,6 +197,10 @@
             if (searchFrom)     url.searchParams.append("from",     searchFrom);
             if (searchTo)       url.searchParams.append("to",       searchTo);
             if (searchProvince) url.searchParams.append("province", searchProvince);
+            if (searchTotal) url.searchParams.append("transaction_total", searchTotal);
+            if (searchProtected) url.searchParams.append("transaction_protected_housing", searchProtected);
+            if (searchNew) url.searchParams.append("transaction_new_housing", searchNew);
+            if (searchSecond) url.searchParams.append("transaction_secondhand_housing", searchSecond);
 
             const res = await fetch(url.toString(), { method: "GET" });
             resultStatus = res.status;
@@ -242,6 +254,14 @@
     <input id="toYear" bind:value={searchTo} placeholder="Ej. 2020">
     <label for="provinceSearch">Provincia:</label>
     <input id="provinceSearch" bind:value={searchProvince} placeholder="Ej. Málaga">
+    <label for="totalSearch">Transaccion Total:</label>
+    <input id="totalSearch" bind:value={searchTotal} placeholder="Ej. 3457">
+    <label for="protectedSearch">Transaccion Casas Protegidas:</label>
+    <input id="protectedSearch" bind:value={searchProtected} placeholder="Ej. 3456">
+    <label for="newSearch">Transaccion Casas Nuevas:</label>
+    <input id="newSearch" bind:value={searchNew} placeholder="Ej. 4598">
+    <label for="secondSearch">Transaccion Casas Segunda Mano:</label>
+    <input id="secondSearch" bind:value={searchSecond} placeholder="Ej. 3456">
 
     <Button color="info" on:click={searchStats}>Buscar</Button>
     <Button color="secondary" on:click={clearFilters}>Limpiar</Button>
