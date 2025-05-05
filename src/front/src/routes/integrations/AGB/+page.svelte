@@ -145,6 +145,8 @@
 
 <h1>Integración de APIs</h1>
 
+<a href="/integrations/AGB/sos">Integraciones SOS</a>
+
 <section>
   <h2>Datos de Consorcios de Transporte</h2>
   {#if cargandoConsorcio}

@@ -8,6 +8,10 @@
   <script src="https://cdn.plot.ly/plotly-2.27.1.min.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+  <link rel="stylesheet" href="https://unpkg.com/uplot@1.6.21/dist/uPlot.min.css">
+  <script src="https://unpkg.com/uplot@1.6.21/dist/uPlot.iife.min.js"></script>
+
 </svelte:head>
 
 <script>
@@ -18,15 +22,18 @@
   let cargandoContratos = true;
   let cargandoTemperaturas = true;
   let cargandoUniversidad = true;
+  let cargandoAccidentes = true;
 
   let chartContainer;
   let plotContainer;
   let radarContainer;
+  let streamContainer;
 
   let transporte = [];
   let contratos = [];
   let temperatura = [];
   let universidad = [];
+  let accidentes = [];
 
   const provinciasMap = {
     "Alicante/Alacant": "Alicante",
@@ -95,6 +102,27 @@
       await tick();
       if (radarContainer) {
         dibujarPolarChart();
+      }
+    }
+  }
+
+  async function getData20() {
+    try {
+      await fetch("https://sos2425-20.onrender.com/api/v1/accidents-with-animals/loadInitialData");
+    } catch (err) {
+      console.warn("Los datos iniciales ya estaban cargados o hubo otro aviso:", err);
+    }
+    try {
+      const api20 = await fetch('https://sos2425-20.onrender.com/api/v1/accidents-with-animals');
+      accidentes = await api20.json();
+    } catch(err){
+      console.error("ERROR: GET data 20", error);
+    } finally {
+      cargandoAccidentes = false;
+      await tick();
+      if (streamContainer){
+        console.log('Dibujando el gráfico de scatter');
+        dibujarStreamGraph();
       }
     }
   }
@@ -269,12 +297,84 @@ function dibujarPolarChart() {
   new ApexCharts(radarContainer, options).render();
 }
 
-  onMount(async () => {
-    await getData21();
-    await getData18();
-    await getData15();
-    await getData17();
-  });
+function dibujarStreamGraph() {
+  const añoObjetivo = 2023;
+
+  // Ticket price por provincia
+  const ticketData = transporte
+    .filter(d => d.year === añoObjetivo)
+    .reduce((acc, curr) => {
+      if (!acc[curr.province]) acc[curr.province] = [];
+      acc[curr.province].push(curr.ticket_price);
+      return acc;
+    }, {});
+
+  const avgTicketByProvince = Object.entries(ticketData).map(([prov, precios]) => ({
+    label: `Precio: ${prov}`,
+    value: precios.reduce((a, b) => a + b, 0) / precios.length
+  }));
+
+  // Accidentes por animal_group
+  const accidentData = accidentes
+    .filter(d => d.year === añoObjetivo)
+    .reduce((acc, curr) => {
+      acc[curr.animal_group] = (acc[curr.animal_group] || 0) + 1;
+      return acc;
+    }, {});
+
+  const animalSeries = Object.entries(accidentData).map(([animal, count]) => ({
+    label: `Animal: ${animal}`,
+    value: count
+  }));
+
+  const labels = [...avgTicketByProvince, ...animalSeries];
+  const categories = labels.map(e => e.label);
+  const values = labels.map(e => e.value);
+
+  const opts = {
+    width: streamContainer.clientWidth,
+    height: 400,
+    series: [
+      {
+        label: "Categoría",
+      },
+      {
+        label: "Valor",
+        stroke: "blue",
+        fill: "rgba(0, 100, 255, 0.3)"
+      }
+    ],
+    scales: {
+      x: { time: false },
+      y: { auto: true }
+    },
+    axes: [
+      {
+        stroke: "#333",
+        grid: { show: false },
+        values: categories,
+        space: 100
+      },
+      {}
+    ]
+  };
+
+  const data = [
+    categories.map((_, i) => i),
+    values
+  ];
+
+  new uPlot(opts, data, streamContainer);
+}
+
+onMount(async () => {
+  await getData21();
+  await getData18();
+  await getData15();
+  await getData17();
+  await getData20();
+});
+
 </script>
 
 <section>
@@ -301,5 +401,14 @@ function dibujarPolarChart() {
     <p>Cargando datos...</p>
   {:else}
     <div bind:this={radarContainer} style="width: 100%; height: 500px;"></div>
+  {/if}
+</section>
+
+<section>
+  <h2>Transporte y Accidentes animales</h2>
+  {#if cargandoTransporte || cargandoAccidentes}
+    <p>Cargando datos...</p>
+  {:else}
+    <div bind:this={streamContainer} style="width: 100%; height: 400px;"></div>
   {/if}
 </section>
