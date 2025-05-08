@@ -46,6 +46,7 @@
     "csv-parser": "^3.2.0",
     "express": "^4.21.2",
     "graphlib": "^2.1.8",
+    "highcharts": "^12.2.0",
     "nedb": "^1.8.0",
     "plotly.js-dist-min": "^3.0.1",
     "request": "^2.88.2",

@@ -158,7 +158,7 @@
     async function searchTrips() {
         resultStatus = result = "";
         try {
-            let url = new URL(API);
+            let url = new URL(API, window.location.origin);
 
             if (searchProvince) url.searchParams.append("province", searchProvince);
             if (searchYear) url.searchParams.append("year", searchYear);
