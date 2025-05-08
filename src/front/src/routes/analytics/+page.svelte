@@ -8,13 +8,20 @@
         import Highcharts from 'highcharts';
     
         let transitData = [];
-        let housingData = [];
+        let homeData = [];
     
         let chartContainer;
     
         const DEVEL_HOST = "http://localhost:16078";
-        let APIAGB = DEVEL_HOST + "/api/v1/public-transit-stats";
-        let APILEL = DEVEL_HOST + "/api/v1/home-buying-selling-stats";
+        let APILEL ="/api/v1/home-buying-selling-stats";
+        if (dev) {
+            APILEL = DEVEL_HOST + APILEL;
+        }
+
+        let APIAGB = "/api/v1/public-transit-stats";
+        if (dev) {
+            APIAGB = DEVEL_HOST + APIAGB;
+        }
     
         async function getDataAGB() {
             try {
@@ -30,7 +37,7 @@
             try {
                 const res = await fetch(APILEL);
                 const data = await res.json();
-                housingData = Array.isArray(data) ? data : data.data;
+                homeData = Array.isArray(data) ? data : data.data;
             } catch (error){
                 console.error(`ERROR: GET from ${APILEL}: ${error}`);
             }
@@ -89,7 +96,7 @@
                 ...d,
                 province: d.province.toLowerCase()
             }));
-            const filteredHousing = housingData.filter(d => d.year === 2024).map(d => ({
+            const filteredHome = homeData.filter(d => d.year === 2024).map(d => ({
                 ...d,
                 province: d.province.toLowerCase()
             }));
@@ -97,7 +104,7 @@
             const commonData = [];
     
             for (const t of filteredTransit) {
-                const match = filteredHousing.find(h => h.province === t.province);
+                const match = filteredHome.find(h => h.province === t.province);
                 if (match) {
                     commonData.push({
                         province: t.province.charAt(0).toUpperCase() + t.province.slice(1),

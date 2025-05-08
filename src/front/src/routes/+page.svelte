@@ -7,6 +7,8 @@
       baseAPI = "http://localhost:16078/api/v1"; // Para desarrollo
     }
   
+
+
     const team = [
       {
         name: "Andrea Gómez Balmaseda",
@@ -39,6 +41,7 @@
   
   <h1>Proyecto SOS2425 - Grupo 21</h1>
   
+  <a href="/analytics">Integración grupal</a>
   <h2>Miembros del equipo y sus recursos</h2>
   <ul>
     {#each team as member}
