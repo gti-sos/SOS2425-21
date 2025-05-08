@@ -6,6 +6,7 @@
         import { onMount } from 'svelte';
         import 'bootstrap/dist/css/bootstrap.min.css';
         import Highcharts from 'highcharts';
+        import { dev } from '$app/environment';
     
         let transitData = [];
         let homeData = [];

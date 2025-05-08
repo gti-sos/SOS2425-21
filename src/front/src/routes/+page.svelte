@@ -1,10 +1,9 @@
 <script>
     import { dev } from '$app/environment';
-  
-    // Aquí, configuramos el base URL para las APIs dependiendo de si estamos en desarrollo o producción
-    let baseAPI = "/api/v1"; // Para producción
+
+    let baseAPI = "/api/v1"; 
     if (dev) {
-      baseAPI = "http://localhost:16078/api/v1"; // Para desarrollo
+      baseAPI = "http://localhost:16078/api/v1";
     }
   
 
