@@ -2,6 +2,7 @@
   // @ts-nocheck
   import { onMount } from 'svelte';
   import Chart from 'chart.js/auto';
+  import ApexCharts from 'apexcharts';
   import { dev } from '$app/environment';
 
   const DEVEL_HOST = "http://localhost:16078";
@@ -9,8 +10,6 @@
   if (dev) {
     API = DEVEL_HOST + API;
   }
-
-  const RAPID_API_KEY = '2a354653a3mshe8b0c196513d19bp11ac11jsn5c666ee93581';
 
   let consorcioData = [];
   let cargandoConsorcio = true;
@@ -20,6 +19,8 @@
   let applesCosts = [];
   let cappuccinoCosts = [];
   let gasolineCosts = [];
+
+  let chartContainer2;
 
   onMount(async () => {
     //Integración consorcio (uso HTML)
@@ -53,6 +54,57 @@
       renderChart();
     } catch (err) {
       console.error("Error datos transporte o coste de vida:", err);
+    }
+
+    //integración datos INE
+    try {
+      const [ineData, apiData] = await Promise.all([
+        fetch("https://servicios.ine.es/wstempus/jsCache/es/DATOS_TABLA/49359?tip=AM").then(res => res.json()),
+        fetch(API).then(res => res.json())
+      ]);
+
+      const ine2024 = ineData[0].Data
+        .filter(d => d.Anyo === 2024)
+        .map(d => ({ label: d.T3_Periodo, value: d.Valor }));
+
+      const api2024 = apiData
+        .filter(d => d.year === 2024)
+        .map(d => ({ label: d.province, value: d.total_trips }));
+
+      const allLabels = [
+        ...ine2024.map(d => d.label),
+        ...api2024.map(d => d.label)
+      ];
+
+      const seriesDataINE = ine2024.map(d => d.value * 1000);
+      const seriesDataAPI = api2024.map(d => d.value);
+
+      const options = {
+        chart: {
+          type: 'radar',
+          height: 500
+        },
+        title: {
+          text: 'Comparativa Viajeros 2024 (INE vs API)'
+        },
+        xaxis: {
+          categories: allLabels
+        },
+        series: [
+          {
+            name: 'INE',
+            data: seriesDataINE
+          },
+          {
+            name: 'API',
+            data: Array(ine2024.length).fill(null).concat(seriesDataAPI)
+          }
+        ]
+      };
+
+      new ApexCharts(chartContainer2, options).render();
+    } catch (err) {
+      console.error('Error al cargar datos:', err);
     }
   });
 
@@ -140,6 +192,7 @@
       }
     });
   }
+
 </script>
 
 
@@ -180,6 +233,11 @@
 <section>
   <h2>Comparación: Precio de Billete y Coste de Vida</h2>
   <canvas bind:this={chartCanvas} width="600" height="400"></canvas>
+</section>
+
+<section>
+  <h2>Widget de Viajeros y Provincias (2024)</h2>
+  <div bind:this={chartContainer2} style="margin-top: 2rem;"></div>
 </section>
 
 <style>

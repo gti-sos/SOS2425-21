@@ -2,7 +2,6 @@
 
 <script>
     // @ts-nocheck
-    
         import { onMount } from 'svelte';
         import 'bootstrap/dist/css/bootstrap.min.css';
         import Highcharts from 'highcharts';
