@@ -13,6 +13,7 @@
 {"year":2023,"province":"Valencia","ticket_price":1.5,"total_trips":107100000,"route_length":2473.9,"_id":"eUy7cTBIY9Ahc6O8"}
 {"year":2023,"province":"Madrid","ticket_price":1.5,"total_trips":694490000,"route_length":25159.7,"_id":"fE75UvsOVj1E7g9X"}
 {"year":2024,"province":"Madrid","ticket_price":1.5,"total_trips":727780000,"route_length":26090.2,"_id":"fOJqYNAtYNGTyrwA"}
+{"province":"cadiz","year":2003,"ticket_price":4,"total_trips":33444,"route_length":455,"_id":"fuMolGYbd7OLwH0E"}
 {"year":2024,"province":"Bizkaia","ticket_price":1.4,"total_trips":49007000,"route_length":547,"_id":"j2k1eiM9bHkHrcpc"}
 {"year":2015,"province":"Malaga","ticket_price":1.55,"total_trips":58600000,"route_length":5275.8,"_id":"mkDDCu3VSPix2OAk"}
 {"year":2023,"province":"Sevilla","ticket_price":1.5,"total_trips":91420000,"route_length":3474.1,"_id":"oZqobBHBXzqwtSdQ"}

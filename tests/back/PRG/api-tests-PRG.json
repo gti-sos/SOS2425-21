@@ -30,7 +30,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-events-stats",
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event",
 					"protocol": "https",
 					"host": [
 						"sos2425-21",
@@ -40,7 +40,7 @@
 					"path": [
 						"api",
 						"v1",
-						"cultural-events-stats"
+						"cultural-event"
 					]
 				}
 			},
@@ -70,7 +70,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-events-stats",
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event",
 					"protocol": "https",
 					"host": [
 						"sos2425-21",
@@ -80,7 +80,7 @@
 					"path": [
 						"api",
 						"v1",
-						"cultural-events-stats"
+						"cultural-event"
 					]
 				}
 			},
@@ -115,7 +115,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-events-stats/loadInitialData",
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/loadInitialData",
 					"protocol": "https",
 					"host": [
 						"sos2425-21",
@@ -125,7 +125,7 @@
 					"path": [
 						"api",
 						"v1",
-						"cultural-events-stats",
+						"cultural-event",
 						"loadInitialData"
 					]
 				}
@@ -161,7 +161,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-events-stats/",
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/",
 					"protocol": "https",
 					"host": [
 						"sos2425-21",
@@ -171,7 +171,7 @@
 					"path": [
 						"api",
 						"v1",
-						"cultural-events-stats",
+						"cultural-event",
 						""
 					]
 				}
@@ -209,7 +209,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-events-stats/alicante",
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/alicante",
 					"protocol": "https",
 					"host": [
 						"sos2425-21",
@@ -219,7 +219,7 @@
 					"path": [
 						"api",
 						"v1",
-						"cultural-events-stats",
+						"cultural-event",
 						"alicante"
 					]
 				}
@@ -255,7 +255,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-events-stats?limit=2&offset=0",
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event?limit=2&offset=0",
 					"protocol": "https",
 					"host": [
 						"sos2425-21",
@@ -265,7 +265,7 @@
 					"path": [
 						"api",
 						"v1",
-						"cultural-events-stats"
+						"cultural-event"
 					],
 					"query": [
 						{
@@ -311,7 +311,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-events-stats/alicante/2024",
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/alicante/2024",
 					"protocol": "https",
 					"host": [
 						"sos2425-21",
@@ -321,7 +321,7 @@
 					"path": [
 						"api",
 						"v1",
-						"cultural-events-stats",
+						"cultural-event",
 						"alicante",
 						"2024"
 					]
@@ -353,7 +353,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-events-stats/cadiz",
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/cadiz",
 					"protocol": "https",
 					"host": [
 						"sos2425-21",
@@ -363,7 +363,7 @@
 					"path": [
 						"api",
 						"v1",
-						"cultural-events-stats",
+						"cultural-event",
 						"cadiz"
 					]
 				}
@@ -412,7 +412,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-events-stats",
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event",
 					"protocol": "https",
 					"host": [
 						"sos2425-21",
@@ -422,7 +422,7 @@
 					"path": [
 						"api",
 						"v1",
-						"cultural-events-stats"
+						"cultural-event"
 					]
 				}
 			},
@@ -461,7 +461,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-events-stats",
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event",
 					"protocol": "https",
 					"host": [
 						"sos2425-21",
@@ -471,7 +471,7 @@
 					"path": [
 						"api",
 						"v1",
-						"cultural-events-stats"
+						"cultural-event"
 					]
 				}
 			},
@@ -510,7 +510,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-events-stats",
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event",
 					"protocol": "https",
 					"host": [
 						"sos2425-21",
@@ -520,7 +520,7 @@
 					"path": [
 						"api",
 						"v1",
-						"cultural-events-stats"
+						"cultural-event"
 					]
 				}
 			},
@@ -564,7 +564,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-events-stats/alicante/2024",
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/alicante/2024",
 					"protocol": "https",
 					"host": [
 						"sos2425-21",
@@ -574,7 +574,7 @@
 					"path": [
 						"api",
 						"v1",
-						"cultural-events-stats",
+						"cultural-event",
 						"alicante",
 						"2024"
 					]
@@ -671,7 +671,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-events-stats/alicante/2024",
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/alicante/2024",
 					"protocol": "https",
 					"host": [
 						"sos2425-21",
@@ -681,7 +681,7 @@
 					"path": [
 						"api",
 						"v1",
-						"cultural-events-stats",
+						"cultural-event",
 						"alicante",
 						"2024"
 					]
@@ -722,7 +722,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-events-stats/alicante/2014",
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/alicante/2014",
 					"protocol": "https",
 					"host": [
 						"sos2425-21",
@@ -732,7 +732,7 @@
 					"path": [
 						"api",
 						"v1",
-						"cultural-events-stats",
+						"cultural-event",
 						"alicante",
 						"2014"
 					]
@@ -761,7 +761,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-events-stats/alicante/2024",
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/alicante/2024",
 					"protocol": "https",
 					"host": [
 						"sos2425-21",
@@ -771,7 +771,7 @@
 					"path": [
 						"api",
 						"v1",
-						"cultural-events-stats",
+						"cultural-event",
 						"alicante",
 						"2024"
 					]
@@ -868,7 +868,7 @@
 				"header": [],
 				"url": {
 
-					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-events-stats/cadiz",
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/cadiz",
 
 					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/alicante/2013",
 
@@ -882,7 +882,7 @@
 						"api",
 						"v1",
 
-						"cultural-events-stats",
+						"cultural-event",
 						"cadiz",
 
 						"cultural-event",
@@ -927,7 +927,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-events-stats",
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event",
 					"protocol": "https",
 					"host": [
 						"sos2425-21",
@@ -937,7 +937,7 @@
 					"path": [
 						"api",
 						"v1",
-						"cultural-events-stats"
+						"cultural-event"
 					]
 				}
 			},
@@ -976,7 +976,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-events-stats/alicante/2023",
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event/alicante/2023",
 					"protocol": "https",
 					"host": [
 						"sos2425-21",
@@ -986,7 +986,7 @@
 					"path": [
 						"api",
 						"v1",
-						"cultural-events-stats",
+						"cultural-event",
 						"alicante",
 						"2023"
 					]
@@ -1018,7 +1018,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-events-stats",
+					"raw": "https://sos2425-21.onrender.com/api/v1/cultural-event",
 					"protocol": "https",
 					"host": [
 						"sos2425-21",
@@ -1028,7 +1028,7 @@
 					"path": [
 						"api",
 						"v1",
-						"cultural-events-stats"
+						"cultural-event"
 					]
 				}
 			},

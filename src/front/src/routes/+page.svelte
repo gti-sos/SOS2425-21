@@ -27,10 +27,10 @@
       },
       {
         name: "Paula Ruiz Gardón",
-        frontend: "/cultural-event-stats",
-        api: `${baseAPI}/cultural-event-stats`,
+        frontend: "/cultural-event",
+        api: `${baseAPI}/cultural-event`,
         postman: "https://documenter.getpostman.com/view/42397783/2sB2cUBNpz",
-        dataset: "cultural-event-stats",
+        dataset: "cultural-event",
         integration: ""
       },
     ];

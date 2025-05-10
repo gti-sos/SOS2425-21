@@ -34,6 +34,8 @@
 	},
 	"dependencies": {
 		"@sveltestrap/sveltestrap": "^7.1.0",
-		"bootstrap": "^5.3.5"
+		"bootstrap": "^5.3.5",
+		"highcharts": "^12.2.0",
+		"zingchart": "^2.9.16-1"
 	}
 }
