@@ -245,7 +245,14 @@
 {/if}
 
 <h2>Estadísticas de compraventa de viviendas</h2>
-
+<h3>Graficos</h3>
+    <Button color="primary" on:click={() => goto('/home-buying-selling-stats/pie-highchart')}>
+    Transacciones Totales
+    </Button>
+    <Button color="primary" on:click={() => goto('/home-buying-selling-stats/pyramid-amcharts')}>
+    Viviendas Nuevas
+    </Button>
+<hr>
 <h3>Búsqueda</h3>
 <div class="mb-3">
     <label for="fromYear">Desde el año:</label>
