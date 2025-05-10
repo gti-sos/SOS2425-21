@@ -1,19 +1,13 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
 
-/*test('has title', async ({ page }) => { await page.goto('http://localhost:16078');
-
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/API_GRUPO_21/);
-});*/
-
 test('get public-transit-stats link', async ({ page }) => {
   await page.goto('http://localhost:16078');
 
-  // Click the emigration link.
-  await page.getByRole('link', { name: 'Estadísticas sobre los viajes en autobús urbano en España' }).click();
+  // Clic con data-testid
+  await page.getByTestId('link-public-transit').click();
 
-  // Expect a title "to contain" a substring.
+  // Verifica que el título contiene el nombre esperado
   await expect(page).toHaveTitle(/Public Transit Manager/);
 });
 
@@ -26,19 +20,20 @@ test('create and delete transit trip', async ({ page }) => {
 
   await page.goto('http://localhost:16078');
 
-  // Llenar el formulario de creación
-  await page.getByRole('link', { name: 'Estadísticas sobre los viajes en autobús urbano en España' }).click();
+  // Clic con data-testid
+  await page.getByTestId('link-public-transit').click();
 
-  await page.locator('#Province').fill(testProvince);     // Provincia
-  await page.locator('#Year').fill(testYear);         // Año
-  await page.locator('#Price').fill(testPrice);        // Precio
-  await page.locator('#Trips').fill(testTrips);        // Viajes
-  await page.locator('#Length').fill(testLength);       // Longitud
+  // Completa el formulario
+  await page.locator('#Province').fill(testProvince);
+  await page.locator('#Year').fill(testYear);
+  await page.locator('#Price').fill(testPrice);
+  await page.locator('#Trips').fill(testTrips);
+  await page.locator('#Length').fill(testLength);
 
-  // Crear el viaje
+  // Crear viaje
   await page.getByRole('button', { name: "Create" }).click();
 
-  // Verifica que la fila ha sido creada
+  // Verificar la fila creada
   const newRow = page.locator('tr', { hasText: testProvince });
   await expect(newRow).toContainText(testYear);
   await expect(newRow).toContainText(testPrice);
@@ -49,6 +44,6 @@ test('create and delete transit trip', async ({ page }) => {
   const deleteButton = newRow.getByRole('button', { name: "Delete" });
   await deleteButton.click();
 
-  // Verifica que ya no exista 
+  // Verificar que ya no exista
   await expect(newRow).toHaveCount(0);
 });
