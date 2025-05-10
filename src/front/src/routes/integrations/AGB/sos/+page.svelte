@@ -69,7 +69,7 @@
   }
   async function getData15() {
     try {
-      const api15 = await fetch('https://sos2425-15.onrender.com/api/v1/temperature-stats');
+      const api15 = await fetch('/proxy/temperature-stats/api/v1/temperature-stats');
       temperatura = await api15.json();
     } catch(err){
       console.error("ERROR: GET data 15", error);

@@ -119,7 +119,7 @@ function loadBackendAGB(app) {
         })
     });
 
-    //proxy
+    //proxy coste de vida
     const paths = '/proxy/cost-of-living';
     const apiServerHost = 'https://cost-of-living-and-prices.p.rapidapi.com';
 
@@ -133,6 +133,17 @@ function loadBackendAGB(app) {
                 'X-RapidAPI-Host': 'cost-of-living-and-prices.p.rapidapi.com'
             }
         };
+        req.pipe(request(options)).pipe(res);
+    });
+
+    //proxy temperatura g15
+    const temperatureProxyPath = '/proxy/temperature-stats';
+    const temperatureApiHost = 'https://sos2425-15.onrender.com';
+
+    app.use(temperatureProxyPath, function(req, res) {
+        const url = temperatureApiHost + req.url;
+        console.log('Proxying temperature-stats to:', url);
+        const options = { url };
         req.pipe(request(options)).pipe(res);
     });
 
