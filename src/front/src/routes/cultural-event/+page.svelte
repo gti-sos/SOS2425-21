@@ -154,7 +154,7 @@
 	<div class="card-box">
 		<h3>🔗 Integraciones</h3>
 		<div class="chart-buttons">
-			<Button color="info" on:click={() => goto('/cultural-event/integrations')}
+			<Button color="info" on:click={() => goto('/integrations/PRG')}
 				>Ver Integraciones</Button
 			>
 		</div>
@@ -173,6 +173,7 @@
 	</div>
 </section>
 
+<section class="table">
 <Table class="table table-hover">
 	<thead class="table-light">
 		<tr>
@@ -222,9 +223,10 @@
 		</tr>
 	</tbody>
 </Table>
+</section>
 
 <style>
-	.charts-section {
+.charts-section {
 		background: white;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 		border-radius: 1rem;
@@ -278,7 +280,7 @@
 	}
 	.actions,
 	.filters {
-		max-width: 1000px;
+		max-width: 100%;
 		padding: 1rem 2rem;
 	}
 	.filters input {
@@ -287,5 +289,8 @@
 		padding: 0.4rem 0.8rem;
 		border-radius: 8px;
 		border: 1px solid #ccc;
+	}
+	.table {
+		padding: 1rem 2rem;
 	}
 </style>

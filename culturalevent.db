@@ -22,3 +22,4 @@
 {"year":2024,"month":"febrero","province":"alicante","total_event":50,"avg_ticket_price":20,"total_attendance":10000,"local_attendance":7000,"foreign_attendance":3000,"event_type":"Conciertos, Teatro, Exposiciones","avg_event_duration":2,"_id":"t8p7BU1lYhvdCEt8"}
 {"year":2024,"month":"julio","province":"madrid","total_event":130,"avg_ticket_price":26,"total_attendance":32000,"local_attendance":21000,"foreign_attendance":11000,"event_type":"Conciertos, Teatro, Danza","avg_event_duration":2.5,"_id":"v5I5irgQS8NXYJ0Y"}
 {"year":2019,"month":"febrero","province":"las palmas","total_event":40,"avg_ticket_price":17,"total_attendance":8500,"local_attendance":5000,"foreign_attendance":3500,"event_type":"Conciertos, Festivales, Teatro","avg_event_duration":2.5,"_id":"vyMLEDbBxGstVIm4"}
+{"$$deleted":true,"_id":"mNbyXOIz2GjoFtu3"}

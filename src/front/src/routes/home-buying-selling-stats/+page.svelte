@@ -146,7 +146,7 @@
 		<Button on:click={clearFilters} color="secondary">Limpiar</Button>
 	</div>
 </section>
-
+<section class="table">
 <Table class="table table-hover">
 	<thead class="table-light">
 		<tr>
@@ -190,6 +190,8 @@
 		</tr>
 	</tbody>
 </Table>
+</section>
+
 
 <style>
 	.hero {
@@ -200,8 +202,7 @@
 	}
 	.actions,
 	.filters {
-		max-width: 1000px;
-		margin: auto;
+		max-width: 100%;
 		padding: 1rem 2rem;
 	}
 	.filters input {
@@ -211,4 +212,8 @@
 		border-radius: 8px;
 		border: 1px solid #ccc;
 	}
+    .table {
+		padding: 1rem 2rem;
+	}
+    
 </style>

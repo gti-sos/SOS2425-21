@@ -125,9 +125,27 @@
 	<Alert color={alertType} class="my-3">{alertMessage}</Alert>
 {/if}
 
-<section class="actions">
-	<Button color="success" on:click={() => goto('/public-transit-stats/pie-graph')} class="me-2">Pie Graph</Button>
-	<Button color="primary" on:click={() => goto('/public-transit-stats/bar-graph')}>Bar Graph</Button>
+<section class="cards-container">
+	<div class="card-box">
+		<h3>📊 Gráficas</h3>
+		<div class="chart-buttons">
+			<Button color="success" on:click={() => goto('/public-transit-stats/pie-graph')}
+				>Gráfico Circular</Button
+			>
+			<Button color="primary" on:click={() => goto('/public-transit-stats/bar-graph')}
+				>Gráfico de Barras</Button
+			>
+		</div>
+	</div>
+
+	<div class="card-box">
+		<h3>🔗 Integraciones</h3>
+		<div class="chart-buttons">
+			<Button color="info" on:click={() => goto('/integrations/AGB')}
+				>Ver Integraciones</Button
+			>
+		</div>
+	</div>
 </section>
 
 <section class="filters">
@@ -143,6 +161,7 @@
 	</div>
 </section>
 
+<section class="table">
 <Table class="table table-hover">
 	<thead class="table-light">
 		<tr>
@@ -183,8 +202,54 @@
 		</tr>
 	</tbody>
 </Table>
-
+</section>
 <style>
+.charts-section {
+		background: white;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+		border-radius: 1rem;
+		padding: 2rem;
+		margin: 3rem auto;
+		max-width: 1000px;
+		text-align: center;
+	}
+
+	.charts-section h3 {
+		color: var(--primary, #1e3a8a);
+		margin-bottom: 1.5rem;
+	}
+
+	.chart-buttons {
+		display: flex;
+		justify-content: center;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+
+	.cards-container {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 2rem;
+		justify-content: center;
+		margin: 3rem auto;
+		max-width: 1000px;
+	}
+
+	.card-box {
+		background: white;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+		border-radius: 1rem;
+		padding: 2rem;
+		width: 100%;
+		max-width: 460px;
+		text-align: center;
+	}
+
+	.card-box h3 {
+		color: var(--primary, #1e3a8a);
+		margin-bottom: 1.5rem;
+	}
+
 	.hero {
 		text-align: center;
 		padding: 2rem 1rem;
@@ -193,8 +258,7 @@
 	}
 	.actions,
 	.filters {
-		max-width: 1000px;
-		margin: auto;
+		max-width: 100%;
 		padding: 1rem 2rem;
 	}
 	.filters input {
@@ -203,5 +267,8 @@
 		padding: 0.4rem 0.8rem;
 		border-radius: 8px;
 		border: 1px solid #ccc;
+	}
+	.table {
+		padding: 1rem 2rem;
 	}
 </style>
