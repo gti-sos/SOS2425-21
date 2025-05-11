@@ -13,7 +13,8 @@
 			api: `${baseAPI}/public-transit-stats`,
 			postman: 'https://documenter.getpostman.com/view/41997974/2sB2cSi4as',
 			dataset: 'public-transit-stats',
-			integration: '/integrations/AGB'
+			integration: '/integrations/AGB',
+			video: 'https://youtu.be/tAId_8VpFZY'
 		},
 		{
 			name: 'Laura Eraso Lorenzo',
@@ -21,7 +22,8 @@
 			api: `${baseAPI}/home-buying-selling-stats`,
 			postman: 'https://documenter.getpostman.com/view/42241739/2sB2cUANcY',
 			dataset: 'home-buying-selling-stats',
-			integration: '/integrations/LEL'
+			integration: '/integrations/LEL',
+			video:'https://youtu.be/tAId_8VpFZY'
 		},
 		{
 			name: 'Paula Ruiz Gardón',
@@ -29,7 +31,8 @@
 			api: `${baseAPI}/cultural-event`,
 			postman: 'https://documenter.getpostman.com/view/42397783/2sB2cUBNpz',
 			dataset: 'cultural-event',
-			integration: ''
+			integration: '',
+			video:'https://youtu.be/tAId_8VpFZY'
 		}
 	];
 
@@ -53,6 +56,7 @@
 				{#if member.integration}
 					<li><a href={member.integration}>🔗 Integración</a></li>
 				{/if}
+				<li><a href={member.video}>🎥 Video</a></li>
 			</ul>
 		</div>
 	{/each}
