@@ -2,7 +2,10 @@
 	import { dev } from '$app/environment';
 </script>
 
-
+<section class="hero">
+	<h1>🚀 Service Oriented Systems 2024/2025</h1>
+	<p>Universidad de Sevilla — Grupo SOS2425-21</p>
+</section>
 
 <section class="grid-container">
 	<div class="card fade" style="--delay: 0s">

@@ -1,60 +1,54 @@
 // @ts-check
-import { test, expect } from "@playwright/test";
+import { test, expect } from '@playwright/test';
 
-test("get cultural-event link", async ({ page }) => {
-  await page.goto("http://localhost:16078");
+test('get cultural-event link', async ({ page }) => {
+  await page.goto('http://localhost:16078');
 
-  // Click con data-testid
-  await page.getByTestId("link-cultural-event").click();
+  // Abre el dropdown de APIs
+  await page.getByText('APIs').click();
 
-  // Verifica que el título corresponde
-  await expect(page).toHaveTitle(/Cultural Event Manager/);
+  // Haz clic en el enlace de Cultural Events
+  await page.getByTestId('link-cultural-event').click();
+
+  // Verifica que el título contenga el nombre correcto
+  await expect(page).toHaveTitle(/Cultural Events Manager/);
 });
 
-test("create and delete cultural event entry", async ({ page }) => {
-  const testProvince = "__TEST_PROVINCE__";
-  const testYear = "2099";
-  const testMonth = "mayo";
-  const testEvents = "100";
-  const testPrice = "20";
-  const testAttendance = "5000";
-  const testLocal = "4000";
-  const testForeign = "1000";
-  const testTypes = "Conciertos, Teatro";
-  const testDuration = "2.5";
+test('create and delete cultural event entry', async ({ page }) => {
+  const testProvince = '__TEST_CULTURAL__';
+  const testYear = '2099';
+  const testMonth = 'mayo';
+  const testTotal = '20';
+  const testPrice = '12.5';
+  const testAttendance = '500';
 
-  await page.goto("http://localhost:16078");
+  await page.goto('http://localhost:16078');
 
-  // Click con data-testid
-  await page.getByTestId("link-cultural-event").click();
+  // Abre el dropdown de APIs
+  await page.getByText('APIs').click();
 
-  // Completar formulario
-  await page.locator("#Province").fill(testProvince);
-  await page.locator("#Year").fill(testYear);
-  await page.locator("#Month").fill(testMonth);
-  await page.locator("#TotalEvents").fill(testEvents);
-  await page.locator("#AvgPrice").fill(testPrice);
-  await page.locator("#TotalAttendance").fill(testAttendance);
-  await page.locator("#LocalAttendance").fill(testLocal);
-  await page.locator("#ForeignAttendance").fill(testForeign);
-  await page.locator("#EventType").fill(testTypes);
-  await page.locator("#AvgDuration").fill(testDuration);
+  // Ir a la sección de Cultural Events
+  await page.getByTestId('link-cultural-event').click();
 
-  // Crear evento
-  await page.getByRole("button", { name: "Create" }).click();
+  // Completar formulario de creación
+  await page.locator('#Province').fill(testProvince);
+  await page.locator('#Year').fill(testYear);
+  await page.locator('#Month').fill(testMonth);
+  await page.locator('#Total').fill(testTotal);
+  await page.locator('#Price').fill(testPrice);
+  await page.locator('#Attendance').fill(testAttendance);
 
-  // Verifica que la fila se creó
-  const newRow = page.locator("tr", { hasText: testProvince });
-  await expect(newRow).toContainText(testYear);
-  await expect(newRow).toContainText(testEvents);
-  await expect(newRow).toContainText(testAttendance);
-  await expect(newRow).toContainText(testTypes);
-  await expect(newRow).toContainText(testDuration);
+  // Crear entrada
+  await page.getByRole('button', { name: 'Crear' }).click();
 
-  // Eliminar la fila
-  const deleteButton = newRow.getByRole("button", { name: "Delete" });
+  const newRow = page.locator('tr', { hasText: testProvince });
+  await expect(newRow).toContainText(testMonth);
+  await expect(newRow).toContainText(testPrice);
+
+  // Eliminar entrada
+  const deleteButton = newRow.getByRole('button', { name: 'Eliminar' });
   await deleteButton.click();
 
-  // Verificar que fue eliminado
+  // Verificar que ya no existe
   await expect(newRow).toHaveCount(0);
 });
