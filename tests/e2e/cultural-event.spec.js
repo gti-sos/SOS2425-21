@@ -5,7 +5,7 @@ test('get cultural-event link', async ({ page }) => {
   await page.goto('http://localhost:16078');
 
   // Abre el dropdown de APIs
-  await page.getByText('APIs').click();
+await page.getByTestId('apis-dropdown').click();
 
   // Haz clic en el enlace de Cultural Events
   await page.getByTestId('link-cultural-event').click();

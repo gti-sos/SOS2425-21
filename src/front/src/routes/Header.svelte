@@ -33,7 +33,7 @@
 			{#each links as link}
 				{#if link.dropdown}
 					<div class="nav-item" on:click|stopPropagation={toggleDropdown}>
-						<span class="nav-link">{link.label} ▾</span>
+						<span class="nav-link" data-testid="apis-dropdown">{link.label} ▾</span>
 						{#if showDropdown}
 							<div class="dropdown" on:click|stopPropagation>
 								{#each apiLinks as api}
@@ -62,6 +62,7 @@
 		</nav>
 	</div>
 </header>
+
 
 <style>
 	.main-header {

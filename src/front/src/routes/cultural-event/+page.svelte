@@ -130,9 +130,12 @@
 	<Alert color={alertType} class="my-3">{alertMessage}</Alert>
 {/if}
 
-<section class="actions">
-	<Button color="success" on:click={() => goto('/cultural-event/pie-graph')} class="me-2">Data Graph</Button>
-	<Button color="primary" on:click={() => goto('/cultural-event/bar-graph')}>Bar Graph</Button>
+<section class="charts-section">
+	<h3>📊 Gráficas</h3>
+	<div class="chart-buttons">
+		<Button color="success" on:click={() => goto('/cultural-event/pie-graph')}>Gráfico Circular</Button>
+		<Button color="primary" on:click={() => goto('/cultural-event/bar-graph')}>Gráfico de Barras</Button>
+	</div>
 </section>
 
 <section class="filters">
@@ -192,6 +195,27 @@
 </Table>
 
 <style>
+	.charts-section {
+		background: white;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+		border-radius: 1rem;
+		padding: 2rem;
+		margin: 3rem auto;
+		max-width: 1000px;
+		text-align: center;
+	}
+
+	.charts-section h3 {
+		color: var(--primary, #1e3a8a);
+		margin-bottom: 1.5rem;
+	}
+
+	.chart-buttons {
+		display: flex;
+		justify-content: center;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
 	.hero {
 		text-align: center;
 		padding: 2rem 1rem;

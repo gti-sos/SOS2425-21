@@ -2,12 +2,13 @@
 import { test, expect } from '@playwright/test';
 
 test('get home-buying-selling-stats link', async ({ page }) => {
-  await page.goto('http://localhost:16078');
+  // Abre el dropdown de APIs
+await page.getByTestId('apis-dropdown').click();
 
-  // Clic por data-testid
+  // Haz clic en el enlace de Cultural Events
   await page.getByTestId('link-home-buying').click();
 
-  // Verifica que esté en la página correcta
+  // Verifica que el título contenga el nombre correcto
   await expect(page).toHaveTitle(/Home Buying Selling Manager/);
 });
 

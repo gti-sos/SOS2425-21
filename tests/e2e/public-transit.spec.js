@@ -5,7 +5,7 @@ test('get public-transit-stats link', async ({ page }) => {
   await page.goto('http://localhost:16078');
 
   // Abre el dropdown "APIs"
-  await page.getByText('APIs').click();
+await page.getByTestId('apis-dropdown').click();
 
   // Clic en el enlace a Public Transit
   await page.getByTestId('link-public-transit').click();
