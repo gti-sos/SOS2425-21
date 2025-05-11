@@ -18,6 +18,7 @@
         transaction_total: number;
     }
 
+    // Construye la URL de tu API
     const DEVEL_HOST = 'http://localhost:16078';
     let API = '/api/v1/home-buying-selling-stats';
     if (dev) {
@@ -30,19 +31,22 @@
         const res = await fetch(API);
         const data: Stat[] = await res.json();
 
+        // Agrupar y sumar por provincia
         const grouped = data.reduce<Record<string, number>>((acc, row) => {
         const prov = row.province;
         acc[prov] = (acc[prov] || 0) + row.transaction_total;
         return acc;
         }, {});
 
+        // Transformar a la forma que Highcharts espera
         const seriesData = Object.entries(grouped).map(([province, total]) => ({
         name: province,
         y: total
         }));
 
         if (!chart) {
-        chart = Highcharts.chart({
+        // @ts-ignore
+        chart = Highcharts.chart('pie-container', {
             chart: {
                 type: 'pie',
             },
@@ -68,18 +72,19 @@
                 }
             },
             series: [{
-                type: "pie",
                 name: 'Total transacciones',
                 data: seriesData
             }]
         });
         } else {
+        // Si ya existía, sólo actualiza los datos
             chart.series[0].setData(seriesData, true);
         }
     }
 
     onMount(() => {
         fetchAndRender();
+        // refresca cada 5 segundos (opcional)
         const interval = setInterval(fetchAndRender, 5000);
         return () => clearInterval(interval);
     });

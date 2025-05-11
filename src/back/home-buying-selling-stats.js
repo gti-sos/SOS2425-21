@@ -1,5 +1,7 @@
 const BASE_API = "/api/v1";
 import DataStore from "nedb";
+import { createRequire }    from "module";
+const require = createRequire(import.meta.url);
 
 let db_LEL = new DataStore({ filename: "homeBuyingSellingStats.db", autoload: true });
 const RESOURCE = "home-buying-selling-stats";
@@ -89,6 +91,19 @@ function loadBackendLEL(app) {
         // Devuelvo únicamente el array de documentos
         res.status(200).json(docs);
       });
+  });
+
+  app.use("/api-proxy", (req, res) => {
+    if (req.url.startsWith("/api/v1/registrations-stats")) {
+      const target = "https://sos2425-10.onrender.com" + req.url;
+      return req.pipe(require("request")(target)).pipe(res);
+    } else if (req.url.startsWith("/api/v1/fines")){
+      const target = "https://sos2425-20.onrender.com" + req.url;
+      return req.pipe(require("request")(target)).pipe(res);
+    }
+    else {
+      return res.status(404).send("Ruta de proxy no válida");
+    }
   });
   
 

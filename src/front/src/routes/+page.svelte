@@ -21,7 +21,7 @@
 			api: `${baseAPI}/home-buying-selling-stats`,
 			postman: 'https://documenter.getpostman.com/view/42241739/2sB2cUANcY',
 			dataset: 'home-buying-selling-stats',
-			integration: ''
+			integration: '/integrations/LEL'
 		},
 		{
 			name: 'Paula Ruiz Gardón',
