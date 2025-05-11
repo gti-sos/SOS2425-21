@@ -137,7 +137,6 @@
 	<Alert color={alertType} class="my-3">{alertMessage}</Alert>
 {/if}
 
-
 <section class="cards-container">
 	<div class="card-box">
 		<h3>📊 Gráficas</h3>
@@ -154,9 +153,8 @@
 	<div class="card-box">
 		<h3>🔗 Integraciones</h3>
 		<div class="chart-buttons">
-			<Button color="info" on:click={() => goto('/integrations/PRG')}
-				>Ver Integraciones</Button
-			>
+			<Button color="success" on:click={() => goto('/integrations/PRG')}>Externas</Button>
+			<Button color="primary" on:click={() => goto('/integrations/PRG/sos')}>Internas</Button>
 		</div>
 	</div>
 </section>
@@ -174,59 +172,60 @@
 </section>
 
 <section class="table">
-<Table class="table table-hover">
-	<thead class="table-light">
-		<tr>
-			<th>Provincia</th>
-			<th>Año</th>
-			<th>Mes</th>
-			<th>Total</th>
-			<th>Precio Medio</th>
-			<th>Asistencia</th>
-			<th>Acciones</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td><input bind:value={newProvince} data-testid="input-province" /></td>
-			<td><input bind:value={newYear} data-testid="input-year" /></td>
-			<td><input bind:value={newMonth} data-testid="input-month" /></td>
-			<td><input bind:value={newTotalEvents} data-testid="input-total" /></td>
-			<td><input bind:value={newAvgPrice} data-testid="input-price" /></td>
-			<td><input bind:value={newTotalAtt} data-testid="input-attendance" /></td>
-		<td><Button on:click={createEntry}>Crear</Button></td>
-		</tr>
-
-		{#each culturalData as item}
+	<Table class="table table-hover">
+		<thead class="table-light">
 			<tr>
-				<td>{item.province}</td>
-				<td>{item.year}</td>
-				<td>{item.month}</td>
-				<td>{item.total_event}</td>
-				<td>{item.avg_ticket_price}</td>
-				<td>{item.total_attendance}</td>
-				<td>
-					<Button
-						color="primary"
-						on:click={() => goto(`/cultural-event/${item.province}/${item.year}`)}>Editar</Button
-					>
-					<Button color="danger" on:click={() => deleteEntry(item.province, item.year, item.month)}
-						>Eliminar</Button
-					>
+				<th>Provincia</th>
+				<th>Año</th>
+				<th>Mes</th>
+				<th>Total</th>
+				<th>Precio Medio</th>
+				<th>Asistencia</th>
+				<th>Acciones</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><input bind:value={newProvince} data-testid="input-province" /></td>
+				<td><input bind:value={newYear} data-testid="input-year" /></td>
+				<td><input bind:value={newMonth} data-testid="input-month" /></td>
+				<td><input bind:value={newTotalEvents} data-testid="input-total" /></td>
+				<td><input bind:value={newAvgPrice} data-testid="input-price" /></td>
+				<td><input bind:value={newTotalAtt} data-testid="input-attendance" /></td>
+				<td><Button on:click={createEntry}>Crear</Button></td>
+			</tr>
+
+			{#each culturalData as item}
+				<tr>
+					<td>{item.province}</td>
+					<td>{item.year}</td>
+					<td>{item.month}</td>
+					<td>{item.total_event}</td>
+					<td>{item.avg_ticket_price}</td>
+					<td>{item.total_attendance}</td>
+					<td>
+						<Button
+							color="primary"
+							on:click={() => goto(`/cultural-event/${item.province}/${item.year}`)}>Editar</Button
+						>
+						<Button
+							color="danger"
+							on:click={() => deleteEntry(item.province, item.year, item.month)}>Eliminar</Button
+						>
+					</td>
+				</tr>
+			{/each}
+			<tr>
+				<td colspan="7" class="text-center">
+					<Button color="danger" on:click={deleteAll}>Borrar Todo</Button>
 				</td>
 			</tr>
-		{/each}
-		<tr>
-			<td colspan="7" class="text-center">
-				<Button color="danger" on:click={deleteAll}>Borrar Todo</Button>
-			</td>
-		</tr>
-	</tbody>
-</Table>
+		</tbody>
+	</Table>
 </section>
 
 <style>
-.charts-section {
+	.charts-section {
 		background: white;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 		border-radius: 1rem;

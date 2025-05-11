@@ -31,7 +31,7 @@
 			api: `${baseAPI}/cultural-event`,
 			postman: 'https://documenter.getpostman.com/view/42397783/2sB2cUBNpz',
 			dataset: 'cultural-event',
-			integration: '',
+			integration: '/integrations/PRG',
 			video:'https://youtu.be/tAId_8VpFZY'
 		}
 	];
