@@ -13,9 +13,6 @@
 	}
 
 	let culturalData = [];
-	let result = '';
-	let resultStatus = '';
-
 	let newProvince = '',
 		newYear = '',
 		newMonth = '',
@@ -31,9 +28,7 @@
 		searchMonth = '',
 		searchType = '';
 
-	let alertMessage = '',
-		alertType = '',
-		showAlert = false;
+	let alertMessage = '', alertType = '', showAlert = false;
 
 	function showUserAlert(message, type = 'info') {
 		alertMessage = message;
@@ -43,18 +38,14 @@
 	}
 
 	async function getData(filters = {}) {
-		resultStatus = result = '';
 		try {
 			let url = new URL(API, window.location.origin);
 			Object.entries(filters).forEach(([k, v]) => {
 				if (v) url.searchParams.append(k, v);
 			});
-			const res = await fetch(url.toString(), { method: 'GET' });
-			const data = await res.json();
-			result = JSON.stringify(data, null, 2);
-			culturalData = Array.isArray(data) ? data : data.data;
-		} catch (error) {
-			console.log(`ERROR: GET from ${API}: ${error}`);
+			const res = await fetch(url.toString());
+			culturalData = await res.json();
+		} catch (e) {
 			showUserAlert('Error al obtener los datos del servidor', 'danger');
 		}
 	}
@@ -68,7 +59,7 @@
 			} else {
 				showUserAlert('No se encontró el registro', 'warning');
 			}
-		} catch (error) {
+		} catch (e) {
 			showUserAlert('Error de conexión al eliminar el registro', 'danger');
 		}
 	}
@@ -100,7 +91,7 @@
 			} else {
 				showUserAlert('Error al crear el registro', 'danger');
 			}
-		} catch (error) {
+		} catch (e) {
 			showUserAlert('Error de conexión al crear el registro', 'danger');
 		}
 	}
@@ -114,18 +105,13 @@
 			} else {
 				showUserAlert('Error al eliminar registros', 'danger');
 			}
-		} catch (error) {
+		} catch (e) {
 			showUserAlert('Error de conexión al eliminar todos', 'danger');
 		}
 	}
 
 	function applyFilters() {
-		getData({
-			province: searchProvince,
-			year: searchYear,
-			month: searchMonth,
-			event_type: searchType
-		});
+		getData({ province: searchProvince, year: searchYear, month: searchMonth, event_type: searchType });
 	}
 
 	onMount(() => getData());
@@ -135,39 +121,41 @@
 	<title>Cultural Events Manager</title>
 </svelte:head>
 
+<section class="hero">
+	<h1>🎭 Cultural Events Manager</h1>
+	<p>Estadísticas de eventos culturales por provincia</p>
+</section>
+
 {#if showAlert}
-	<Alert color={alertType}>{alertMessage}</Alert>
+	<Alert color={alertType} class="my-3">{alertMessage}</Alert>
 {/if}
 
-<h2>Cultural Events List</h2>
-<div class="mb-3">
-	<Button color="success" on:click={() => goto('/cultural-event/pie-graph')} class="me-2">
-		Data Graph
-	</Button>
+<section class="actions">
+	<Button color="success" on:click={() => goto('/cultural-event/pie-graph')} class="me-2">Data Graph</Button>
 	<Button color="primary" on:click={() => goto('/cultural-event/bar-graph')}>Bar Graph</Button>
-</div>
+</section>
 
-<h3>Filtros</h3>
-<div class="mb-3">
-	<label>Provincia:</label>
-	<input bind:value={searchProvince} placeholder="Ej. Madrid" />
-	<label>Año:</label>
-	<input bind:value={searchYear} placeholder="Ej. 2024" />
-	<label>Mes:</label>
-	<input bind:value={searchMonth} placeholder="Ej. julio" />
-	<Button color="info" on:click={applyFilters}>Buscar</Button>
-	<Button color="secondary" on:click={() => getData()}>Limpiar</Button>
-</div>
+<section class="filters">
+	<h3>🔎 Filtros</h3>
+	<div>
+		<input bind:value={searchProvince} placeholder="Provincia..." />
+		<input bind:value={searchYear} placeholder="Año..." />
+		<input bind:value={searchMonth} placeholder="Mes..." />
+		<input bind:value={searchType} placeholder="Tipo..." />
+		<Button on:click={applyFilters} color="info">Buscar</Button>
+		<Button on:click={() => getData()} color="secondary">Limpiar</Button>
+	</div>
+</section>
 
-<Table>
-	<thead>
+<Table class="table table-hover">
+	<thead class="table-light">
 		<tr>
 			<th>Provincia</th>
 			<th>Año</th>
 			<th>Mes</th>
-			<th>Total Eventos</th>
+			<th>Total</th>
 			<th>Precio Medio</th>
-			<th>Asistencia Total</th>
+			<th>Asistencia</th>
 			<th>Acciones</th>
 		</tr>
 	</thead>
@@ -181,7 +169,6 @@
 			<td><input bind:value={newTotalAtt} /></td>
 			<td><Button on:click={createEntry}>Crear</Button></td>
 		</tr>
-
 		{#each culturalData as item}
 			<tr>
 				<td>{item.province}</td>
@@ -191,20 +178,37 @@
 				<td>{item.avg_ticket_price}</td>
 				<td>{item.total_attendance}</td>
 				<td>
-					<Button
-						color="primary"
-						on:click={() => goto(`/cultural-event/${item.province}/${item.year}`)}>Editar</Button
-					>
-					<Button color="danger" on:click={() => deleteEntry(item.province, item.year, item.month)}
-						>Eliminar</Button
-					>
+					<Button color="primary" on:click={() => goto(`/cultural-event/${item.province}/${item.year}`)}>Editar</Button>
+					<Button color="danger" on:click={() => deleteEntry(item.province, item.year, item.month)}>Eliminar</Button>
 				</td>
 			</tr>
 		{/each}
 		<tr>
-			<td colspan="7">
+			<td colspan="7" class="text-center">
 				<Button color="danger" on:click={deleteAll}>Borrar Todo</Button>
 			</td>
 		</tr>
 	</tbody>
 </Table>
+
+<style>
+	.hero {
+		text-align: center;
+		padding: 2rem 1rem;
+		background: linear-gradient(135deg, #1e3a8a 10%, #60a5fa 100%);
+		color: white;
+	}
+	.actions,
+	.filters {
+		max-width: 1000px;
+		margin: auto;
+		padding: 1rem 2rem;
+	}
+	.filters input {
+		margin-right: 0.5rem;
+		margin-bottom: 0.5rem;
+		padding: 0.4rem 0.8rem;
+		border-radius: 8px;
+		border: 1px solid #ccc;
+	}
+</style>

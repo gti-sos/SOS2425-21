@@ -1,275 +1,207 @@
 <svelte:head>
-    <title>Public Transit Manager</title>
+	<title>Public Transit Manager</title>
 </svelte:head>
 
 <script>
-    // @ts-nocheck
-    import { Button, Alert, Input, Table } from '@sveltestrap/sveltestrap';
+	// @ts-nocheck
+	import { Button, Alert, Table } from '@sveltestrap/sveltestrap';
 	import { dev } from '$app/environment';
 	import { onMount } from 'svelte';
 	import 'bootstrap/dist/css/bootstrap.min.css';
 	import { goto } from '$app/navigation';
 
-    const DEVEL_HOST = "http://localhost:16078";
-    let API = "/api/v1/public-transit-stats";
-    if (dev) {
-        API = DEVEL_HOST + API;
-    }
+	const DEVEL_HOST = 'http://localhost:16078';
+	let API = '/api/v1/public-transit-stats';
+	if (dev) {
+		API = DEVEL_HOST + API;
+	}
 
-    let transitData= [];
-    let result= "";
-    let resultStatus= "";
+	let transitData = [];
+	let newProvince = '', newYear = '', newPrice = '', newTrips = '', newLength = '';
+	let searchProvince = '', searchYear = '', searchPrice = '', searchTrip = '', searchLength = '';
 
-    let newProvince= "";
-    let newYear="";
-    let newPrice= "";
-    let newTrips = "";
-    let newLength= "";
+	let alertMessage = '', alertType = '', showAlert = false;
 
-    //filtros
-    let searchProvince = "";
-    let searchYear = "";
-    let searchPrice = "";
-    let searchTrip = "";
-    let searchLength = "";
+	function showUserAlert(message, type = 'info') {
+		alertMessage = message;
+		alertType = type;
+		showAlert = true;
+		setTimeout(() => (showAlert = false), 4000);
+	}
 
+	async function getData() {
+		try {
+			const res = await fetch(API);
+			transitData = await res.json();
+		} catch (e) {
+			showUserAlert('Error al obtener los datos del servidor', 'danger');
+		}
+	}
 
-    let alertMessage = "";
-    let alertType = "";
-    let showAlert = false;
+	async function deleteTrip(province, year) {
+		try {
+			const res = await fetch(`${API}/${province}/${year}`, { method: 'DELETE' });
+			if (res.status === 200) {
+				showUserAlert('Viaje eliminado correctamente', 'success');
+				getData();
+			} else {
+				showUserAlert('No se encontró el viaje', 'warning');
+			}
+		} catch (e) {
+			showUserAlert('Error de conexión al eliminar el viaje', 'danger');
+		}
+	}
 
-    function showUserAlert(message, type = "info") {
-        alertMessage = message;
-        alertType = type;
-        showAlert = true;
-        setTimeout(() => {
-            showAlert = false;
-        }, 4000);
-    }
+	async function createTrip() {
+		try {
+			const res = await fetch(API, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					province: newProvince,
+					year: parseInt(newYear),
+					ticket_price: parseFloat(newPrice),
+					total_trips: parseInt(newTrips),
+					route_length: parseFloat(newLength)
+				})
+			});
 
-    async function getData() {
-        resultStatus = result = "";
-        try {
-            const res = await fetch(API,{method:"GET"});
-  
-            const data = await res.json();
-            result = JSON.stringify(data,null,2);
+			if (res.status === 201) {
+				showUserAlert('Viaje creado', 'success');
+				getData();
+				newProvince = newYear = newPrice = newTrips = newLength = '';
+			} else {
+				showUserAlert('Error al crear el viaje', 'danger');
+			}
+		} catch (e) {
+			showUserAlert('Error de conexión al crear el viaje', 'danger');
+		}
+	}
 
-            transitData = Array.isArray(data) ? data : data.data;
+	async function deleteAllTrips() {
+		try {
+			const res = await fetch(API, { method: 'DELETE' });
+			if (res.status === 200) {
+				showUserAlert('Todos los viajes eliminados', 'success');
+				getData();
+			} else {
+				showUserAlert('Error al eliminar todos los viajes', 'danger');
+			}
+		} catch (e) {
+			showUserAlert('Error de conexión al eliminar todos los viajes', 'danger');
+		}
+	}
 
-            console.log(`Response received:\n${JSON.stringify(transitData,null,2)}`);
+	async function searchTrips() {
+		try {
+			let url = new URL(API, window.location.origin);
+			if (searchProvince) url.searchParams.append('province', searchProvince);
+			if (searchYear) url.searchParams.append('year', searchYear);
+			if (searchPrice) url.searchParams.append('ticket_price', searchPrice);
+			if (searchTrip) url.searchParams.append('total_trips', searchTrip);
+			if (searchLength) url.searchParams.append('route_length', searchLength);
 
-        } catch (error){
-            console.log(`ERROR:  GET from ${API}: ${error}`);
-            showUserAlert("Error al obtener los datos del servidor", "danger");
-        }
-    }
+			const res = await fetch(url.toString());
+			transitData = await res.json();
+			if (!transitData.length) {
+				showUserAlert('No se encontraron coincidencias', 'warning');
+			} else {
+				showUserAlert('Búsqueda realizada correctamente', 'info');
+			}
+		} catch (e) {
+			showUserAlert('Error al buscar los datos', 'danger');
+		}
+	}
 
-    async function deleteTrip(province,year) {
-        resultStatus = result = "";
-        try {
-            const res = await fetch(API + "/" + province + "/" + year, { method: "DELETE" });
-            const status = await res.status;
-            resultStatus = status;
-            result = ""; 
-            if (status == 200) {
-                console.log(`Trip ${province}, ${year} deleted`);
-                showUserAlert(`Viaje de ${province} en ${year} eliminado correctamente`, "success");
-                getData();
-            } else if (status == 404) {
-                showUserAlert(`No existe un viaje para ${province} en ${year}`, "warning");
-                console.log(`ERROR deleting trip ${province}, ${year}: ${status}`);
-            } else {
-                showUserAlert(`Error al eliminar el viaje (${status})`, "danger");
-                console.log(`ERROR deleting trip ${province}, ${year}: ${status}`);
-            }
-            
-        } catch (error) {
-            console.log(`ERROR: GET from ${API}: ${error}`);
-            showUserAlert("Error de conexión al intentar eliminar el viaje", "danger");
-        }
-    }
-
-    async function createTrip() {
-        resultStatus = result = "";
-        try {
-            const res = await fetch(API, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    province: newProvince,
-                    year: parseInt(newYear),
-                    ticket_price: parseFloat(newPrice),
-                    total_trips: parseInt(newTrips),
-                    route_length: parseFloat(newLength)
-                })
-            });
-
-            const status = await res.status;
-            resultStatus = status;
-            result = await res.text();
-            if (status == 201) {
-                console.log(`Trip created`);
-                showUserAlert("Viaje creado correctamente", "success");
-                await getData();
-                newProvince = "";
-                newYear = "";
-                newPrice = "";
-                newTrips = "";
-                newLength = "";
-            } else if (status == 409) {
-                showUserAlert("Ya existe un viaje con esos datos", "warning");
-                console.log(`ERROR creating trip:\n ${status}`);
-            } else {
-                showUserAlert("Error al crear el viaje", "danger");
-                console.log(`ERROR creating trip:\n ${status}`);
-            }
-
-        } catch (error) {
-            console.log(`ERROR: POST to ${API}: ${error}`);
-            showUserAlert("Error de conexión al crear el viaje", "danger");
-        }
-    }
-
-    async function deleteAllTrips() {
-        resultStatus = result = "";
-        try {
-            const res = await fetch(API, { method: "DELETE" });
-            const status = await res.status;
-            resultStatus = status;
-            result = await res.text();
-
-            if (status === 200) {
-                console.log(`All trips deleted`);
-                showUserAlert("Todos los viajes fueron eliminados", "success");
-                getData();
-            } else {
-                showUserAlert("Error al eliminar los viajes", "danger");
-                console.log(`ERROR deleting all trips: ${status}`);
-            }
-        } catch (error) {
-            console.log(`ERROR: DELETE all from ${API}: ${error}`);
-            showUserAlert("Error de conexión al eliminar los viajes", "danger");
-        }
-    }
-
-    async function searchTrips() {
-        resultStatus = result = "";
-        try {
-            let url = new URL(API, window.location.origin);
-
-            if (searchProvince) url.searchParams.append("province", searchProvince);
-            if (searchYear) url.searchParams.append("year", searchYear);
-            if (searchPrice) url.searchParams.append("ticket_price", searchPrice);
-            if (searchTrip) url.searchParams.append("total_trips", searchTrip);
-            if (searchLength) url.searchParams.append("route_length", searchLength);
-
-            const res = await fetch(url.toString(), { method: "GET" });
-            const data = await res.json();
-            resultStatus = res.status;
-            result = JSON.stringify(data, null, 2);
-            transitData = Array.isArray(data) ? data : data.data;
-
-            console.log("Filtered trips:", transitData);
-            if (!transitData || transitData.length === 0) {
-                showUserAlert("No se encontraron viajes con los filtros aplicados", "warning");
-            } else {
-                showUserAlert("Búsqueda realizada correctamente", "info");
-            }
-        } catch (error) {
-            console.log(`ERROR: filtered GET from ${API}: ${error}`);
-            showUserAlert("Error al buscar los viajes", "danger");
-        }
-    }
-
-    onMount(async () => {
-        getData();
-    })
+	onMount(() => getData());
 </script>
 
+<section class="hero">
+	<h1>🚌 Public Transit Manager</h1>
+	<p>Estadísticas de transporte público por provincia</p>
+</section>
+
 {#if showAlert}
-    <Alert color={alertType}>
-        {alertMessage}
-    </Alert>
+	<Alert color={alertType} class="my-3">{alertMessage}</Alert>
 {/if}
 
-<h2>Trips List</h2>
+<section class="actions">
+	<Button color="success" on:click={() => goto('/public-transit-stats/pie-graph')} class="me-2">Pie Graph</Button>
+	<Button color="primary" on:click={() => goto('/public-transit-stats/bar-graph')}>Bar Graph</Button>
+</section>
 
-    <Button color="success" on:click={() => goto('/public-transit-stats/pie-graph')} class="me-2">Pie Graph</Button>
-    <Button color="primary" on:click={() => goto('/public-transit-stats/bar-graph')}>Bar Graph</Button>
+<section class="filters">
+	<h3>🔍 Filtros</h3>
+	<div>
+		<input bind:value={searchProvince} placeholder="Provincia..." />
+		<input bind:value={searchYear} placeholder="Año..." />
+		<input bind:value={searchPrice} placeholder="Precio..." />
+		<input bind:value={searchTrip} placeholder="Viajes..." />
+		<input bind:value={searchLength} placeholder="Longitud..." />
+		<Button on:click={searchTrips} color="info">Buscar</Button>
+		<Button on:click={getData} color="secondary">Limpiar</Button>
+	</div>
+</section>
 
-<h3>Búsqueda</h3>
-<div class="mb-3">
-    <label for="provinceSearch">Provincia:</label>
-    <input id="provinceSearch" bind:value={searchProvince} placeholder="Ej. Sevilla">
-
-    <label for="yearSearch">Año:</label>
-    <input id="yearSearch" bind:value={searchYear} placeholder="Ej. 2015">
-
-    <label for="priceSearch">Precio del billete:</label>
-    <input id="priceSearch" bind:value={searchPrice} placeholder="Ej. 1.20">
-
-    <label for="tripsSearch">Número de viajes:</label>
-    <input id="tripsSearch" bind:value={searchTrip} placeholder="Ej. 45000">
-
-    <label for="lengthSearch">Longitud de la ruta:</label>
-    <input id="lengthSearch" bind:value={searchLength} placeholder="Ej. 28.5">
-
-    <Button color="info" on:click={searchTrips}>Buscar</Button>
-    <Button color="secondary" on:click={getData}>Limpiar</Button>
-</div>
-<Table>
-    <thead>
-        <tr>
-            <th>Province</th>
-            <th>Year</th>
-            <th>Price</th>
-            <th>Trips</th>
-            <th>Length</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        <tr>
-            <td>
-                <input id="Province" bind:value={newProvince}>
-            </td>
-            <td>
-                <input id="Year" bind:value={newYear}>
-            </td>
-            <td>
-                <input id="Price" bind:value={newPrice}>
-            </td>
-            <td>
-                <input id="Trips" bind:value={newTrips}>
-            </td>
-            <td>
-                <input id="Length" bind:value={newLength}>
-            </td>
-            <td>
-                <Button color="primary" on:click={createTrip}>Create</Button>
-            </td>
-        </tr>
-        {#each transitData as trip}
-            <tr>
-                <td>{trip.province}</td>
-                <td>{trip.year}</td>
-                <td>{trip.ticket_price}</td>
-                <td>{trip.total_trips}</td>
-                <td>{trip.route_length}</td>
-                <td>
-                    <Button color="primary" on:click={() => goto(`/public-transit-stats/${trip.province}/${trip.year}`)}>Edit</Button>
-                    <Button color="danger" on:click={() => deleteTrip(trip.province, trip.year)}>Delete</Button>
-                </td>
-            </tr>
-        {/each}
-        <tr>
-            <td colspan="6">
-                <Button color="danger" on:click={deleteAllTrips}>Borrar Todo</Button>
-            </td>
-        </tr>
-    </tbody>
+<Table class="table table-hover">
+	<thead class="table-light">
+		<tr>
+			<th>Provincia</th>
+			<th>Año</th>
+			<th>Precio</th>
+			<th>Viajes</th>
+			<th>Longitud</th>
+			<th>Acciones</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><input bind:value={newProvince} /></td>
+			<td><input bind:value={newYear} /></td>
+			<td><input bind:value={newPrice} /></td>
+			<td><input bind:value={newTrips} /></td>
+			<td><input bind:value={newLength} /></td>
+			<td><Button on:click={createTrip}>Crear</Button></td>
+		</tr>
+		{#each transitData as trip}
+			<tr>
+				<td>{trip.province}</td>
+				<td>{trip.year}</td>
+				<td>{trip.ticket_price}</td>
+				<td>{trip.total_trips}</td>
+				<td>{trip.route_length}</td>
+				<td>
+					<Button color="primary" on:click={() => goto(`/public-transit-stats/${trip.province}/${trip.year}`)}>Editar</Button>
+					<Button color="danger" on:click={() => deleteTrip(trip.province, trip.year)}>Eliminar</Button>
+				</td>
+			</tr>
+		{/each}
+		<tr>
+			<td colspan="6" class="text-center">
+				<Button color="danger" on:click={deleteAllTrips}>Borrar Todo</Button>
+			</td>
+		</tr>
+	</tbody>
 </Table>
+
+<style>
+	.hero {
+		text-align: center;
+		padding: 2rem 1rem;
+		background: linear-gradient(135deg, #1e3a8a 10%, #60a5fa 100%);
+		color: white;
+	}
+	.actions,
+	.filters {
+		max-width: 1000px;
+		margin: auto;
+		padding: 1rem 2rem;
+	}
+	.filters input {
+		margin-right: 0.5rem;
+		margin-bottom: 0.5rem;
+		padding: 0.4rem 0.8rem;
+		border-radius: 8px;
+		border: 1px solid #ccc;
+	}
+</style>
