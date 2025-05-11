@@ -448,32 +448,32 @@ function loadBackendPRG(app) {
       res.sendStatus(200);
     });
   });
-}
 
-function loadProxyRoutes(app) {
   app.get("/proxy/idealista", async (req, res) => {
-    const BASE_URL = "https://idealista2.p.rapidapi.com/properties/list";
+  const BASE_URL = "https://idealista2.p.rapidapi.com/properties/list";
+  const queryParams = new URLSearchParams(req.query).toString();
+  const targetUrl = `${BASE_URL}?${queryParams}`;
 
-    const queryParams = new URLSearchParams(req.query).toString();
-    const targetUrl = `${BASE_URL}?${queryParams}`;
+  try {
+    const response = await fetch(targetUrl, {
+      method: "GET",
+      headers: {
+        "x-rapidapi-key": "a38a2025dfmsh591fba7f1cbb126p189c51jsnf72c9793a6a9",
+        "x-rapidapi-host": "idealista2.p.rapidapi.com"
+      }
+    });
 
-    try {
-      const response = await fetch(targetUrl, {
-        method: "GET",
-        headers: {
-          "x-rapidapi-key":
-            "a38a2025dfmsh591fba7f1cbb126p189c51jsnf72c9793a6a9",
-          "x-rapidapi-host": "idealista2.p.rapidapi.com",
-        },
-      });
+    const data = await response.json();
 
-      const data = await response.json();
-      res.status(response.status).json(data);
-    } catch (error) {
-      console.error("Error al hacer proxy a Idealista:", error);
-      res.status(500).json({ error: "No se pudo obtener datos de Idealista" });
-    }
-  });
+    const prices = data?.elementList?.map((item) => item.price).filter(Boolean) || [];
+    
+    res.status(response.status).json({ prices }); // ← devolvemos solo precios
+  } catch (error) {
+    console.error("Error al hacer proxy a Idealista:", error);
+    res.status(500).json({ error: "No se pudo obtener datos de Idealista" });
+  }
+});
+
 }
 
 export { loadBackendPRG };

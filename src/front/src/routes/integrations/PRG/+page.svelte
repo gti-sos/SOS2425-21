@@ -4,6 +4,8 @@
 	import 'zingchart/es6';
 	import { dev } from '$app/environment';
 
+	let loadingHousing = true;
+
 	// Gráfico 1: Idiomas más hablados del mundo (usando proxy)
 	const API_LANGUAGES_PROXY = dev
 		? 'http://localhost:16078/proxy/restcountries'
@@ -115,13 +117,10 @@
 
 	// Gráfico 4: Precio medio de alquiler por comunidad → BAR
 	const comunidades = {
-		Andalucía: ['0-EU-ES-01-001-29067'], // Málaga
-		Madrid: ['0-EU-ES-28-001-28079'], // Madrid
-		'Comunidad Valenciana': ['0-EU-ES-10-001-46250'], // Valencia
-		Cataluña: ['0-EU-ES-09-001-08019'], // Barcelona
-		Galicia: ['0-EU-ES-12-001-15030'], // A Coruña
-		'Castilla y León': ['0-EU-ES-07-001-47002'], // Valladolid
-		Canarias: ['0-EU-ES-05-001-38038'] // Santa Cruz
+		Sevilla: ['0-EU-ES-41'],
+		Madrid: ['0-EU-ES-28'],
+		Barcelona: ['0-EU-ES-08'],
+		'Las Palmas': ['0-EU-ES-35']
 	};
 
 	async function loadHousingData() {
@@ -137,8 +136,7 @@
 					const url = `${baseProxy}?locationId=${locationId}&operation=rent&locale=es&country=es&numPage=1&maxItems=40`;
 					const res = await fetch(url);
 					const data = await res.json();
-
-					const prices = data?.elementList?.map((item) => item.price).filter(Boolean) || [];
+					const prices = data?.prices || [];
 
 					if (prices.length > 0) {
 						total += prices.reduce((a, b) => a + b, 0);
@@ -163,7 +161,6 @@
 			height: 500,
 			data: {
 				type: 'bar',
-				title: { text: '💶 Precio medio del alquiler por comunidad autónoma' },
 				scaleX: {
 					labels: results.map((r) => r.text),
 					label: { text: 'Comunidad Autónoma' }
@@ -183,6 +180,8 @@
 				]
 			}
 		});
+
+		loadingHousing = false;
 	}
 
 	onMount(() => {
@@ -195,17 +194,21 @@
 <section class="graph-wrapper">
 	<h1>📊 Visualizaciones Integradas con ZingChart</h1>
 
-	<h2 class="chart-title">🌐 Idiomas más hablados del mundo</h2>
-	<div class="chart-card"><div id="chart-languages"></div></div>
-
 	<h2 class="chart-title">🌍 Terremotos por continente</h2>
 	<div class="chart-card"><div id="chart-earthquakes"></div></div>
 
 	<h2 class="chart-title">✈️ Vuelos por país de origen</h2>
 	<div class="chart-card"><div id="chart-flights"></div></div>
 
-	<h2 class="chart-title">🏘️ Precio medio de alquiler por comunidad</h2>
-	<div class="chart-card"><div id="chart-housing"></div></div>
+	<h2 class="chart-title">🏘️ Precio medio de alquiler por provincia</h2>
+	<div class="chart-card housing-wrapper">
+		{#if loadingHousing}
+			<div class="spinner-overlay">
+				<div class="spinner"></div>
+			</div>
+		{/if}
+		<div id="chart-housing"></div>
+	</div>
 </section>
 
 <style>
@@ -228,5 +231,37 @@
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 		padding: 1rem;
 		margin-bottom: 3rem;
+	}
+	.housing-wrapper {
+		position: relative;
+		min-height: 500px;
+	}
+	.spinner-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(255, 255, 255, 0.75);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		z-index: 10;
+	}
+	.spinner {
+		border: 6px solid #f3f3f3;
+		border-top: 6px solid #007acc;
+		border-radius: 50%;
+		width: 50px;
+		height: 50px;
+		animation: spin 1s linear infinite;
+	}
+	@keyframes spin {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
 	}
 </style>
