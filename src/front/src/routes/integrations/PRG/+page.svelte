@@ -1,263 +1,203 @@
 <script>
-  // @ts-nocheck
-  import { onMount } from 'svelte';
-  import Chart from 'chart.js/auto';
-  import ApexCharts from 'apexcharts';
-  import { dev } from '$app/environment';
+	import { onMount } from 'svelte';
+	import zingchart from 'zingchart/es6';
+	import 'zingchart/es6';
 
-  const DEVEL_HOST = "http://localhost:16078";
-  let API = "/api/v1/public-transit-stats";
-  if (dev) {
-    API = DEVEL_HOST + API;
-  }
+	// Gráfico 1: Idiomas más hablados del mundo
+	const API_LANGUAGES = 'https://restcountries.com/v3.1/all';
 
-  let consorcioData = [];
-  let cargandoConsorcio = true;
+	async function loadLanguagesData() {
+		const res = await fetch(API_LANGUAGES);
+		const countries = await res.json();
 
-  let provincias = [];
-  let ticketPrices = [];
-  let applesCosts = [];
-  let cappuccinoCosts = [];
-  let gasolineCosts = [];
+		const languageMap = new Map();
 
-  let chartContainer2;
+		for (const country of countries) {
+			const population = country.population || 0;
+			const languages = country.languages;
+			if (languages) {
+				for (const langCode in languages) {
+					const langName = languages[langCode];
+					if (!languageMap.has(langName)) languageMap.set(langName, 0);
+					languageMap.set(langName, languageMap.get(langName) + population);
+				}
+			}
+		}
 
-  onMount(async () => {
-    //Integración consorcio (uso HTML)
-    try {
-      const resConsorcio = await fetch('https://api.ctan.es/v1/Consorcios/7/consorcios');
-      const json = await resConsorcio.json();
-      consorcioData = json.consorcios;
-    } catch (err) {
-      console.error("Error consorcio:", err);
-    } finally {
-      cargandoConsorcio = false;
-    }
+		const topLanguages = [...languageMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10);
 
-    //Integración coste de vida (chart.js tipo bubble)
-    try{
-      const datosTransporte = await fetch(API).then(res => res.json());
-      const provinciasUnicas = [...new Set(datosTransporte.map(d => d.province))];
+		const series = topLanguages.map(([lang, pop]) => ({
+			text: lang,
+			values: [pop]
+		}));
 
-      for (const provincia of provinciasUnicas) {
-        const precios = await fetchCosteDeVida(provincia);
-        if (precios !== null) {
-          const entrada = datosTransporte.find(d => d.province === provincia);
-          provincias.push(provincia);
-          ticketPrices.push(entrada.ticket_price);
-          applesCosts.push(precios.apples);
-          cappuccinoCosts.push(precios.cappuccino);
-          gasolineCosts.push(precios.gasoline);
-        }
-      }
+		zingchart.render({
+			id: 'chart-languages',
+			width: '100%',
+			height: 500,
+			data: {
+				type: 'ring',
+	
+				legend: {
+					draggable: true,
+					layout: 'vertical',
+					align: 'right',
+					verticalAlign: 'middle'
+				},
+				plot: {
+					valueBox: { placement: 'out', text: '%t' },
+					tooltip: { text: '%text: %v personas' }
+				},
+				series
+			}
+		});
+	}
 
-      renderChart();
-    } catch (err) {
-      console.error("Error datos transporte o coste de vida:", err);
-    }
+	// Gráfico 2: Terremotos por continente → AREA
+	const API_EARTHQUAKES =
+		'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson';
 
-    //integración datos INE
-    try {
-      const [ineData, apiData] = await Promise.all([
-        fetch("https://servicios.ine.es/wstempus/jsCache/es/DATOS_TABLA/49359?tip=AM").then(res => res.json()),
-        fetch(API).then(res => res.json())
-      ]);
+	function getContinent(lat, lon) {
+		if (lat >= -60 && lat <= 90 && lon >= -170 && lon <= -30) return 'América';
+		if (lat >= -35 && lat <= 37 && lon >= -10 && lon <= 50) return 'África';
+		if (lat >= 35 && lat <= 70 && lon >= -10 && lon <= 60) return 'Europa';
+		if (lat >= 5 && lat <= 55 && lon >= 60 && lon <= 180) return 'Asia';
+		if (lat >= -50 && lat <= 0 && lon >= 110 && lon <= 180) return 'Oceanía';
+		if (lat <= -60) return 'Antártida';
+		return 'Otros';
+	}
 
-      const ine2024 = ineData[0].Data
-        .filter(d => d.Anyo === 2024)
-        .map(d => ({ label: d.T3_Periodo, value: d.Valor }));
+	async function loadEarthquakeData() {
+		const res = await fetch(API_EARTHQUAKES);
+		const data = await res.json();
 
-      const api2024 = apiData
-        .filter(d => d.year === 2024)
-        .map(d => ({ label: d.province, value: d.total_trips }));
+		const continentMap = new Map();
 
-      const allLabels = [
-        ...ine2024.map(d => d.label),
-        ...api2024.map(d => d.label)
-      ];
+		for (const feature of data.features) {
+			const magnitude = feature.properties.mag;
+			const [lon, lat] = feature.geometry.coordinates;
+			const continent = getContinent(lat, lon);
+			if (!continentMap.has(continent)) continentMap.set(continent, []);
+			continentMap.get(continent).push(magnitude);
+		}
 
-      const seriesDataINE = ine2024.map(d => d.value * 1000);
-      const seriesDataAPI = api2024.map(d => d.value);
+		const continents = [...continentMap.keys()];
+		const series = [
+			{
+				text: 'Magnitud media',
+				values: continents.map((c) => {
+					const mags = continentMap.get(c);
+					const avg = mags.reduce((a, b) => a + b, 0) / mags.length;
+					return parseFloat(avg.toFixed(2));
+				})
+			}
+		];
 
-      const options = {
-        chart: {
-          type: 'radar',
-          height: 500
-        },
-        title: {
-          text: 'Comparativa Viajeros 2024 (INE vs API)'
-        },
-        xaxis: {
-          categories: allLabels
-        },
-        series: [
-          {
-            name: 'INE',
-            data: seriesDataINE
-          },
-          {
-            name: 'API',
-            data: Array(ine2024.length).fill(null).concat(seriesDataAPI)
-          }
-        ]
-      };
+		zingchart.render({
+			id: 'chart-earthquakes',
+			width: '100%',
+			height: 500,
+			data: {
+				type: 'area',
+			
+				scaleX: {
+					labels: continents,
+					label: { text: 'Continente' }
+				},
+				scaleY: {
+					label: { text: 'Magnitud' }
+				},
+				plot: {
+					tooltip: { text: '%t: %v' },
+					valueBox: { text: '%v', placement: 'top' }
+				},
+				series
+			}
+		});
+	}
 
-      new ApexCharts(chartContainer2, options).render();
-    } catch (err) {
-      console.error('Error al cargar datos:', err);
-    }
-  });
+	// Gráfico 3: Vuelos en espacio aéreo español → FUNNEL
+	const lamin = 35.0,
+		lamax = 44.0,
+		lomin = -10.0,
+		lomax = 5.0;
 
-  async function fetchCosteDeVida(ciudad) {
-    try {
-      const res = await fetch(`/proxy/cost-of-living/prices?city_name=${ciudad}&country_name=Spain`);
-      const json = await res.json();
-      const precios = json.prices ?? [];
+	async function loadFlightsData() {
+		const res = await fetch(
+			`https://opensky-network.org/api/states/all?lamin=${lamin}&lamax=${lamax}&lomin=${lomin}&lomax=${lomax}`
+		);
+		const data = await res.json();
 
-      const apples = precios.find(p => p.item_name === "Apples, 1 kg")?.avg ?? null;
-      const cappuccino = precios.find(p => p.item_name === "Cappuccino")?.avg ?? null;
-      const gasoline = precios.find(p => p.item_name === "Gasoline, 1 liter")?.avg ?? null;
+		const countryCounts = {};
+		data.states.forEach((s) => {
+			const country = s[2] || 'Desconocido';
+			countryCounts[country] = (countryCounts[country] || 0) + 1;
+		});
 
-      return { apples, cappuccino, gasoline };
-    } catch (err) {
-      console.error(`Error con ${ciudad}:`, err);
-      return null;
-    }
-  }
+		const sorted = Object.entries(countryCounts)
+			.sort((a, b) => b[1] - a[1])
+			.slice(0, 10);
 
-  let chartCanvas;
-  let chartInstance;
+		const series = sorted.map(([country, count]) => ({
+			text: country,
+			values: [count]
+		}));
 
-  function renderChart() {
-    if (chartInstance) {
-      chartInstance.destroy();
-    }
+		zingchart.render({
+			id: 'chart-flights',
+			width: '100%',
+			height: 500,
+			data: {
+				type: 'funnel',
+			
+				plot: {
+					tooltip: { text: '%text: %v vuelos' },
+					valueBox: { text: '%v', placement: 'top' }
+				},
+				series
+			}
+		});
+	}
 
-    const ctx = chartCanvas.getContext('2d');
-
-    // Crear dataset de burbujas
-    const createBubbleDataset = (label, data, color) => {
-      return {
-        label,
-        data: data.map((y, i) => ({
-          x: i,
-          y,
-          r: Math.sqrt(y) * 3 || 3
-        })),
-        backgroundColor: color
-      };
-    };
-
-    chartInstance = new Chart(ctx, {
-      type: 'bubble',
-      data: {
-        datasets: [
-          createBubbleDataset('Billete autobús (€)', ticketPrices, '#4e79a7'),
-          createBubbleDataset('Manzanas (1 kg) (€)', applesCosts, '#f28e2b'),
-          createBubbleDataset('Cappuccino (€)', cappuccinoCosts, '#e15759'),
-          createBubbleDataset('Gasolina (1 litro) (€)', gasolineCosts, '#76b7b2')
-        ]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          title: {
-            display: true,
-            text: 'Comparación de Transporte y Coste de Vida'
-          },
-          tooltip: {
-            callbacks: {
-              title: (ctx) => provincias[ctx[0].raw.x],
-              label: (ctx) => `${ctx.dataset.label}: ${ctx.raw.y.toFixed(2)} €`
-            }
-          }
-        },
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: 'Ciudad'
-            },
-            ticks: {
-              callback: (val) => provincias[val] ?? val
-            }
-          },
-          y: {
-            title: {
-              display: true,
-              text: 'Precio (€)'
-            }
-          }
-        }
-      }
-    });
-  }
-
+	onMount(() => {
+		loadLanguagesData();
+		loadEarthquakeData();
+		loadFlightsData();
+	});
 </script>
 
+<section class="graph-wrapper">
+	<h1>📊 Visualizaciones Integradas con ZingChart</h1>
 
-<h1>Integración de APIs</h1>
+	<h2 class="chart-title">🌐 Idiomas más hablados del mundo</h2>
+	<div class="chart-card"><div id="chart-languages"></div></div>
 
-<a href="/integrations/AGB/sos">Integraciones SOS</a>
+	<h2 class="chart-title">🌍 Terremotos por continente</h2>
+	<div class="chart-card"><div id="chart-earthquakes"></div></div>
 
-<section>
-  <h2>Datos de Consorcios de Transporte</h2>
-  {#if cargandoConsorcio}
-    <p>Cargando datos de consorcios...</p>
-  {:else}
-    {#if consorcioData.length > 0}
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Nombre corto</th>
-          </tr>
-        </thead>
-        <tbody>
-          {#each consorcioData as consorcio}
-            <tr>
-              <td>{consorcio.idConsorcio}</td>
-              <td>{consorcio.nombre}</td>
-              <td>{consorcio.nombreCorto}</td>
-            </tr>
-          {/each}
-        </tbody>
-      </table>
-    {:else}
-      <p>No se encontraron datos de consorcios.</p>
-    {/if}
-  {/if}
-</section>
-
-<section>
-  <h2>Comparación: Precio de Billete y Coste de Vida</h2>
-  <canvas bind:this={chartCanvas} width="600" height="400"></canvas>
-</section>
-
-<section>
-  <h2>Widget de Viajeros y Provincias (2024)</h2>
-  <div bind:this={chartContainer2} style="margin-top: 2rem;"></div>
+	<h2 class="chart-title">✈️ Vuelos por país de origen</h2>
+	<div class="chart-card"><div id="chart-flights"></div></div>
 </section>
 
 <style>
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-  }
-
-  th, td {
-    border: 1px solid #ccc;
-    padding: 0.5rem;
-    text-align: left;
-  }
-
-  th {
-    background-color: #f4f4f4;
-  }
-
-  section {
-    margin-top: 2rem;
-  }
+	.graph-wrapper {
+		padding: 2rem 1rem;
+		max-width: 1200px;
+		margin: auto;
+	}
+	.chart-title {
+		font-size: 1.5rem;
+		margin-bottom: 0.5rem;
+		color: #333;
+		border-left: 6px solid #007acc;
+		padding-left: 12px;
+		margin-top: 2rem;
+	}
+	.chart-card {
+		background: white;
+		border-radius: 12px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+		padding: 1rem;
+		margin-bottom: 3rem;
+	}
 </style>
