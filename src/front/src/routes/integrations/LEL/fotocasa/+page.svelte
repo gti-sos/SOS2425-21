@@ -111,4 +111,11 @@
     Número de anuncios <strong>BUY / HOMES</strong> agrupados por código postal
     (datos de Fotocasa – RapidAPI). Se actualiza cada minuto.
   </p>
+  <br>
+  <button
+    on:click={() => (window.location.href = '/integrations/LEL')}
+    style="display:block;margin:20px auto;padding:8px 12px;
+           background:#36A2EB;border:none;border-radius:4px;cursor:pointer;">
+    Volver
+  </button>
 </figure>

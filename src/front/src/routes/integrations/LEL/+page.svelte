@@ -69,6 +69,7 @@
   <a href="/integrations/LEL/g20-fines">Integración Grupo 20</a>
   <a href="/integrations/LEL/g11-autonomy-dependences-application">Integracion Grupo 12</a>
   <a href="/integrations/LEL/fotocasa">Fotocasa</a>
+  <a href="/integrations/LEL/eurostat">Eurostat</a>
 </nav>
 
 <hr>

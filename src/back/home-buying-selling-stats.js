@@ -92,25 +92,49 @@ function loadBackendLEL(app) {
       });
   });
 
-  app.use("/api-proxy", (req, res) => {
-    if (req.url.startsWith("/api/v1/registrations-stats")) {
-      const target = "https://sos2425-10.onrender.com" + req.url;
-      return req.pipe(require("request")(target)).pipe(res);
+app.use('/api-proxy', async (req, res) => {
 
-    } else if (req.url.startsWith("/api/v1/fines")) {
-      const target = "https://sos2425-20.onrender.com" + req.url;
-      return req.pipe(require("request")(target)).pipe(res);
+  /* grupo 10 · registration-stats */
+  if (req.url.startsWith('/api/v1/registrations-stats')) {
+    const target = 'https://sos2425-10.onrender.com' + req.url;
+    return req.pipe(require('request')(target)).pipe(res);
 
-    } else if (req.url.startsWith("/api/v1/autonomy-dependence-applications")) {
-      const target = "https://sos2425-11.onrender.com" + req.url;
-      return req.pipe(require("request")(target)).pipe(res);
+  /* grupo 20 · fines */
+  } else if (req.url.startsWith('/api/v1/fines')) {
+    const target = 'https://sos2425-20.onrender.com' + req.url;
+    return req.pipe(require('request')(target)).pipe(res);
 
-    } else if (req.url.startsWith("/api/v1/home-buying-selling-stats")) {
-      return res.redirect(req.url.replace("/api-proxy", ""));
+  /* grupo 11 · autonomy-dependence-applications */
+  } else if (req.url.startsWith('/api/v1/autonomy-dependence-applications')) {
+    const target = 'https://sos2425-11.onrender.com' + req.url;
+    return req.pipe(require('request')(target)).pipe(res);
+
+  } else if (req.url.startsWith('/eurostat-hpi')) {
+    const year = String(req.query.year || new Date().getFullYear());
+
+    const url =
+      'https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/' +
+      'prc_hpi_a?geo=ES&time=' + year;
+
+    try {
+      const json = await (await fetch(url)).json();
+
+      const values = Object.values(json.value);
+      const hpi    = values.length ? Number(values[0]) : null;
+
+      return res.json({ hpi });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Eurostat fetch error' });
     }
+  } else if (req.url.startsWith('/api/v1/home-buying-selling-stats')) {
+    return res.redirect(req.url.replace('/api-proxy', ''));
+  }
 
-    return res.status(404).send("Ruta de proxy no válida");
+  
+  return res.status(404).send('Ruta de proxy no válida');
 });
+
 
 
   // GET - Documentación

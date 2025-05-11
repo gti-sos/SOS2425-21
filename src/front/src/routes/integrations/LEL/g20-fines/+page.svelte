@@ -18,7 +18,7 @@
     itv: number;
   }
 
-  // Estados locales
+
   let years: number[] = [];
   let selectedYear!: number;
   let reactContainer: HTMLDivElement;
@@ -26,7 +26,6 @@
   const transactionByYear  = new Map<number, number>();
   const multasByYear = new Map<number, number>();
 
-  // 1) Carga ambas APIs y construye los mapas
   async function loadData() {
     const API_TRA = dev
       ? 'http://localhost:16078/api/v1/home-buying-selling-stats'
@@ -43,7 +42,6 @@
     const transData: Transaction[]    = await resTra.json();
     const regData: Fine[]     = await resReg.json();
 
-    // extrae años únicos
     years = Array.from(
       new Set<number>([
         ...transData.map(d => Number(d.year)),
@@ -51,10 +49,8 @@
       ])
     ).sort((a, b) => a - b);
 
-    // selecciona el último año
     selectedYear = years[years.length - 1]!;
 
-    // rellena mapas de totales
     years.forEach(y => {
       const sumT = transData
         .filter(d => Number(d.year) === y)
@@ -68,7 +64,6 @@
     });
   }
 
-  // 2) Renderiza el funnel con React + Reaviz
   async function renderFunnel() {
     const React    = (await import('react')).default;
     const { createRoot } = await import('react-dom/client');
@@ -103,7 +98,6 @@
       }
     );
 
-    // inyecta en el contenedor Svelte
     const root = createRoot(reactContainer);
     root.render(funnelElement);
   }
@@ -131,12 +125,18 @@
       </select>
     </label>
 
-    <!-- Aquí React renderiza el funnel -->
     <div bind:this={reactContainer} class="funnel-container"></div>
 
     <p class="description">
       Comparativa de multas de ITV vs transacciones totales por año (Reaviz + React dentro de Svelte).
     </p>
+    <br>
+    <button
+    on:click={() => (window.location.href = '/integrations/LEL')}
+    style="display:block;margin:20px auto;padding:8px 12px;
+           background:#36A2EB;border:none;border-radius:4px;cursor:pointer;">
+    Volver
+  </button>
   </figure>
 {/if}
 
