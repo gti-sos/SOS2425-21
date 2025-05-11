@@ -28,7 +28,9 @@
 		searchMonth = '',
 		searchType = '';
 
-	let alertMessage = '', alertType = '', showAlert = false;
+	let alertMessage = '',
+		alertType = '',
+		showAlert = false;
 
 	function showUserAlert(message, type = 'info') {
 		alertMessage = message;
@@ -111,7 +113,12 @@
 	}
 
 	function applyFilters() {
-		getData({ province: searchProvince, year: searchYear, month: searchMonth, event_type: searchType });
+		getData({
+			province: searchProvince,
+			year: searchYear,
+			month: searchMonth,
+			event_type: searchType
+		});
 	}
 
 	onMount(() => getData());
@@ -130,11 +137,27 @@
 	<Alert color={alertType} class="my-3">{alertMessage}</Alert>
 {/if}
 
-<section class="charts-section">
-	<h3>📊 Gráficas</h3>
-	<div class="chart-buttons">
-		<Button color="success" on:click={() => goto('/cultural-event/pie-graph')}>Gráfico Circular</Button>
-		<Button color="primary" on:click={() => goto('/cultural-event/bar-graph')}>Gráfico de Barras</Button>
+
+<section class="cards-container">
+	<div class="card-box">
+		<h3>📊 Gráficas</h3>
+		<div class="chart-buttons">
+			<Button color="success" on:click={() => goto('/cultural-event/pie-graph')}
+				>Gráfico Circular</Button
+			>
+			<Button color="primary" on:click={() => goto('/cultural-event/bar-graph')}
+				>Gráfico de Barras</Button
+			>
+		</div>
+	</div>
+
+	<div class="card-box">
+		<h3>🔗 Integraciones</h3>
+		<div class="chart-buttons">
+			<Button color="info" on:click={() => goto('/cultural-event/integrations')}
+				>Ver Integraciones</Button
+			>
+		</div>
 	</div>
 </section>
 
@@ -181,8 +204,13 @@
 				<td>{item.avg_ticket_price}</td>
 				<td>{item.total_attendance}</td>
 				<td>
-					<Button color="primary" on:click={() => goto(`/cultural-event/${item.province}/${item.year}`)}>Editar</Button>
-					<Button color="danger" on:click={() => deleteEntry(item.province, item.year, item.month)}>Eliminar</Button>
+					<Button
+						color="primary"
+						on:click={() => goto(`/cultural-event/${item.province}/${item.year}`)}>Editar</Button
+					>
+					<Button color="danger" on:click={() => deleteEntry(item.province, item.year, item.month)}
+						>Eliminar</Button
+					>
 				</td>
 			</tr>
 		{/each}
@@ -216,6 +244,31 @@
 		gap: 1rem;
 		flex-wrap: wrap;
 	}
+
+	.cards-container {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 2rem;
+		justify-content: center;
+		margin: 3rem auto;
+		max-width: 1000px;
+	}
+
+	.card-box {
+		background: white;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+		border-radius: 1rem;
+		padding: 2rem;
+		width: 100%;
+		max-width: 460px;
+		text-align: center;
+	}
+
+	.card-box h3 {
+		color: var(--primary, #1e3a8a);
+		margin-bottom: 1.5rem;
+	}
+
 	.hero {
 		text-align: center;
 		padding: 2rem 1rem;
@@ -225,7 +278,6 @@
 	.actions,
 	.filters {
 		max-width: 1000px;
-		margin: auto;
 		padding: 1rem 2rem;
 	}
 	.filters input {

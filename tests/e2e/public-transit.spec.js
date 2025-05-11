@@ -23,8 +23,8 @@ test('create and delete transit trip', async ({ page }) => {
 
   await page.goto('http://localhost:16078');
 
-  // Abre el dropdown "APIs"
-  await page.getByText('APIs').click();
+  // Abre el dropdown de APIs
+await page.getByTestId('apis-dropdown').click();
 
   // Clic en el enlace a Public Transit
   await page.getByTestId('link-public-transit').click();

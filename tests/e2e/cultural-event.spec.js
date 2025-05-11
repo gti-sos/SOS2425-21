@@ -24,8 +24,9 @@ test('create and delete cultural event entry', async ({ page }) => {
 
   await page.goto('http://localhost:16078');
 
-  // Abre el dropdown de APIs
-  await page.getByText('APIs').click();
+ // Abre el dropdown de APIs
+await page.getByTestId('apis-dropdown').click();
+
 
   // Ir a la sección de Cultural Events
   await page.getByTestId('link-cultural-event').click();
