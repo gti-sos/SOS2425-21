@@ -127,7 +127,7 @@
 	<Button color="primary" on:click={() => goto('/home-buying-selling-stats/pie-highchart')}>
 		Transacciones Totales
 	</Button>
-	<Button color="primary" on:click={() => goto('/home-buying-selling-stats/pyramid-amcharts')}>
+	<Button color="primary" on:click={() => goto('/home-buying-selling-stats/bar-amcharts')}>
 		Viviendas Nuevas
 	</Button>
 </section>
