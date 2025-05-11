@@ -23,7 +23,7 @@
 			postman: 'https://documenter.getpostman.com/view/42241739/2sB2cUANcY',
 			dataset: 'home-buying-selling-stats',
 			integration: '/integrations/LEL',
-			video:'https://youtu.be/tAId_8VpFZY'
+			video: 'https://youtu.be/tAId_8VpFZY'
 		},
 		{
 			name: 'Paula Ruiz Gardón',
@@ -31,8 +31,8 @@
 			api: `${baseAPI}/cultural-event`,
 			postman: 'https://documenter.getpostman.com/view/42397783/2sB2cUBNpz',
 			dataset: 'cultural-event',
-			"external integrations": '/integrations/PRG', "internal integrations": '/integrations/PRG/sos',
-			video:'https://youtu.be/Z1Am7-SceyE'
+			integration: '/integrations/PRG',
+			video: 'https://youtu.be/Z1Am7-SceyE'
 		}
 	];
 
