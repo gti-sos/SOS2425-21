@@ -23,7 +23,7 @@
 			postman: 'https://documenter.getpostman.com/view/42241739/2sB2cUANcY',
 			dataset: 'home-buying-selling-stats',
 			integration: '/integrations/LEL',
-			video: 'https://youtu.be/tAId_8VpFZY'
+			video: 'https://youtu.be/Gbh01UiOz1U?si=8MNJBMs4ir4j2xoP'
 		},
 		{
 			name: 'Paula Ruiz Gardón',
