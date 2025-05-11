@@ -16,8 +16,13 @@ jobs:
         run: npm start &
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Run Playwright tests
-        run: npx playwright test
+      - name: Run cultural-event tests
+        run: npx playwright test tests/e2e/cultural-event.spec.js
+      - name: Run home-buying-selling-stats tests
+        run: npx playwright test tests/e2e/home-buying-selling-stats.spec.js
+      - name: Run public-transit-stats tests
+        run: npx playwright test tests/e2e/public-transit.spec.js
+
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:

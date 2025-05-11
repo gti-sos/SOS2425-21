@@ -1,55 +1,40 @@
+// tests/e2e/public-transit.spec.js
 // @ts-check
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test('get public-transit-stats link', async ({ page }) => {
-  await page.goto('http://localhost:16078');
+const BASE_URL = "https://sos2425-21.onrender.com";
 
-  // Abre el dropdown "APIs"
-await page.getByTestId('apis-dropdown').click();
-
-  // Clic en el enlace a Public Transit
-  await page.getByTestId('link-public-transit').click();
-
-  // Verifica que el título contiene el texto esperado
+test("visit public-transit page directly and check title", async ({ page }) => {
+  await page.goto(`${BASE_URL}/public-transit-stats`);
   await expect(page).toHaveTitle(/Public Transit Manager/);
 });
 
-test('create and delete transit trip', async ({ page }) => {
-  const testProvince = '__TEST_PROVINCE__';
-  const testYear = '2099';
-  const testPrice = '1.99';
-  const testTrips = '99999';
-  const testLength = '123.45';
+test("create and delete public transit entry directly", async ({ page }) => {
+  const timestamp = Date.now();
+  const testProvince = `__TEST_PROVINCE__${timestamp}`;
+  const testYear = "2099";
+  const testPrice = "1.99";
+  const testTrips = "99999";
+  const testLength = "123.45";
 
-  await page.goto('http://localhost:16078');
+  await page.goto(`${BASE_URL}/public-transit-stats`);
 
-  // Abre el dropdown de APIs
-await page.getByTestId('apis-dropdown').click();
+  const inputs = page.locator("tbody input");
+  await inputs.nth(0).fill(testProvince);
+  await inputs.nth(1).fill(testYear);
+  await inputs.nth(2).fill(testPrice);
+  await inputs.nth(3).fill(testTrips);
+  await inputs.nth(4).fill(testLength);
 
-  // Clic en el enlace a Public Transit
-  await page.getByTestId('link-public-transit').click();
+  await page.getByRole("button", { name: "Crear" }).click();
 
-  // Completa el formulario
-  await page.locator('#Province').fill(testProvince);
-  await page.locator('#Year').fill(testYear);
-  await page.locator('#Price').fill(testPrice);
-  await page.locator('#Trips').fill(testTrips);
-  await page.locator('#Length').fill(testLength);
-
-  // Crear viaje
-  await page.getByRole('button', { name: 'Create' }).click();
-
-  // Verificar la fila creada
-  const newRow = page.locator('tr', { hasText: testProvince });
+  const newRow = page.locator("tr", { hasText: testProvince });
+  await expect(newRow).toHaveCount(1, { timeout: 7000 });
   await expect(newRow).toContainText(testYear);
   await expect(newRow).toContainText(testPrice);
   await expect(newRow).toContainText(testTrips);
   await expect(newRow).toContainText(testLength);
 
-  // Eliminar la fila
-  const deleteButton = newRow.getByRole('button', { name: 'Delete' });
-  await deleteButton.click();
-
-  // Verificar que ya no exista
+  await newRow.getByRole("button", { name: "Eliminar" }).click();
   await expect(newRow).toHaveCount(0);
 });

@@ -1,53 +1,45 @@
+// tests/e2e/home-buying-selling-stats.spec.js
 // @ts-check
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test('get home-buying-selling-stats link', async ({ page }) => {
-  // Abre el dropdown de APIs
-await page.getByTestId('apis-dropdown').click();
+const BASE_URL = "https://sos2425-21.onrender.com";
 
-  // Haz clic en el enlace de Cultural Events
-  await page.getByTestId('link-home-buying').click();
-
-  // Verifica que el título contenga el nombre correcto
+test("visit home-buying-selling-stats page directly and check title", async ({
+  page,
+}) => {
+  await page.goto(`${BASE_URL}/home-buying-selling-stats`);
   await expect(page).toHaveTitle(/Home Buying Selling Manager/);
 });
 
-test('create and delete stats', async ({ page }) => {
-  const testProvince = "__TEST_PROVINCE__";
-  const testYear = "99";
-  const testTransactionTotal = "2999";
-  const testTransactionProtectedHousing = "56799";
-  const testTransactionNewHousing = "12399";
-  const testTransactionSecondhandHousing = "12399";
+test("create and delete home buying stats entry directly", async ({ page }) => {
+  const timestamp = Date.now();
+  const testProvince = `__TEST_PROVINCE__${timestamp}`;
+  const testYear = "2099";
+  const testTotal = "2999";
+  const testProtected = "56799";
+  const testNew = "12399";
+  const testSecondhand = "88888";
 
-  await page.goto('http://localhost:16078');
+  await page.goto(`${BASE_URL}/home-buying-selling-stats`);
 
-  // Clic por data-testid
-  await page.getByTestId('link-home-buying').click();
+  const inputs = page.locator("tbody tr").first().locator("input");
+  await inputs.nth(0).fill(testProvince);
+  await inputs.nth(1).fill(testYear);
+  await inputs.nth(2).fill(testTotal);
+  await inputs.nth(3).fill(testProtected);
+  await inputs.nth(4).fill(testNew);
+  await inputs.nth(5).fill(testSecondhand);
 
-  // Rellenar formulario
-  await page.locator('#Province').fill(testProvince);
-  await page.locator('#Year').fill(testYear);
-  await page.locator('#Total').fill(testTransactionTotal);
-  await page.locator('#Protected').fill(testTransactionProtectedHousing);
-  await page.locator('#New').fill(testTransactionNewHousing);
-  await page.locator('#Secondhand').fill(testTransactionSecondhandHousing);
+  await page.getByRole("button", { name: "Crear" }).click();
 
-  // Crear
-  await page.getByRole('button', { name: "Create" }).click();
-
-  // Verificar fila
-  const newRow = page.locator('tr', { hasText: testProvince });
+  const newRow = page.locator("tr", { hasText: testProvince });
+  await expect(newRow).toHaveCount(1, { timeout: 7000 });
   await expect(newRow).toContainText(testYear);
-  await expect(newRow).toContainText(testTransactionTotal);
-  await expect(newRow).toContainText(testTransactionProtectedHousing);
-  await expect(newRow).toContainText(testTransactionNewHousing);
-  await expect(newRow).toContainText(testTransactionSecondhandHousing);
+  await expect(newRow).toContainText(testTotal);
+  await expect(newRow).toContainText(testProtected);
+  await expect(newRow).toContainText(testNew);
+  await expect(newRow).toContainText(testSecondhand);
 
-  // Eliminar
-  const deleteButton = newRow.getByRole('button', { name: "Delete" });
-  await deleteButton.click();
-
-  // Confirmar eliminación
+  await newRow.getByRole("button", { name: "Eliminar" }).click();
   await expect(newRow).toHaveCount(0);
 });

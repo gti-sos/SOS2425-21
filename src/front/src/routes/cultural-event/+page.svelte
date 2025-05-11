@@ -187,14 +187,15 @@
 	</thead>
 	<tbody>
 		<tr>
-			<td><input bind:value={newProvince} /></td>
-			<td><input bind:value={newYear} /></td>
-			<td><input bind:value={newMonth} /></td>
-			<td><input bind:value={newTotalEvents} /></td>
-			<td><input bind:value={newAvgPrice} /></td>
-			<td><input bind:value={newTotalAtt} /></td>
-			<td><Button on:click={createEntry}>Crear</Button></td>
+			<td><input bind:value={newProvince} data-testid="input-province" /></td>
+			<td><input bind:value={newYear} data-testid="input-year" /></td>
+			<td><input bind:value={newMonth} data-testid="input-month" /></td>
+			<td><input bind:value={newTotalEvents} data-testid="input-total" /></td>
+			<td><input bind:value={newAvgPrice} data-testid="input-price" /></td>
+			<td><input bind:value={newTotalAtt} data-testid="input-attendance" /></td>
+		<td><Button on:click={createEntry}>Crear</Button></td>
 		</tr>
+
 		{#each culturalData as item}
 			<tr>
 				<td>{item.province}</td>
