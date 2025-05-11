@@ -2,56 +2,12 @@
 	import { onMount } from 'svelte';
 	import zingchart from 'zingchart/es6';
 	import 'zingchart/es6';
+	import { dev } from '$app/environment';
 
-	// Gráfico 1: Idiomas más hablados del mundo
-	const API_LANGUAGES = 'https://restcountries.com/v3.1/all';
-
-	async function loadLanguagesData() {
-		const res = await fetch(API_LANGUAGES);
-		const countries = await res.json();
-
-		const languageMap = new Map();
-
-		for (const country of countries) {
-			const population = country.population || 0;
-			const languages = country.languages;
-			if (languages) {
-				for (const langCode in languages) {
-					const langName = languages[langCode];
-					if (!languageMap.has(langName)) languageMap.set(langName, 0);
-					languageMap.set(langName, languageMap.get(langName) + population);
-				}
-			}
-		}
-
-		const topLanguages = [...languageMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10);
-
-		const series = topLanguages.map(([lang, pop]) => ({
-			text: lang,
-			values: [pop]
-		}));
-
-		zingchart.render({
-			id: 'chart-languages',
-			width: '100%',
-			height: 500,
-			data: {
-				type: 'ring',
-	
-				legend: {
-					draggable: true,
-					layout: 'vertical',
-					align: 'right',
-					verticalAlign: 'middle'
-				},
-				plot: {
-					valueBox: { placement: 'out', text: '%t' },
-					tooltip: { text: '%text: %v personas' }
-				},
-				series
-			}
-		});
-	}
+	// Gráfico 1: Idiomas más hablados del mundo (usando proxy)
+	const API_LANGUAGES_PROXY = dev
+		? 'http://localhost:16078/proxy/restcountries'
+		: '/proxy/restcountries';
 
 	// Gráfico 2: Terremotos por continente → AREA
 	const API_EARTHQUAKES =
@@ -99,7 +55,6 @@
 			height: 500,
 			data: {
 				type: 'area',
-			
 				scaleX: {
 					labels: continents,
 					label: { text: 'Continente' }
@@ -149,7 +104,6 @@
 			height: 500,
 			data: {
 				type: 'funnel',
-			
 				plot: {
 					tooltip: { text: '%text: %v vuelos' },
 					valueBox: { text: '%v', placement: 'top' }
@@ -159,10 +113,82 @@
 		});
 	}
 
+	// Gráfico 4: Precio medio de alquiler por comunidad → BAR
+	const comunidades = {
+		Andalucía: ['0-EU-ES-01-001-29067'], // Málaga
+		Madrid: ['0-EU-ES-28-001-28079'], // Madrid
+		'Comunidad Valenciana': ['0-EU-ES-10-001-46250'], // Valencia
+		Cataluña: ['0-EU-ES-09-001-08019'], // Barcelona
+		Galicia: ['0-EU-ES-12-001-15030'], // A Coruña
+		'Castilla y León': ['0-EU-ES-07-001-47002'], // Valladolid
+		Canarias: ['0-EU-ES-05-001-38038'] // Santa Cruz
+	};
+
+	async function loadHousingData() {
+		const baseProxy = dev ? 'http://localhost:16078/proxy/idealista' : '/proxy/idealista';
+		const results = [];
+
+		for (const [comunidad, locationIds] of Object.entries(comunidades)) {
+			let total = 0,
+				count = 0;
+
+			for (const locationId of locationIds) {
+				try {
+					const url = `${baseProxy}?locationId=${locationId}&operation=rent&locale=es&country=es&numPage=1&maxItems=40`;
+					const res = await fetch(url);
+					const data = await res.json();
+
+					const prices = data?.elementList?.map((item) => item.price).filter(Boolean) || [];
+
+					if (prices.length > 0) {
+						total += prices.reduce((a, b) => a + b, 0);
+						count += prices.length;
+					}
+				} catch (error) {
+					console.error(`Error con ${comunidad}:`, error);
+				}
+			}
+
+			if (count > 0) {
+				results.push({
+					text: comunidad,
+					values: [parseFloat((total / count).toFixed(2))]
+				});
+			}
+		}
+
+		zingchart.render({
+			id: 'chart-housing',
+			width: '100%',
+			height: 500,
+			data: {
+				type: 'bar',
+				title: { text: '💶 Precio medio del alquiler por comunidad autónoma' },
+				scaleX: {
+					labels: results.map((r) => r.text),
+					label: { text: 'Comunidad Autónoma' }
+				},
+				scaleY: {
+					label: { text: 'Precio medio (€)' }
+				},
+				plot: {
+					tooltip: { text: '%t: %v €' },
+					valueBox: { text: '%v €', placement: 'top' }
+				},
+				series: [
+					{
+						text: 'Precio medio',
+						values: results.map((r) => r.values[0])
+					}
+				]
+			}
+		});
+	}
+
 	onMount(() => {
-		loadLanguagesData();
 		loadEarthquakeData();
 		loadFlightsData();
+		loadHousingData();
 	});
 </script>
 
@@ -177,6 +203,9 @@
 
 	<h2 class="chart-title">✈️ Vuelos por país de origen</h2>
 	<div class="chart-card"><div id="chart-flights"></div></div>
+
+	<h2 class="chart-title">🏘️ Precio medio de alquiler por comunidad</h2>
+	<div class="chart-card"><div id="chart-housing"></div></div>
 </section>
 
 <style>
